@@ -1,0 +1,70 @@
+.meal-top-img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.home-scroll.mealtype {
+  background-color: #eae4f8;
+}
+.meal-top-img img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.mealDetail-header {
+  border-radius: 25px;
+  padding: 1rem;
+  background-color: white;
+}
+.mealDetail-header p {
+  margin: 0;
+}
+.mealdetail-title span {
+  font-size: 14px;
+}
+
+.recipie-card {
+  border-radius: 25px;
+  padding: 1rem;
+  background-color: white;
+  margin-bottom: 1rem;
+}
+.recipie-card ul {
+  margin: 0;
+}
+
+.recipie-card h6 {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dedede;
+  padding-bottom: 5px;
+}
+
+.recipie-card h6 svg {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+}
+.recipie-card a {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.recipie-card.youtube {
+  border-radius: 50px;
+}
+.recipie-card a svg:first-child {
+  margin-right: 8px;
+  font-size: 28px;
+  fill: red;
+}
+.recipie-card a svg:last-child {
+  fill: white;
+  position: absolute;
+  right: 0;
+}

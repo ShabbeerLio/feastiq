@@ -1,0 +1,22 @@
+.exercise-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.exercises-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  padding: 1rem;
+  background-color: white;
+  text-align: center;
+}
+.exercises-card img {
+  width: 50%;
+  object-fit: cover;
+}
+.exercises-card p {
+  margin: 0;
+}

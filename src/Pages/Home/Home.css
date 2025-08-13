@@ -1,0 +1,138 @@
+.Home {
+  width: 100%;
+  height: 95vh;
+  /* padding-bottom: 6rem; */
+  margin-top: 3rem;
+}
+.Home-main {
+  width: 100%;
+  height: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  height: 100%;
+  z-index: 2;
+  position: relative;
+}
+
+.backdrop {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.glass-container {
+  position: fixed;
+  top: 10%;
+  left: 0;
+  width: 92%;
+  margin: 0 1rem;
+  background: rgb(255 255 255 / 10%);
+  border-radius: 40px;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 53%);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home-text-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.home-title {
+  color: white;
+}
+.home-text-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.194);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 10px;
+  width: 100%;
+}
+.home-text-card h2 {
+  margin: 0;
+  color: white;
+}
+.home-text-card p {
+  margin: 0;
+  color: white;
+}
+
+.home-imag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-imag img {
+  width: 40%;
+  object-fit: cover;
+}
+.home-scroll {
+  position: absolute;
+  bottom: -60%;
+  left: 0;
+  width: 100%;
+  height: 94vh;
+  background: #d9e5ef;
+  border-radius: 40px 40px 0 0;
+  padding: 1.5rem;
+  transition: all 0.5s ease-in-out;
+}
+.home-scroll:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 40%;
+  height: 5px;
+  background-color: #74747475;
+  border-radius: 50px;
+  transform: translate(-50%, 100%);
+}
+.home-scroll:before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  right: 0%;
+  height: 15%;
+  width: 100%;
+  /* opacity: 0.9; */
+  background-image: linear-gradient(0deg, #000 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: -1;
+}
+
+.home-scroll.scrolled {
+  bottom: 0%;
+  transition: all 0.6s ease-in-out;
+  overflow: auto;
+}
+
+.home-scroll-box h5 {
+  margin: 1rem 0 0.5rem 0;
+}
+
+@media screen and (min-width: 1200px) {
+  .Home-main {
+    max-width: 1200px;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .Home-main {
+    width: 100%;
+  }
+}

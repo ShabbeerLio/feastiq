@@ -1,0 +1,95 @@
+
+.motivation{
+  margin: 0;
+  padding: 0 1rem 1rem 1rem;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+}
+.meal-plan-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  
+}
+.meal-plan-card.top svg{
+  background-color: #0000005c;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  background: rgba(0, 0, 0, 0.194);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 5px;
+  width: 27px;
+  height: 27px;
+}
+.meal-plan-card.top {
+  text-align: center;
+  margin: 0;
+  position: relative;
+}
+.meal-plan-card.top img {
+  width: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+.meal-plan-card.top h3 {
+  font-size: 18px;
+  margin: 0;
+}
+.meal-plan-card.top span{
+  font-size: 12px;
+  font-weight: 600;
+}
+.meal-plan-card.top p {
+  font-size: 14px;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.career-tooltip {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: black;
+  padding: 1rem;
+  border-radius: 25px;
+  z-index: 10;
+  font-size: 14px;
+  text-align: left;
+}
+.career-tooltip p{
+  margin: 0;
+  font-weight: 600;
+}
+
+.meal-plan-card {
+  border-radius: 25px;
+  padding: 1rem;
+  background-color: white;
+  margin-bottom: 1rem;
+}
+.meal-plan-card p:last-child {
+  margin-bottom: 0;
+}
+.meal-plan-card p span {
+  font-weight: 600;
+}
+
+.meal-plan-item{
+  padding: 0 10px;
+}
+.slick-prev,
+.slick-next {
+  display: none !important;
+}
+
+.slick-dots {
+  bottom: -8px !important;
+}

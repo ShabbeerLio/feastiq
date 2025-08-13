@@ -1,0 +1,130 @@
+.loading-screen {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 2rem;
+  position: absolute;
+  z-index: 999999;
+  background-color: #E7F0DC;
+  top: 0;
+  left: 0;
+}
+.loading-screen img {
+  width: 20%;
+  object-fit: cover;
+  animation: logoanimate 1s;
+}
+
+/* From Uiverse.io by JaydipPrajapati1910 */
+.loader {
+  height: 30px;
+  display: inline-block;
+}
+
+.loader > div {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  box-shadow: 0 0 10px #597445;
+  background: #597445;
+  float: left;
+  margin: 5px;
+  transform: scale(1.5);
+}
+
+.loader > div:nth-child(1) {
+  animation: anm-BL-53-move1 1s infinite linear;
+}
+
+.loader > div:nth-child(2) {
+  animation: anm-BL-53-move2 1s infinite linear;
+  animation-delay: 0.2s;
+}
+
+.loader > div:nth-child(3) {
+  animation: anm-BL-53-move3 1s infinite linear;
+  animation-delay: 0.3s;
+}
+
+.loader > div:nth-child(4) {
+  animation: anm-BL-53-move4 1s infinite linear;
+  animation-delay: 0.4s;
+}
+
+.loader > div:nth-child(5) {
+  animation: anm-BL-53-move5 1s infinite linear;
+  animation-delay: 0.5s;
+}
+
+@keyframes logoanimate {
+  0% {
+    width: 15%;
+  }
+}
+@keyframes anm-BL-53-move1 {
+  50% {
+    background: #597445;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes anm-BL-53-move2 {
+  50% {
+    background: #597445;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes anm-BL-53-move3 {
+  50% {
+    background: #597445;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes anm-BL-53-move4 {
+  50% {
+    background: #597445;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes anm-BL-53-move5 {
+  50% {
+    background: #597445;
+    transform: scale(0.5);
+  }
+}
+
+.loader-quote{
+    width: 30%;
+    margin-top: 1rem;
+}
+.loader-quote p{
+    margin: 0;
+    font-size: 14px;
+    color: #597445;
+    text-align: center;
+    border: 1px solid #597445;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+@media only screen and (max-width: 680px) {
+  .loading-screen img {
+    width: 65%;
+    object-fit: cover;
+    animation: logoanimate 1s;
+  }
+  @keyframes logoanimate {
+    0% {
+      width: 60%;
+    }
+  }
+  .loader-quote{
+    width: 70%;
+    margin-top: 1rem;
+}
+}
