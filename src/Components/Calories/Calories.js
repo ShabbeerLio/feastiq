@@ -3,48 +3,43 @@ import gym from "../../Assets/gym.png";
 import "./Calories.css";
 import UserData from "../../UserData";
 
-const Calories = ({meal }) => {
-    const userData = UserData;
-//   console.log(meal, "meal in Calories component");
+const Calories = ({ meal }) => {
+  const userData = UserData;
+
   return (
     <div className="glass-container">
       {meal ? (
         <>
           <div className="home-imag mealtype">
-            <img src={meal?.image} alt="" />
+            <img src={meal?.image} alt={meal?.type || "Meal"} />
           </div>
-          <p className="motivation">
-            {userData?.motivationalTip}
-          </p>
-          {/* <h5 className="home-title">{meal?.type}</h5> */}
+          <p className="motivation">{userData?.motivationalTip}</p>
         </>
       ) : (
         <>
+          {/* Calorie Breakdown */}
           <div className="home-imag">
-            <img src={gym} alt="" />
+            <img src={gym} alt="Calories" />
           </div>
           <h5 className="home-title">Calorie Breakdown</h5>
           <div className="home-text-box">
             <div className="home-text-card">
-              <h2>2800 </h2>
+              <h2>{userData?.calorieBreakdown?.calories}</h2>
               <p>calories</p>
             </div>
             <div className="home-text-card">
-              <h2>175 </h2>
-              <p>protein</p>
+              <h2>{userData?.calorieBreakdown?.protein}</h2>
+              <p>protein (g)</p>
             </div>
             <div className="home-text-card">
-              <h2>350 </h2>
-              <p>carbs</p>
+              <h2>{userData?.calorieBreakdown?.carbs}</h2>
+              <p>carbs (g)</p>
             </div>
             <div className="home-text-card">
-              <h2>87.5 </h2>
-              <p>fats</p>
+              <h2>{userData?.calorieBreakdown?.fats}</h2>
+              <p>fats (g)</p>
             </div>
           </div>
-          <p className="motivation">
-            {userData.motivationalTip}
-          </p>
         </>
       )}
     </div>
