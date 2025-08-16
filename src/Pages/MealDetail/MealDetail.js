@@ -11,6 +11,7 @@ const MealDetail = () => {
     const { mealInfo } = state;
     // console.log(mealInfo, "mealInfo")
     const [isScrolled, setIsScrolled] = useState(state.isScrolled);
+    const [mealplate, setMealplate] = useState(true)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -20,6 +21,9 @@ const MealDetail = () => {
         setTimeout(() => {
             setIsScrolled(false);
         }, 500);
+        setTimeout(() => {
+            setMealplate(false);
+        }, 1000);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -30,7 +34,7 @@ const MealDetail = () => {
     return (
         <div className="Home">
             <div className="Home-main">
-                <Calories meal={mealInfo} />
+                <Calories meal={mealInfo} mealplate={mealplate}/>
                 <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
                     <div className="home-scroll-box">
                         <h5 className="mealdetail-title">

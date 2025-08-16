@@ -3,14 +3,16 @@ import gym from "../../Assets/gym.png";
 import "./Calories.css";
 import UserData from "../../UserData";
 
-const Calories = ({ meal }) => {
+const Calories = ({ meal, mealplate }) => {
   const userData = UserData;
 
   return (
     <div className="glass-container">
       {meal ? (
         <>
-          <div className="home-imag mealtype">
+          <div
+            className={`home-imag mealtype ${mealplate ? "mealplate" : ""}`}
+          >
             <img src={meal?.image} alt={meal?.type || "Meal"} />
           </div>
           <p className="motivation">{userData?.motivationalTip}</p>

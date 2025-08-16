@@ -14,6 +14,8 @@ import poses12 from "../../Assets/Poses/pullup.png";
 import poses13 from "../../Assets/Poses/pushup.png";
 import poses14 from "../../Assets/Poses/Russian twists.png";
 import poses15 from "../../Assets/Poses/stretching.png";
+import poses16 from "../../Assets/Poses/bicycle crunches.png";
+import poses17 from "../../Assets/Poses/stepups.png";
 import "./WorkoutCard.css";
 
 const imageMap = {
@@ -28,10 +30,13 @@ const imageMap = {
     legraises: poses9,
     lunges: poses10,
     plank: poses11,
-    pullup: poses12,
-    pushup: poses13,
+    pull: poses12,
+    push: poses13,
     russianTwist: poses14,
     stretching: poses15,
+    bicycle: poses16,
+    chin: poses12,
+    step: poses17,
 };
 
 const WorkoutCard = ({ workoutPlan }) => {
@@ -46,7 +51,7 @@ const WorkoutCard = ({ workoutPlan }) => {
                 );
 
                 // Use the matched image, or a default fallback
-                const matchedImage = matchedKey ? imageMap[matchedKey] : poses1;
+                const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
 
                 return (
                     <div key={index} className="exercises-card">
