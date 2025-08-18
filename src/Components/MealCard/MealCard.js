@@ -28,7 +28,13 @@ const MealCard = ({ mealPlan, isScrolled }) => {
             image: mealImages[mealType],
         };
         // console.log(mealInfo, "meal info clicked");
-        navigate("/meal", { state: { mealInfo ,isScrolled} });
+        navigate("/meal", {
+            state: {
+                mealInfo: mealInfo,
+                isScrolled: isScrolled,
+            },
+        });
+        localStorage.setItem("mealInfo", JSON.stringify(mealInfo));
     };
 
     return (

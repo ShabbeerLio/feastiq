@@ -24,7 +24,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
 
     const handleLogout = () => {
         localStorage.removeItem("authUser");
-        navigate("/login");
+        navigate("/register");
     };
 
     return (

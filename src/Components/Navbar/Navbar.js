@@ -3,14 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Sidebar from "./Sidebar";
 import {
-  Bell,
-  CircleQuestionMark,
   UserRound,
-  WalletMinimal,
 } from "lucide-react";
-import backdrop from "../../Assets/backdrop.jpeg";
+import bg1 from "../../Assets/Background/backdrop.jpeg";
+import bg3 from "../../Assets/Background/bg2.jpg";
 
 const Navbar = () => {
+  const location = useLocation();
   const sideRef = useRef(null);
   const [sideactive, setSideactive] = useState("");
 
@@ -21,13 +20,15 @@ const Navbar = () => {
     setSideactive("");
   };
 
+  const currentBg = location.pathname === "/register" ? bg3 : bg1;
+
   return (
     <div>
       <div className="navbar">
         <div className="navbar-main">
           <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container-fluid nav-name">
-              <img className="backdrop" src={backdrop} alt="" />
+              <img className="backdrop" src={currentBg} alt="" />
               <Link className="navbar-brand" onClick={handleSidebar}>
                 <UserRound className="nav-name-svg" />
                 {/* <img src={data?.avatar} alt="" /> */}
