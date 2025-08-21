@@ -1,0 +1,106 @@
+.otherpage-box{
+   padding: 1.5rem;
+}
+.otherpage-box h5{
+   color: white;
+   font-size: 35px;
+       text-align: center;
+}
+
+.Other-pages-box{
+    position: fixed;
+    bottom: 0%;
+    left: 0;
+    width: 100%;
+    height: 55vh;
+    background: #F8FDCF;
+    border-radius: 40px 40px 0 0;
+    padding: 1.5rem;
+    transition: all 0.5s ease-in-out;
+    overflow: auto;
+}
+
+/* help */
+/* Container */
+.help-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Content Wrapper */
+.help-content {
+  max-width: 800px;
+  width: 100%;
+}
+
+/* Title & Subtitle */
+.help-title {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.help-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* FAQ Section */
+.faq-section {
+  margin-bottom: 1rem;
+}
+
+.faq-item {
+  background:white;
+  border: 1px solid #F8FDCF;
+  border-radius: 40px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+  transition: border 0.3s;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.faq-answer {
+  margin-top: 12px;
+  color: #555;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Contact Section */
+.contact-section {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.contact-section h5 {
+  margin-bottom: 8px;
+}
+
+.contact-section p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.seven-day-buttons.help {
+  background: #fffd75;
+  color: black;
+  text-decoration: none;
+font-weight: 500;
+font-size: 16px;
+margin-top: 1rem;
+}
+
+.contact-btn:hover {
+  background: white;
+}

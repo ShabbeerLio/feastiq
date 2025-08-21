@@ -17,8 +17,6 @@ const mealImages = {
 const MealCard = ({ mealPlan, isScrolled }) => {
     const navigate = useNavigate();
 
-    // console.log(mealPlan,"mealPlan")
-
     const handleMealClick = (mealType, mealData) => {
         const mealInfo = {
             type: mealType.charAt(0).toUpperCase() + mealType.slice(1),
@@ -37,6 +35,9 @@ const MealCard = ({ mealPlan, isScrolled }) => {
         localStorage.setItem("mealInfo", JSON.stringify(mealInfo));
     };
 
+    // const status = localStorage.getItem(`mealStatus-${mealPlan?.type}`);
+    // console.log(status,"status")
+
     return (
         <>
             {mealPlan.map((dayPlan, index) =>
@@ -48,9 +49,16 @@ const MealCard = ({ mealPlan, isScrolled }) => {
                             ? mealData.meal.join(", ")
                             : mealData.meal;
 
+                            const status = localStorage.getItem(`mealStatus-${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`);
+
                         return (
                             <div
-                                className="meal-plan-card top"
+                                className={`meal-plan-card top ${localStorage.getItem(`mealStatus-${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`) === "completed"
+                                    ? "completed"
+                                    : localStorage.getItem(`mealStatus-${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`) === "skipped"
+                                        ? "skipped"
+                                        : ""
+                                    }`}
                                 onClick={() => handleMealClick(mealType, mealData)}
                                 key={`${index}-${idx}`}
                             >
@@ -59,6 +67,7 @@ const MealCard = ({ mealPlan, isScrolled }) => {
                                 (<span>{mealData.time}</span>)
                                 <p>{mealText}</p>
                                 <CookingPot />
+                                <span className={`status-badge ${status}`}>{status}</span>
                             </div>
                         );
                     })

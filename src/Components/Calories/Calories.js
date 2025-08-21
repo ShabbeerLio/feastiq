@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import gym from "../../Assets/gym.png";
 import "./Calories.css";
 import UserData from "../../UserData";
@@ -10,6 +10,34 @@ import "react-circular-progressbar/dist/styles.css";
 
 const Calories = ({ meal, mealplate }) => {
   const userData = UserData;
+
+  // Animated states
+  const [calories, setCalories] = useState(0);
+  const [protein, setProtein] = useState(0);
+  const [carbs, setCarbs] = useState(0);
+  const [fats, setFats] = useState(0);
+
+  useEffect(() => {
+    // Helper function for smooth increment
+    const animateValue = (target, setter, duration = 700) => {
+      let start = 0;
+      const increment = target / (duration / 16); // 60fps approx
+      const interval = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          setter(target);
+          clearInterval(interval);
+        } else {
+          setter(Math.floor(start));
+        }
+      }, 16);
+    };
+
+    animateValue(userData?.calorieBreakdown?.calories || 0, setCalories);
+    animateValue(userData?.calorieBreakdown?.protein || 0, setProtein);
+    animateValue(userData?.calorieBreakdown?.carbs || 0, setCarbs);
+    animateValue(userData?.calorieBreakdown?.fats || 0, setFats);
+  }, [userData]);
 
   return (
     <div className="glass-container">
@@ -27,8 +55,8 @@ const Calories = ({ meal, mealplate }) => {
           {/* Calorie Breakdown */}
           <div className="progress-wrapper">
             <CircularProgressbar
-              value={userData?.calorieBreakdown?.calories}
-              maxValue={30000} // You can set based on user target calories
+              value={calories}
+              maxValue={30000}
               strokeWidth={16}
               styles={buildStyles({
                 textSize: "12px",
@@ -44,8 +72,8 @@ const Calories = ({ meal, mealplate }) => {
             <div className="home-text-card">
               <div className="progress-wrapper">
                 <CircularProgressbar
-                  value={userData?.calorieBreakdown?.calories}
-                  maxValue={30000} // You can set based on user target calories
+                  value={calories}
+                  maxValue={30000}
                   strokeWidth={20}
                   styles={buildStyles({
                     textSize: "12px",
@@ -56,15 +84,15 @@ const Calories = ({ meal, mealplate }) => {
                 />
               </div>
               <div className="home-text-card-item ">
-                <h2>{userData?.calorieBreakdown?.calories}</h2>
+                <h2>{calories}</h2>
                 <p>calories</p>
               </div>
             </div>
             <div className="home-text-card">
               <div className="progress-wrapper">
                 <CircularProgressbar
-                  value={userData?.calorieBreakdown?.protein}
-                  maxValue={30000} // You can set based on user target calories
+                  value={protein}
+                  maxValue={30000}
                   strokeWidth={20}
                   styles={buildStyles({
                     textSize: "12px",
@@ -75,15 +103,15 @@ const Calories = ({ meal, mealplate }) => {
                 />
               </div>
               <div className="home-text-card-item">
-                <h2>{userData?.calorieBreakdown?.protein}</h2>
+                <h2>{protein}</h2>
                 <p>protein (g)</p>
               </div>
             </div>
             <div className="home-text-card">
               <div className="progress-wrapper">
                 <CircularProgressbar
-                  value={userData?.calorieBreakdown?.carbs}
-                  maxValue={30000} // You can set based on user target calories
+                  value={carbs}
+                  maxValue={30000}
                   strokeWidth={20}
                   styles={buildStyles({
                     textSize: "12px",
@@ -94,15 +122,15 @@ const Calories = ({ meal, mealplate }) => {
                 />
               </div>
               <div className="home-text-card-item">
-                <h2>{userData?.calorieBreakdown?.carbs}</h2>
+                <h2>{carbs}</h2>
                 <p>carbs (g)</p>
               </div>
             </div>
             <div className="home-text-card">
               <div className="progress-wrapper">
                 <CircularProgressbar
-                  value={userData?.calorieBreakdown?.fats}
-                  maxValue={30000} // You can set based on user target calories
+                  value={fats}
+                  maxValue={30000}
                   strokeWidth={20}
                   styles={buildStyles({
                     textSize: "12px",
@@ -113,7 +141,7 @@ const Calories = ({ meal, mealplate }) => {
                 />
               </div>
               <div className="home-text-card-item">
-                <h2>{userData?.calorieBreakdown?.fats}</h2>
+                <h2>{fats}</h2>
                 <p>fats (g)</p>
               </div>
             </div>

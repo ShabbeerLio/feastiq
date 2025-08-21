@@ -46,16 +46,12 @@ const Home = () => {
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
           <div className="home-scroll-box">
             {/* <div className="meal-plan-box"> */}
-            <h5>
-              {isScrolled && <ChevronLeft
-                onClick={handleClose} />}
-              Today's Meal Plan ({todayMealPlan?.day})
-            </h5>
+            <h5>{isScrolled && <ChevronLeft onClick={handleClose}/>} Today's Meal Plan ({todayMealPlan?.day})</h5>
             <div className="meal-plan-box">
               <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
             </div>
               <h6 className="seven-day-buttons" onClick={handleSevenDays}>7 Days Meals <ChevronRight /></h6>
-            <h5>Today's Workout Plan (Monday)</h5>
+            <h5>Today's Workout Plan ({todayMealPlan?.day})</h5>
             <div className="exercise-box">
               <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} />
             </div>

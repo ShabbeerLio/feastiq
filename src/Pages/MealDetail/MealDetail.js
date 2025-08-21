@@ -19,10 +19,16 @@ import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMeal } from "../../Context/MealContext";
 
-const slideVariants = {
+const overviewVariants = {
+    initial: { x: "-100%", opacity: 0 },
+    animate: { x: 0, opacity: 1, transition: { duration: 0.4, ease: "easeInOut" } },
+    exit: { x: "-100%", opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } } // close left
+};
+
+const recipeVariants = {
     initial: { x: "100%", opacity: 0 },
     animate: { x: 0, opacity: 1, transition: { duration: 0.4, ease: "easeInOut" } },
-    exit: { x: "-100%", opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } },
+    exit: { x: "100%", opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } } // close right
 };
 
 const MealDetail = () => {
@@ -66,9 +72,18 @@ const MealDetail = () => {
         navigate("/sevendays");
     };
 
-    const [mealStatus, setMealStatus] = useState(
-        localStorage.getItem(`mealStatus-${mealInfo?.type}`) || null
-    );
+    // Keep initial as null (safe default)
+    const [mealStatus, setMealStatus] = useState(null);
+
+    // When mealInfo is loaded, fetch status from localStorage
+    useEffect(() => {
+        if (mealInfo?.type) {
+            const storedStatus = localStorage.getItem(`mealStatus-${mealInfo.type}`);
+            if (storedStatus) {
+                setMealStatus(storedStatus);
+            }
+        }
+    }, [mealInfo]);
 
     const handleComplete = () => {
         setMealStatus("completed");
@@ -86,53 +101,88 @@ const MealDetail = () => {
                 <Calories meal={mealInfo} mealplate={mealplate} />
                 <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
                     <h5 className="mealdetail-title">
-                        {isScrolled && <ChevronLeft onClick={handleClose} />}{" "}
+                        {isScrolled && <ChevronLeft onClick={handleClose} />}{""}
                         {mealInfo?.type} <span>({mealInfo?.time})</span>
                     </h5>
                     <AnimatePresence mode="wait">
-                        <motion.div
-                            key={showRecipe ? "recipe" : "overview"}
-                            variants={slideVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            drag="x"
-                            dragConstraints={{ left: 0, right: 0 }}
-                            dragElastic={0.2}
-                            onDragEnd={(e, { offset }) => {
-                                if (offset.x > 100) setShowRecipe(false); // swipe right = go back
-                                if (offset.x < -100) setShowRecipe(true); // swipe left = open recipe
-                            }}
-                            className="home-scroll-box"
-                        >
-
-                            {!showRecipe ? (
-                                <>
-                                    <div className="recipie-box">
-                                        <div className="recipie-item-card">
-                                            <img src={mbg4} alt="" />
-                                            <div className="mealDetail-header">
-                                                <div className="wallet-status">
-                                                    <DotLottieReact
-                                                        className="wallet-success"
-                                                        src="https://lottie.host/a273f54d-867e-4ce5-af69-6818e895817d/yGIr5jkYEw.lottie"
-                                                        loop
-                                                        autoplay
-                                                    />
-                                                </div>
-                                                <p>
-                                                    {Array.isArray(mealInfo?.meal)
-                                                        ? mealInfo?.meal.join(", ")
-                                                        : mealInfo?.meal}
-                                                </p>
+                        {!showRecipe ? (
+                            <motion.div
+                                key="overview"
+                                variants={overviewVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                drag="x"
+                                dragConstraints={{ left: 0, right: 0 }}
+                                dragElastic={0.2}
+                                onDragEnd={(e, { offset }) => {
+                                    if (offset.x < -100) setShowRecipe(true); // swipe left → open recipe
+                                }}
+                                className="home-scroll-box"
+                            >
+                                <div className="recipie-box">
+                                    <div className="recipie-item-card">
+                                        <img src={mbg4} alt="" />
+                                        <div className="mealDetail-header">
+                                            <div className="wallet-status">
+                                                <DotLottieReact
+                                                    className="wallet-success"
+                                                    src="https://lottie.host/9559aa7b-040c-4db3-9a34-c3e3e17b6a94/GTap7dduXF.lottie"
+                                                    loop
+                                                    autoplay
+                                                />
                                             </div>
-                                            <h6 onClick={() => setShowRecipe(true)}>
-                                                Ingredients and Steps <ChevronRight />
-                                            </h6>
+                                            <p>
+                                                {Array.isArray(mealInfo?.meal)
+                                                    ? mealInfo?.meal.join(", ")
+                                                    : mealInfo?.meal}
+                                            </p>
                                         </div>
+                                        <h6 onClick={() => setShowRecipe(true)}>
+                                            Ingredients and Steps <ChevronRight />
+                                        </h6>
                                     </div>
-                                </>
-                            ) : (
+                                </div>
+                                <div className="meal-actions">
+                                    {mealStatus === null && (
+                                        <>
+                                            <button className="btn-complete" onClick={handleComplete}>
+                                                Completed
+                                            </button>
+                                            <button className="btn-skip" onClick={handleSkip}>
+                                                Skip
+                                            </button>
+                                        </>
+                                    )}
+
+                                    {mealStatus === "completed" && (
+                                        <p className="status completed">🎉 Meal Completed!</p>
+                                    )}
+
+                                    {mealStatus === "skipped" && (
+                                        <p className="status skipped">⏭️ Meal Skipped</p>
+                                    )}
+                                </div>
+                                <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
+                                    7 Days Meals <ChevronRight />
+                                </h6>
+                                <Ads />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="recipe"
+                                variants={recipeVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                drag="x"
+                                dragConstraints={{ left: 0, right: 0 }}
+                                dragElastic={0.2}
+                                onDragEnd={(e, { offset }) => {
+                                    if (offset.x > 100) setShowRecipe(false); // swipe right → back to overview
+                                }}
+                                className="home-scroll-box"
+                            >
                                 <div className="recipe-details">
                                     <h6 onClick={() => setShowRecipe(false)}>
                                         <ChevronLeft /> Back
@@ -170,32 +220,32 @@ const MealDetail = () => {
                                         </Link>
                                     </div>
                                 </div>
-                            )}
-                            <div className="meal-actions">
-                                {mealStatus === null && (
-                                    <>
-                                        <button className="btn-complete" onClick={handleComplete}>
-                                            Completed
-                                        </button>
-                                        <button className="btn-skip" onClick={handleSkip}>
-                                            Skip
-                                        </button>
-                                    </>
-                                )}
+                                <div className="meal-actions">
+                                    {mealStatus === null && (
+                                        <>
+                                            <button className="btn-complete" onClick={handleComplete}>
+                                                Completed
+                                            </button>
+                                            <button className="btn-skip" onClick={handleSkip}>
+                                                Skip
+                                            </button>
+                                        </>
+                                    )}
 
-                                {mealStatus === "completed" && (
-                                    <p className="status completed">🎉 Meal Completed!</p>
-                                )}
+                                    {mealStatus === "completed" && (
+                                        <p className="status completed">🎉 Meal Completed!</p>
+                                    )}
 
-                                {mealStatus === "skipped" && (
-                                    <p className="status skipped">⏭️ Meal Skipped</p>
-                                )}
-                            </div>
-                            <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
-                                7 Days Meals <ChevronRight />
-                            </h6>
-                            <Ads />
-                        </motion.div>
+                                    {mealStatus === "skipped" && (
+                                        <p className="status skipped">⏭️ Meal Skipped</p>
+                                    )}
+                                </div>
+                                <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
+                                    7 Days Meals <ChevronRight />
+                                </h6>
+                                <Ads />
+                            </motion.div>
+                        )}
                     </AnimatePresence>
                 </div>
             </div>

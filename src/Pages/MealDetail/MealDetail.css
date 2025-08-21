@@ -21,9 +21,10 @@
   position: relative;
   z-index: 4;
   margin-bottom: 5rem;
-  background: rgb(255 255 255 / 10%);
-  box-shadow: 0 4px 6px rgb(0 0 0 / 53%);
-  backdrop-filter: blur(5px);
+  background: hsl(0deg 0% 100% / 5%);
+  backdrop-filter: blur(6px);
+  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
+    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   color: white;
 }
 .mealDetail-header p {
@@ -103,10 +104,11 @@
   left: 0;
   /* transform: translate(0, 50%); */
   z-index: 4;
-  background: rgb(255 255 255 / 10%);
   border-radius: 40px;
-  box-shadow: 0 4px 6px rgb(0 0 0 / 53%);
-  backdrop-filter: blur(5px);
+  background: hsl(0deg 0% 100% / 5%);
+  backdrop-filter: blur(6px);
+  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
+    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,4 +147,8 @@
   justify-content: center;
   width: 100%;
   background-color: #4caf50;
+}
+
+.mealDetail-header.workout{
+margin: 0;
 }

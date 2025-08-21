@@ -17,6 +17,7 @@ import poses15 from "../../Assets/Poses/stretching.png";
 import poses16 from "../../Assets/Poses/bicycle crunches.png";
 import poses17 from "../../Assets/Poses/stepups.png";
 import "./WorkoutCard.css";
+import { useNavigate } from "react-router-dom";
 
 const imageMap = {
     bench: poses1,
@@ -40,8 +41,28 @@ const imageMap = {
 };
 
 const WorkoutCard = ({ workoutPlan }) => {
+
+    const navigate = useNavigate();
+
+    const handleExerciseClick = (exercise) => {
+        const keyword = exercise.toLowerCase();
+        const matchedKey = Object.keys(imageMap).find((key) =>
+            keyword.includes(key)
+        );
+        const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
+
+        const exerciseInfo = {
+            name: exercise,
+            image: matchedImage,
+        };
+
+        // Navigate to WorkoutDetail with state
+        navigate("/workout-detail", { state: { exerciseInfo } });
+        localStorage.setItem("exerciseInfo", JSON.stringify(exerciseInfo));
+    };
+
     return (
-        <>
+        < >
             {workoutPlan?.map((exercise, index) => {
                 const keyword = exercise.toLowerCase();
 
@@ -52,11 +73,21 @@ const WorkoutCard = ({ workoutPlan }) => {
 
                 // Use the matched image, or a default fallback
                 const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
+                // Get workout status from localStorage
+                const status = localStorage.getItem(`workoutStatus-${exercise}`);
+                const cardClass =
+                    status === "completed"
+                        ? "exercises-card completed"
+                        : status === "skipped"
+                            ? "exercises-card skipped"
+                            : "exercises-card";
 
                 return (
-                    <div key={index} className="exercises-card">
+                    <div key={index} className={cardClass}
+                        onClick={() => handleExerciseClick(exercise)}>
                         <img src={matchedImage} alt={exercise} />
                         <p>{exercise}</p>
+                        <span className={`status-badge ${status}`}>{status}</span>
                     </div>
                 );
             })}

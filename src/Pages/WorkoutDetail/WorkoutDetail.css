@@ -1,0 +1,9 @@
+.Home-main.workout .home-imag.mealtype.mealplate img {
+  rotate: 0deg;
+  transition: all 0.5s ease-in-out;
+  scale: 1.2;
+}
+
+.Home-main.workout .home-imag.mealtype img {
+  width: 70%;
+}

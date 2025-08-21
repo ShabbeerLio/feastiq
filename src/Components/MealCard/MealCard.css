@@ -1,5 +1,4 @@
-
-.motivation{
+.motivation {
   margin: 0;
   padding: 0 1rem 1rem 1rem;
   color: white;
@@ -11,16 +10,13 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1.5rem;
-  
 }
-.meal-plan-card.top svg{
-  background-color: #0000005c;
+.meal-plan-card.top svg {
+  background-color: #d9e5ef;
   position: absolute;
-  top: 5%;
+  top: 4%;
   right: 5%;
-  background: rgba(0, 0, 0, 0.194);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  border-radius: 40px;
   padding: 5px;
   width: 27px;
   height: 27px;
@@ -39,7 +35,7 @@
   font-size: 18px;
   margin: 0;
 }
-.meal-plan-card.top span{
+.meal-plan-card.top span {
   font-size: 12px;
   font-weight: 600;
 }
@@ -47,6 +43,7 @@
   font-size: 14px;
   margin: 0;
   margin-top: 10px;
+  padding: 0 5px 0 0;
 }
 
 .career-tooltip {
@@ -64,7 +61,7 @@
   font-size: 14px;
   text-align: left;
 }
-.career-tooltip p{
+.career-tooltip p {
   margin: 0;
   font-weight: 600;
 }
@@ -74,6 +71,7 @@
   padding: 1rem;
   background-color: white;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 .meal-plan-card p:last-child {
   margin-bottom: 0;
@@ -82,7 +80,7 @@
   font-weight: 600;
 }
 
-.meal-plan-item{
+.meal-plan-item {
   padding: 0 10px;
 }
 .slick-prev,
@@ -92,4 +90,23 @@
 
 .slick-dots {
   bottom: -8px !important;
+}
+
+.meal-plan-card.completed {
+  background-color: #28a7464e;
+}
+
+.meal-plan-card.skipped {
+  background-color: #6c757d45;
+}
+
+.status-badge.completed {
+  background-color: #28a7464e;
+  font-size: 8px !important;
+  letter-spacing: 6px;
+}
+.status-badge.skipped {
+  background-color: #6c757d45;
+  font-size: 8px !important;
+  letter-spacing: 6px;
 }
