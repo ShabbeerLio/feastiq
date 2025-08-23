@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import gym from "../../Assets/gym.png";
 import "./Calories.css";
-import UserData from "../../UserData";
 import {
   CircularProgressbar,
   buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const Calories = ({ meal, mealplate }) => {
-  const userData = UserData;
+const Calories = ({meal, mealplate ,userData}) => {
 
   // Animated states
   const [calories, setCalories] = useState(0);
@@ -39,6 +37,8 @@ const Calories = ({ meal, mealplate }) => {
     animateValue(userData?.calorieBreakdown?.fats || 0, setFats);
   }, [userData]);
 
+  const motivationalTip = localStorage.getItem("motivationalTip")
+
   return (
     <div className="glass-container">
       {meal ? (
@@ -48,7 +48,7 @@ const Calories = ({ meal, mealplate }) => {
           >
             <img src={meal?.image} alt={meal?.type || "Meal"} />
           </div>
-          <p className="motivation">{userData?.motivationalTip}</p>
+          <p className="motivation">{motivationalTip}</p>
         </>
       ) : (
         <>
@@ -146,6 +146,7 @@ const Calories = ({ meal, mealplate }) => {
               </div>
             </div>
           </div>
+            <p className="motivation">{motivationalTip}</p>
         </>
       )}
     </div>

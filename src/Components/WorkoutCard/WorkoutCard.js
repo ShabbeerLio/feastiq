@@ -20,79 +20,80 @@ import "./WorkoutCard.css";
 import { useNavigate } from "react-router-dom";
 
 const imageMap = {
-    bench: poses1,
-    squat: poses2,
-    bent: poses3,
-    overhead: poses4,
-    bicep: poses5,
-    tricep: poses6,
-    cycling: poses7,
-    deadlift: poses8,
-    legraises: poses9,
-    lunges: poses10,
-    plank: poses11,
-    pull: poses12,
-    push: poses13,
-    russianTwist: poses14,
-    stretching: poses15,
-    bicycle: poses16,
-    chin: poses12,
-    step: poses17,
+  bench: poses1,
+  squat: poses2,
+  bent: poses3,
+  overhead: poses4,
+  bicep: poses5,
+  tricep: poses6,
+  cycling: poses7,
+  deadlift: poses8,
+  legraises: poses9,
+  lunges: poses10,
+  plank: poses11,
+  pull: poses12,
+  push: poses13,
+  russian: poses14,
+  stretching: poses15,
+  bicycle: poses16,
+  chin: poses12,
+  step: poses17,
 };
 
 const WorkoutCard = ({ workoutPlan }) => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleExerciseClick = (exercise) => {
+    const keyword = exercise.name.toLowerCase();
+    const matchedKey = Object.keys(imageMap).find((key) =>
+      keyword.includes(key)
+    );
+    const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
 
-    const handleExerciseClick = (exercise) => {
-        const keyword = exercise.toLowerCase();
+    const exerciseInfo = {
+      name: exercise.name,
+      calories: exercise.calories,
+      image: matchedImage,
+    };
+
+    navigate("/workout-detail", { state: { exerciseInfo } });
+    localStorage.setItem("exerciseInfo", JSON.stringify(exerciseInfo));
+  };
+
+  return (
+    <>
+      {workoutPlan?.map((exercise, index) => {
+        const keyword = exercise?.name?.toLowerCase() || "";
+
         const matchedKey = Object.keys(imageMap).find((key) =>
-            keyword.includes(key)
+          keyword.includes(key)
         );
         const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
 
-        const exerciseInfo = {
-            name: exercise,
-            image: matchedImage,
-        };
+        const status = localStorage.getItem(
+          `workoutStatus-${exercise.name}`
+        );
+        const cardClass =
+          status === "completed"
+            ? "exercises-card completed"
+            : status === "skipped"
+            ? "exercises-card skipped"
+            : "exercises-card";
 
-        // Navigate to WorkoutDetail with state
-        navigate("/workout-detail", { state: { exerciseInfo } });
-        localStorage.setItem("exerciseInfo", JSON.stringify(exerciseInfo));
-    };
-
-    return (
-        < >
-            {workoutPlan?.map((exercise, index) => {
-                const keyword = exercise.toLowerCase();
-
-                // Find matching key from imageMap
-                const matchedKey = Object.keys(imageMap).find((key) =>
-                    keyword.includes(key)
-                );
-
-                // Use the matched image, or a default fallback
-                const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
-                // Get workout status from localStorage
-                const status = localStorage.getItem(`workoutStatus-${exercise}`);
-                const cardClass =
-                    status === "completed"
-                        ? "exercises-card completed"
-                        : status === "skipped"
-                            ? "exercises-card skipped"
-                            : "exercises-card";
-
-                return (
-                    <div key={index} className={cardClass}
-                        onClick={() => handleExerciseClick(exercise)}>
-                        <img src={matchedImage} alt={exercise} />
-                        <p>{exercise}</p>
-                        <span className={`status-badge ${status}`}>{status}</span>
-                    </div>
-                );
-            })}
-        </>
-    );
+        return (
+          <div
+            key={index}
+            className={cardClass}
+            onClick={() => handleExerciseClick(exercise)}
+          >
+            <img src={matchedImage} alt={exercise.name} />
+            <p>{exercise.name}</p>
+            <span className={`status-badge ${status}`}>{status}</span>
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 export default WorkoutCard;

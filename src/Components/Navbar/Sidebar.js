@@ -7,6 +7,7 @@ import {
   ArrowRightLeft,
   BanknoteArrowUp,
   ChevronRight,
+  History,
   House,
   Info,
   MessageCircleQuestionMark,
@@ -18,25 +19,40 @@ import {
 
 const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
   const navigate = useNavigate();
+  
+  const Host = process.env.REACT_APP_API_BASE_URL;
+  const token = localStorage.getItem("token");
+  const [userData, setUserData] = useState();
 
-  // const [userData, setUserData] = useState();
-  // useEffect(() => {
-  //     const authUser = JSON.parse(localStorage.getItem("authUser"));
-  //     if (!authUser) {
-  //         navigate("/login");
-  //     } else {
-  //         const findUser = CombinedFeedData.find((i) => i.id === authUser.id);
-  //         setUserData(findUser);
-  //     }
-  // })
-  // console.log(userData,"userData")
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${Host}/auth/getuser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        });
+        const json = await response.json();
+        setUserData(json);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [Host, token]);
+
   const handleProfile = () => {
     handleCloseSidebar();
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("authUser");
-    navigate("/register");
+    localStorage.removeItem("token");
+    navigate("/login");
     handleCloseSidebar();
   };
 
@@ -44,26 +60,6 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
     <div className={`Sidebar ${sideactive}`} ref={sideRef}>
       <div className="Sidebar-main">
         <X className="sidebar-closebnt" onClick={handleCloseSidebar} />
-        {/* <div className="sidebar-top">
-                    <Link to={"/profile"} onClick={handleProfile}>
-                        <div className="SearchCard" >
-                            <div className="SearchCard-left">
-                                <img src={userData?.avatar} alt={userData?.username} />
-                            </div>
-                            <div className="SearchCard-right">
-                                <h6>{userData?.username} {userData?.type === "institute" ? (
-                                      <span className="verified">Verified</span>
-                                ) : (
-                                    <span>({userData?.type})</span>
-                                )} </h6>
-                                <p>{userData?.location}</p>
-                            </div>
-                            <div className="sidebar-profile-visit">
-                                <ChevronRight />
-                            </div>
-                        </div>
-                    </Link>
-                </div> */}
         <div className="sidebar-items">
           <ul>
             <li>
@@ -85,6 +81,13 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
                 {" "}
                 <MessageCircleQuestionMark />
                 Help
+              </Link>
+            </li>
+            <li>
+              <Link onClick={handleProfile} to={"/calorie-history"}>
+                {" "}
+                <History />
+                Calorie History
               </Link>
             </li>
             <li>
@@ -127,13 +130,16 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
           </ul>
         </div>
         <div className="sidebar-bottom">
-          <div className="sidebar-career">
-            <h5>Hii Shabbeer!</h5>
-            <Link onClick={handleProfile} to={"/profile"}>
-              View Profile
-            </Link>
-            <img src={profile} alt="" />
-          </div>
+          {userData && (
+            <div className="sidebar-career">
+              <h5>Hii {userData?.name}!</h5>
+              <Link onClick={handleProfile} to={"/profile"}>
+                View Profile
+              </Link>
+              <img src={profile} alt="" />
+            </div>
+          )}
+
           <div className="sidebar-logout">
             <p onClick={handleLogout}>Log Out</p>
           </div>

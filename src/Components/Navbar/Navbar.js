@@ -2,7 +2,7 @@ import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Sidebar from "./Sidebar";
-import { UserRound } from "lucide-react";
+import { UserRound, History } from "lucide-react";
 import bg1 from "../../Assets/Background/bg1.mp4";
 import bg3 from "../../Assets/Background/bg3.mp4";
 import bg2 from "../../Assets/Background/reg1.mp4";
@@ -27,7 +27,7 @@ const Navbar = () => {
 
   // pick random background only if pathname is /register
   useEffect(() => {
-    if (location.pathname === "/register") {
+    if (location.pathname === "/login") {
       const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
       const randomIndex = Math.floor(
         Math.random() * registerBackgrounds.length
@@ -37,7 +37,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const currentBg =
-    location.pathname === "/register"
+    location.pathname === "/login"
       ? randomBg
       : location.pathname === "/workout-detail"
       ? bg1
@@ -64,24 +64,38 @@ const Navbar = () => {
               <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
                   <Link className="nav-link active" aria-current="page" to="/">
-                    Home
+                    Dashboard
                   </Link>
-                  <Link className="nav-link" to="/feeds">
-                    Feeds
+                  <Link className="nav-link" to="/about">
+                    About
                   </Link>
-                  <Link className="nav-link" to="/add">
-                    Add
-                  </Link>
-                  <Link className="nav-link" to="/search">
-                    Search
+                  <Link className="nav-link" to="/help">
+                    Help
                   </Link>
                   <Link className="nav-link" to="/history">
                     History
+                  </Link>
+                  <Link className="nav-link" to="/privacy-policy">
+                    Privacy Policy
+                  </Link>
+                  <Link className="nav-link" to="/term-and-conditions">
+                    Term And Conditions
+                  </Link>
+                  <Link className="nav-link" to="/return-refund">
+                    Return Refund
                   </Link>
                 </div>
               </div>
             </div>
           </nav>
+        </div>
+      </div>
+      <div className="profile">
+        <div className="caloirie-history">
+            <Link to={"/calorie-history"}>
+              <History />
+              <p>Calorie</p>
+            </Link>
         </div>
       </div>
       <Sidebar

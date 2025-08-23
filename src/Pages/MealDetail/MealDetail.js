@@ -17,7 +17,6 @@ import mbg3 from "../../Assets/Meal/mealbg3.jpg";
 import mbg4 from "../../Assets/Meal/mealbg4.jpg";
 import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
-import { useMeal } from "../../Context/MealContext";
 
 const overviewVariants = {
     initial: { x: "-100%", opacity: 0 },
@@ -32,9 +31,14 @@ const recipeVariants = {
 };
 
 const MealDetail = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
     const navigate = useNavigate();
     const location = useLocation();
     const [mealInfo, setMealInfo] = useState(null);
+    const [isScrolled, setIsScrolled] = useState(location.state?.isScrolled ?? false);
+    const [mealplate, setMealplate] = useState(true);
+    const [showRecipe, setShowRecipe] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         // If coming from navigate with state
@@ -50,9 +54,6 @@ const MealDetail = () => {
         }
     }, [location.state]);
 
-    const [isScrolled, setIsScrolled] = useState(location.state?.isScrolled ?? false);
-    const [mealplate, setMealplate] = useState(true);
-    const [showRecipe, setShowRecipe] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -75,25 +76,90 @@ const MealDetail = () => {
     // Keep initial as null (safe default)
     const [mealStatus, setMealStatus] = useState(null);
 
-    // When mealInfo is loaded, fetch status from localStorage
-    useEffect(() => {
-        if (mealInfo?.type) {
-            const storedStatus = localStorage.getItem(`mealStatus-${mealInfo.type}`);
-            if (storedStatus) {
-                setMealStatus(storedStatus);
-            }
+    const todayDate = new Date().toISOString().split("T")[0];
+
+    // 🔹 Save meal status into backend
+    const updateMealStatus = async (status) => {
+        if (!mealInfo) return;
+        setLoading(true);
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch(`${API_BASE_URL}/detail/dailyMeals`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": token,
+                },
+                body: JSON.stringify({
+                    date: todayDate,
+                    meals: [
+                        {
+                            type: mealInfo.type,
+                            meal: Array.isArray(mealInfo.meal) ? mealInfo.meal : [mealInfo.meal],
+                            calories: mealInfo.calories,
+                            protein: mealInfo.protein,
+                            fats: mealInfo.fats,
+                            carbs: mealInfo.carbs,
+                            status: status,
+                        },
+                    ],
+                }),
+            });
+
+            if (!res.ok) throw new Error("Failed to update meal");
+            await res.json();
+
+            setMealStatus(status); // update UI
+        } catch (error) {
+            console.error("Error updating meal:", error);
+        } finally {
+            setLoading(false);
         }
-    }, [mealInfo]);
-
-    const handleComplete = () => {
-        setMealStatus("completed");
-        localStorage.setItem(`mealStatus-${mealInfo?.type}`, "completed");
     };
 
-    const handleSkip = () => {
-        setMealStatus("skipped");
-        localStorage.setItem(`mealStatus-${mealInfo?.type}`, "skipped");
-    };
+    const handleComplete = () => updateMealStatus("completed");
+    const handleSkip = () => updateMealStatus("skipped");
+
+    const [dailyMeal, setDailyMeal] = useState();
+    const Host = process.env.REACT_APP_API_BASE_URL;
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`${Host}/detail/dailyMeals`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": token,
+                    },
+                });
+                const json = await response.json();
+                setDailyMeal(json);
+            } catch (error) {
+                console.log("error", error);
+            }
+        };
+
+        if (token) {
+            fetchUser();
+        }
+    }, [Host, token]);
+
+    const todayPlan = dailyMeal?.find(
+        (d) => new Date(d.date).toISOString().split("T")[0] === todayDate
+    );
+
+    const mealtypesData = todayPlan?.meals?.find(
+        (m) => m.type.toLowerCase() === mealInfo.type.toLowerCase()
+    );
+
+    useEffect(() => {
+        if (mealtypesData?.status) {
+            setMealStatus(mealtypesData.status);
+        }
+    }, [mealtypesData]);
 
     return (
         <div className="Home">
@@ -143,8 +209,9 @@ const MealDetail = () => {
                                         </h6>
                                     </div>
                                 </div>
+                                {/* ✅ Meal Actions */}
                                 <div className="meal-actions">
-                                    {mealStatus === null && (
+                                    {mealStatus === null && !loading && (
                                         <>
                                             <button className="btn-complete" onClick={handleComplete}>
                                                 Completed
@@ -155,10 +222,11 @@ const MealDetail = () => {
                                         </>
                                     )}
 
+                                    {loading && <p className="status">⏳ Updating...</p>}
+
                                     {mealStatus === "completed" && (
                                         <p className="status completed">🎉 Meal Completed!</p>
                                     )}
-
                                     {mealStatus === "skipped" && (
                                         <p className="status skipped">⏭️ Meal Skipped</p>
                                     )}

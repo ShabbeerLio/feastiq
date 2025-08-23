@@ -24,14 +24,15 @@
   margin: 0;
 }
 
-.nav-name-svg{
+.nav-name-svg {
   width: 40px;
   height: 40px;
   color: white;
   border-radius: 40px;
-      background: hsl(0deg 0% 100% / 5%);
-    backdrop-filter: blur(6px);
-    box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632), inset 1px -1px 5px 1px hsl(0deg 0% 0%);
+  background: hsl(0deg 0% 100% / 5%);
+  backdrop-filter: blur(6px);
+  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
+    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   padding: 8px;
 }
 
@@ -50,38 +51,30 @@
 }
 
 .profile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
 
-.profile svg {
-  font-size: 25px;
-  color: #597445;
-  width: 22px;
-}
-.profile .help a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #729762;
-  border-radius: 25px;
-  padding: 5px;
+.caloirie-history a {
   text-decoration: none;
-  margin-left: 10px;
+  color: white;
+  border-radius: 40px;
+  background: hsl(0deg 0% 100% / 5%);
+  backdrop-filter: blur(6px);
+  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
+    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: .3125rem;
 }
-.profile .help a p {
+.caloirie-history a p{
   margin: 0;
-  color: white;
-  padding: 0 5px;
 }
-.profile .help a svg {
-  color: white;
-}
-.profile .btn {
-  box-shadow: none;
-}
-
 @media screen and (min-width: 1200px) {
   .navbar-main {
     max-width: 1200px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
 
 import Slider from "react-slick";
@@ -8,14 +8,13 @@ import "slick-carousel/slick/slick-theme.css";
 import MealCard from "../../Components/MealCard/MealCard";
 import WorkoutCard from "../../Components/WorkoutCard/WorkoutCard";
 import Calories from "../../Components/Calories/Calories";
-import { ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
-import UserData from "../../UserData";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Ads from "../../Components/Ads/Ads";
 import { useNavigate } from "react-router-dom";
+import NoteContext from "../../Context/FeastContext";
 
 const Home = () => {
-
-  const userData = UserData;
+  const { feast, getFeast } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
@@ -27,36 +26,75 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getFeast();
+    }
+  }, [navigate]);
+
+  // Parse API response
+  const userDataa = feast?.map((i) => {
+    try {
+      const cleaned = i?.mealFitness?.replace(/```json|```/g, "").trim();
+      return JSON.parse(cleaned);
+    } catch (err) {
+      console.error("Error parsing mealFitness", err);
+      return null;
+    }
+  });
+
+  // safely get API object
+  const userData = userDataa && userDataa[0];
+  localStorage.setItem("motivationalTip", JSON.stringify(userData?.motivationalTip));
+
+  // console.log(userData, "userData from API");
+
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
-  // console.log(today)
-  const todayMealPlan = userData.mealPlan.find(item => item.day === today);
-  const todayWorkoutPlan = userData.workoutPlan.find(item => item.day === today);
+
+  // find today's meal + workout
+  const todayMealPlan = userData?.mealPlan?.find((item) => item.day === today);
+  const todayWorkoutPlan = userData?.workoutPlan?.find(
+    (item) => item.day === today
+  );
+
   const handleClose = () => {
     setIsScrolled(false);
-  }
-   const handleSevenDays = () => {
-        navigate("/sevendays");
-    };
+  };
+  const handleSevenDays = () => {
+    navigate("/sevendays");
+  };
+
   return (
     <div className="Home">
       <div className="Home-main">
-
-        <Calories userData={userData}/>
+        {userData && <Calories userData={userData} />}
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
           <div className="home-scroll-box">
-            {/* <div className="meal-plan-box"> */}
-            <h5>{isScrolled && <ChevronLeft onClick={handleClose}/>} Today's Meal Plan ({todayMealPlan?.day})</h5>
+            <h5>
+              {isScrolled && <ChevronLeft onClick={handleClose} />} Today's Meal
+              Plan ({todayMealPlan?.day})
+            </h5>
             <div className="meal-plan-box">
-              <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
+              {todayMealPlan && (
+                <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
+              )}
             </div>
-              <h6 className="seven-day-buttons" onClick={handleSevenDays}>7 Days Meals <ChevronRight /></h6>
-            <h5>Today's Workout Plan ({todayMealPlan?.day})</h5>
+            <h6 className="seven-day-buttons" onClick={handleSevenDays}>
+              7 Days Meals <ChevronRight />
+            </h6>
+
+            <h5>Today's Workout Plan ({todayWorkoutPlan?.day})</h5>
             <div className="exercise-box">
-              <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} />
+              {todayWorkoutPlan && (
+                <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} />
+              )}
             </div>
-              <h6 className="seven-day-buttons" onClick={handleSevenDays}>7 Days Workout <ChevronRight /></h6>
-            <Ads/>
+            <h6 className="seven-day-buttons" onClick={handleSevenDays}>
+              7 Days Workout <ChevronRight />
+            </h6>
+            <Ads />
           </div>
         </div>
       </div>

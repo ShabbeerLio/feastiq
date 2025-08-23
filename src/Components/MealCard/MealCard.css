@@ -110,3 +110,7 @@
   font-size: 8px !important;
   letter-spacing: 6px;
 }
+
+.nutrition-info p{
+margin: 0 !important;
+}
