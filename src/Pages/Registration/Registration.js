@@ -45,6 +45,7 @@ const Registration = () => {
     gender: "",
     weight: "",
     height: "",
+    goal: "",
     foodpreferences: "",
   });
 
@@ -161,6 +162,11 @@ const Registration = () => {
     { name: "gender", type: "select", options: ["Male", "Female", "Other"] },
     { name: "weight", type: "number", placeholder: "Weight (kg)" },
     { name: "height", type: "number", placeholder: "Height (cm)" },
+    {
+      name: "goal",
+      type: "select",
+      options: ["Gain Weight", "Loss Weight", "Maintain Weight"],
+    },
     {
       name: "foodpreferences",
       type: "textarea",
@@ -339,7 +345,11 @@ const Registration = () => {
                               onChange={handleChange}
                               required
                             >
-                              <option value="">Select Gender</option>
+                              <option value="">
+                                {field.name === "gender"
+                                  ? "Select Gender"
+                                  : "Select Goal"}
+                              </option>
                               {field.options.map((opt) => (
                                 <option key={opt} value={opt}>
                                   {opt}
