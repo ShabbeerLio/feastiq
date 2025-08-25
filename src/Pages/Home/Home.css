@@ -55,6 +55,7 @@
   gap: 1rem;
   width: 100%;
   padding: 1rem;
+  padding-top: 0;
 }
 
 .home-title {
@@ -75,7 +76,13 @@
 .home-text-card h2 {
   margin: 0;
   color: white;
+  font-size: 16px;
 }
+/* .home-text-card h2 span{
+  margin: 0;
+  color: white;
+  font-size: 16px;
+} */
 .home-text-card p {
   margin: 0;
   color: white;

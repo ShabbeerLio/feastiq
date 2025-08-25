@@ -17,7 +17,7 @@ const WorkoutDetail = () => {
     const exerciseInfo =
         state?.exerciseInfo || JSON.parse(localStorage.getItem("exerciseInfo"));
 
-    console.log(exerciseInfo, "exerciseInfo")
+    // console.log(exerciseInfo, "exerciseInfo")
 
     useEffect(() => {
         const handleScroll = () => {

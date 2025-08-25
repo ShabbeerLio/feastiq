@@ -11,9 +11,6 @@ import {
 } from "lucide-react";
 import { FaYoutube } from "react-icons/fa";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import mbg1 from "../../Assets/Meal/mealbg1.jpg";
-import mbg2 from "../../Assets/Meal/mealbg2.jpg";
-import mbg3 from "../../Assets/Meal/mealbg3.jpg";
 import mbg4 from "../../Assets/Meal/mealbg4.jpg";
 import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
