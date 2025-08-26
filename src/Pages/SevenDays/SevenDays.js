@@ -59,7 +59,7 @@ const SevenDays = () => {
   return (
     <div className="Home">
       <div className="Home-main">
-        <Calories />
+        {userData && <Calories userData={userData} />}
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
           <div className="home-scroll-box">
             {/* <div className="meal-all-box">
