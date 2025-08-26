@@ -14,6 +14,7 @@ const Profile = () => {
     gender: "",
     weight: "",
     height: "",
+    goal: "",
   });
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const Profile = () => {
           gender: json.gender || "",
           weight: json.weight || "",
           height: json.height || "",
+          goal: json.goal || "",
         });
       } catch (error) {
         console.log("error", error);
@@ -157,7 +159,6 @@ const Profile = () => {
                 </select>
               </div>
             </div>
-
             <div className="form-row">
               <div className="form-group">
                 <label>Weight (kg)</label>
@@ -181,6 +182,20 @@ const Profile = () => {
                 />
               </div>
             </div>
+              <div className="form-group">
+                <label>Goal</label>
+                <select
+                  name="gender"
+                  value={formData.goal}
+                  onChange={handleChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Gain Weight">Gain Weight</option>
+                  <option value="Loss Weight">Loss Weight</option>
+                  <option value="Maintain Weight">Maintain Weight</option>
+                </select>
+              </div>
+
 
             <button type="submit" className="seven-day-buttons help">
               {processing === "Updating"

@@ -1,0 +1,12 @@
+.meal-plan-card.top ul{
+padding: 0;
+}
+.meal-plan-card.top ul li{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.subscription-list p{
+    color: white;
+}

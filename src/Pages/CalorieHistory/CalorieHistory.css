@@ -1,7 +1,7 @@
 .meal-item{
     position: relative;
     border-radius: 25px;
-    background-color: #F8FDCF;
+        background-color: rgba(255, 255, 255, 0.05);
     padding: 1rem;
     overflow: hidden;
     margin-top: 10px;
@@ -15,4 +15,24 @@
 .calorie-history-title{
     border-bottom: 1px solid #e4e4e4;
     padding-bottom: 5px;
+}
+
+
+.history-subtitle.calorie{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.history-subtitle.calorie p{
+    margin: 0;
+}
+.history-subtitle.calorie button{
+    margin: 0;
+    border-radius: 40px;
+    padding: 8px 20px;
+    background-color: #fffd75;
+}
+.history-subtitle.calorie button svg{
+   width: 18px;
+   height: 18px;
 }

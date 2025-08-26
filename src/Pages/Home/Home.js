@@ -45,7 +45,10 @@ const Home = () => {
 
   // safely get API object
   const userData = userDataa && userDataa[0];
-  localStorage.setItem("motivationalTip", JSON.stringify(userData?.motivationalTip));
+  localStorage.setItem(
+    "motivationalTip",
+    JSON.stringify(userData?.motivationalTip)
+  );
 
   // console.log(userData, "userData from API");
 
@@ -60,8 +63,9 @@ const Home = () => {
   const handleClose = () => {
     setIsScrolled(false);
   };
-  const handleSevenDays = () => {
-    navigate("/sevendays");
+
+  const handleSevenDaysWorkout = (type) => {
+    navigate("/sevendays", { state: { type: type } });
   };
 
   return (
@@ -79,7 +83,7 @@ const Home = () => {
                 <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
               )}
             </div>
-            <h6 className="seven-day-buttons" onClick={handleSevenDays}>
+            <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("meal")}>
               7 Days Meals <ChevronRight />
             </h6>
 
@@ -89,7 +93,7 @@ const Home = () => {
                 <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} />
               )}
             </div>
-            <h6 className="seven-day-buttons" onClick={handleSevenDays}>
+            <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("workout")}>
               7 Days Workout <ChevronRight />
             </h6>
             <Ads />

@@ -6,9 +6,9 @@
   margin-bottom: 1rem;
 }
 
-.home-scroll.mealtype {
+/* .home-scroll.mealtype {
   background-color: #eae4f8;
-}
+} */
 .meal-top-img img {
   width: 100%;
   object-fit: cover;
@@ -33,6 +33,7 @@
 }
 .mealdetail-title {
   margin-bottom: 1rem;
+  color: white;
 }
 .mealdetail-title span {
   font-size: 14px;
@@ -121,8 +122,12 @@
   margin-left: 1rem;
 }
 
-.seven-day-buttons.meal {
+/* .seven-day-buttons.meal {
   background-color: #dacaff;
+} */
+
+.meal-actions p{
+  color: white;
 }
 
 .meal-actions {

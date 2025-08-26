@@ -66,8 +66,8 @@ const MealDetail = () => {
 
     const handleClose = () => setIsScrolled(false);
 
-    const handleSevenDays = () => {
-        navigate("/sevendays");
+    const handleSevenDaysWorkout = (type) => {
+        navigate("/sevendays", { state: { type: type } });
     };
 
     // Keep initial as null (safe default)
@@ -228,7 +228,7 @@ const MealDetail = () => {
                                         <p className="status skipped">⏭️ Meal Skipped</p>
                                     )}
                                 </div>
-                                <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
+                                <h6 className="seven-day-buttons meal" onClick={() => handleSevenDaysWorkout("meal")}>
                                     7 Days Meals <ChevronRight />
                                 </h6>
                                 <Ads />
@@ -305,7 +305,7 @@ const MealDetail = () => {
                                         <p className="status skipped">⏭️ Meal Skipped</p>
                                     )}
                                 </div>
-                                <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
+                                <h6 className="seven-day-buttons meal" onClick={() => handleSevenDaysWorkout("meal")}>
                                     7 Days Meals <ChevronRight />
                                 </h6>
                                 <Ads />

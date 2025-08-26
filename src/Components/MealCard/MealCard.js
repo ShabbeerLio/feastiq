@@ -104,12 +104,12 @@ const MealCard = ({ mealPlan, isScrolled, userData }) => {
                 <img src={mealImages[mealType]} alt={mealType} />
                 <h3>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h3>(
                 <span>{mealData.time}</span>)<p>{mealText}</p>
-                <div className="nutrition-info">
+                {/* <div className="nutrition-info">
                   <p>Calories: {mealData.calories} kcal</p>
                   <p>Protein: {mealData.protein} g</p>
                   <p>Fats: {mealData.fats} g</p>
                   <p>Carbs: {mealData.carbs} g</p>
-                </div>
+                </div> */}
                 <CookingPot />
                 <span className={`status-badge ${status}`}>{status}</span>
               </div>

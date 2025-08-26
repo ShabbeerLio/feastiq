@@ -31,9 +31,9 @@ const WorkoutDetail = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const handleSevenDays = () => {
-        navigate("/sevendays");
-    };
+    const handleSevenDaysWorkout = (type) => {
+    navigate("/sevendays", { state: { type: type } });
+  };
 
     const [mealStatus, setMealStatus] = useState(
         localStorage.getItem(`workoutStatus-${exerciseInfo?.name}`) || null
@@ -92,11 +92,11 @@ const WorkoutDetail = () => {
                         )}
 
                         {mealStatus === "completed" && (
-                            <p className="status completed">🎉 Meal Completed!</p>
+                            <p className="status completed">🎉 Workout Completed!</p>
                         )}
 
                         {mealStatus === "skipped" && (
-                            <p className="status skipped">⏭️ Meal Skipped</p>
+                            <p className="status skipped">⏭️ Workout Skipped</p>
                         )}
                     </div>
                     <div className="recipie-card youtube">
@@ -104,8 +104,8 @@ const WorkoutDetail = () => {
                             <FaYoutube /> How to do this Exercise <ChevronRight />
                         </Link>
                     </div>
-                    <h6 className="seven-day-buttons meal" onClick={handleSevenDays}>
-                        7 Days Meals <ChevronRight />
+                    <h6 className="seven-day-buttons meal" onClick={() => handleSevenDaysWorkout("workout")}>
+                        7 Days Workout <ChevronRight />
                     </h6>
                     <Ads />
                 </div>

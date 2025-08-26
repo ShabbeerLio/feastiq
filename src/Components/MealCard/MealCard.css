@@ -12,7 +12,8 @@
   margin-bottom: 1.5rem;
 }
 .meal-plan-card.top svg {
-  background-color: #d9e5ef;
+  background-color: #fffd75;
+  color: black;
   position: absolute;
   top: 4%;
   left: 7%;
@@ -69,7 +70,8 @@
 .meal-plan-card {
   border-radius: 25px;
   padding: 1rem;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
   margin-bottom: 1rem;
   overflow: hidden;
 }
