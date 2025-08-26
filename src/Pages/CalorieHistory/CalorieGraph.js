@@ -54,7 +54,7 @@ const CalorieGraph = () => {
   return (
     <div style={{ width: "100%", height: 400 }}>
       {/* Dropdown */}
-      <div>
+      <div className="form-group">
         <label>Select Metric:</label>
         <select value={metric} onChange={(e) => setMetric(e.target.value)}>
           <option value="calories">Calories</option>
