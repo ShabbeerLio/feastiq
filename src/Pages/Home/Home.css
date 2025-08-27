@@ -167,6 +167,16 @@
   margin-left: 0.5rem;
 }
 
+.importantConsiderations-box ul {
+  border-radius: 25px;
+  padding: 1rem 1rem 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+.importantConsiderations-box ul li {
+  color: white;
+}
+
 @media screen and (min-width: 1200px) {
   .Home-main {
     max-width: 1200px;

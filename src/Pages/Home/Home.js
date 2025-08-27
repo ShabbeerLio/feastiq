@@ -73,24 +73,24 @@ const Home = () => {
   };
 
   useEffect(() => {
-  if (!cardRef.current) return;
+    if (!cardRef.current) return;
 
-  const interactable = interact(cardRef.current).draggable({
-    listeners: {
-      move(event) {
-        position.current.x += event.dx;
-        position.current.y += event.dy;
+    const interactable = interact(cardRef.current).draggable({
+      listeners: {
+        move(event) {
+          position.current.x += event.dx;
+          position.current.y += event.dy;
 
-        event.target.style.transform =
-          `translate(${position.current.x}px, ${position.current.y}px)`;
+          event.target.style.transform =
+            `translate(${position.current.x}px, ${position.current.y}px)`;
+        },
       },
-    },
-  });
+    });
 
-  return () => {
-    if (interactable) interactable.unset(); // safely remove
-  };
-}, []);
+    return () => {
+      if (interactable) interactable.unset(); // safely remove
+    };
+  }, []);
 
   return (
     <div className="Home">
@@ -121,6 +121,14 @@ const Home = () => {
               7 Days Workout <ChevronRight />
             </h6>
             <Ads />
+            <div className="importantConsiderations-box">
+              <h5>Important Considerations</h5>
+              <ul>
+                {userData?.importantConsiderations?.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="liquid-glass">

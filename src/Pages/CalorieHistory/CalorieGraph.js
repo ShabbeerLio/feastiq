@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 const CalorieGraph = ({ feast, filter }) => {
-  const [metric, setMetric] = useState("calories");
+  const [metric, setMetric] = useState("all");
   const dailyMeals = feast.flatMap((i) => i.dailyMeals);
 
   // Build map for lookup
@@ -78,11 +78,11 @@ const CalorieGraph = ({ feast, filter }) => {
       <div className="form-group">
         <label>Select Metric:</label>
         <select value={metric} onChange={(e) => setMetric(e.target.value)}>
+          <option value="all">All Metrics</option>
           <option value="calories">Calories</option>
           <option value="protein">Protein</option>
           <option value="carbs">Carbs</option>
           <option value="fats">Fats</option>
-          <option value="all">All Metrics</option>
         </select>
       </div>
 

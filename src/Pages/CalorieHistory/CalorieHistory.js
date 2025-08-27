@@ -27,6 +27,7 @@ const CalorieHistory = () => {
   const dailyMeals = feast.flatMap((i) => i.dailyMeals);
   const [showRecipe, setShowRecipe] = useState(false);
   const [filter, setFilter] = useState("week");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -36,11 +37,18 @@ const CalorieHistory = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 1);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   console.warn = (message) =>
     message.includes("Buffer size mismatch") ? null : console.warn(message);
 
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth(); // 0-11
   const currentYear = currentDate.getFullYear();
 
   const filterMeals = (meals, filter) => {
@@ -73,6 +81,18 @@ const CalorieHistory = () => {
 
   const filteredMeals = filterMeals(dailyMeals, filter);
 
+  const userDataa = feast?.map((i) => {
+    try {
+      const cleaned = i?.mealFitness?.replace(/```json|```/g, "").trim();
+      return JSON.parse(cleaned);
+    } catch (err) {
+      console.error("Error parsing mealFitness", err);
+      return null;
+    }
+  });
+
+  const userData = userDataa && userDataa[0];
+
   return (
     <div className="Home">
       <div className="Home-main">
@@ -89,172 +109,182 @@ const CalorieHistory = () => {
             <h5>Calorie History</h5>
           </div>
         </div>
-        <div className="Other-pages-box">
-          <div className="history-card">
-            <div className="history-subtitle calorie">
-              <p>Your today's and past Calorie.</p>
-              {showRecipe === true ?
-                <button onClick={() => setShowRecipe(false)}><ChevronLeft />View Graph</button>
-                :
-                <button onClick={() => setShowRecipe(true)}>View   List<ChevronRight /></button>
-              }
+        <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
+          <div className="home-scroll-box">
+            <div className="history-card">
+              <div className="history-subtitle calorie">
+                <p>Your today's and past Calorie.</p>
+                {showRecipe === true ?
+                  <button onClick={() => setShowRecipe(false)}><ChevronLeft />View Graph</button>
+                  :
+                  <button onClick={() => setShowRecipe(true)}>View   List<ChevronRight /></button>
+                }
 
-            </div>
-            <div className="filter-buttons">
-              <button
-                className={filter === "all" ? "active" : ""}
-                onClick={() => setFilter("all")}
-              >
-                All
-              </button>
-              <button
-                className={filter === "week" ? "active" : ""}
-                onClick={() => setFilter("week")}
-              >
-                Last 7 Days
-              </button>
-              <button
-                className={filter === "month" ? "active" : ""}
-                onClick={() => setFilter("month")}
-              >
-                This Month
-              </button>
-              <button
-                className={filter === "3months" ? "active" : ""}
-                onClick={() => setFilter("3months")}
-              >
-                Last 3 Months
-              </button>
-              <button
-                className={filter === "6months" ? "active" : ""}
-                onClick={() => setFilter("6months")}
-              >
-                Last 6 Months
-              </button>
-              <button
-                className={filter === "year" ? "active" : ""}
-                onClick={() => setFilter("year")}
-              >
-                {currentYear}
-              </button>
-            </div>
-            <AnimatePresence mode="wait">
-              {!showRecipe ? (
-                <motion.div
-                  key="overview"
-                  variants={overviewVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={(e, { offset }) => {
-                    if (offset.x < -100) setShowRecipe(true);
-                  }}
-                  className="home-scroll-box"
+              </div>
+              <div className="filter-buttons">
+                <button
+                  className={filter === "all" ? "active" : ""}
+                  onClick={() => setFilter("all")}
                 >
-                  <div className="subscription-list">
-                    <CalorieGraph feast={feast} filter={filter} />
-                  </div>
-                  <Ads />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="recipe"
-                  variants={recipeVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={(e, { offset }) => {
-                    if (offset.x > 100) setShowRecipe(false); // swipe right → back to overview
-                  }}
-                  className="home-scroll-box"
+                  All
+                </button>
+                <button
+                  className={filter === "week" ? "active" : ""}
+                  onClick={() => setFilter("week")}
                 >
-                  <div className="subscription-list">
-                    {filteredMeals?.length > 0 ? (
-                      filteredMeals
-                        .sort((a, b) => new Date(b.date) - new Date(a.date)) // newest first
-                        .map((day, idx) => (
-                          <div key={idx} className="subscription-item">
-                            <h6 className="calorie-history-title">
-                              {new Date(day.date).toLocaleDateString()}
-                            </h6>
-                            {/* Meals Section */}
-                            <div className="subscription-details">
-                              <p>
-                                <strong>Calories:</strong> {day.totals?.calories || 0}{" "}
-                                kcal
-                              </p>
-                              <p>
-                                <strong>Protein:</strong> {day.totals?.protein || 0} g
-                              </p>
-                              <p>
-                                <strong>Fats:</strong> {day.totals?.fats || 0} g
-                              </p>
-                              <p>
-                                <strong>Carbs:</strong> {day.totals?.carbs || 0} g
-                              </p>
-                            </div>
-                            <div className="meals-list">
-                              {day.meals.map((meal, i) => (
-                                <div key={i} className={`meal-item ${meal.status}`}>
-                                  <h6>{meal.type} </h6>
-                                  <p>
-                                    <strong>Calories:</strong> {meal.calories} kcal
-                                  </p>
-                                  <p>
-                                    <strong>Protein:</strong> {meal.protein} g
-                                  </p>
-                                  <p>
-                                    <strong>Fats:</strong> {meal.fats} g
-                                  </p>
-                                  <p>
-                                    <strong>Carbs:</strong> {meal.carbs} g
-                                  </p>
-                                  <div className="subscription-header">
-                                    <h5>{meal.plan}</h5>
-                                    <span
-                                      className={`status-badge ${meal.status === "completed"
-                                        ? "active"
-                                        : "expired"
-                                        }`}
-                                    >
-                                      {meal.status}
-                                    </span>
+                  Last 7 Days
+                </button>
+                <button
+                  className={filter === "month" ? "active" : ""}
+                  onClick={() => setFilter("month")}
+                >
+                  This Month
+                </button>
+                <button
+                  className={filter === "3months" ? "active" : ""}
+                  onClick={() => setFilter("3months")}
+                >
+                  Last 3 Months
+                </button>
+                <button
+                  className={filter === "6months" ? "active" : ""}
+                  onClick={() => setFilter("6months")}
+                >
+                  Last 6 Months
+                </button>
+                <button
+                  className={filter === "year" ? "active" : ""}
+                  onClick={() => setFilter("year")}
+                >
+                  {currentYear}
+                </button>
+              </div>
+              <AnimatePresence mode="wait">
+                {!showRecipe ? (
+                  <motion.div
+                    key="overview"
+                    variants={overviewVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(e, { offset }) => {
+                      if (offset.x < -100) setShowRecipe(true);
+                    }}
+                    className="home-scroll-box"
+                  >
+                    <div className="subscription-list">
+                      <CalorieGraph feast={feast} filter={filter} />
+                    </div>
+                    <Ads />
+                    <div className="importantConsiderations-box">
+                      <h5>Important Considerations</h5>
+                      <ul>
+                        {userData?.importantConsiderations?.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="recipe"
+                    variants={recipeVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(e, { offset }) => {
+                      if (offset.x > 100) setShowRecipe(false); // swipe right → back to overview
+                    }}
+                    className="home-scroll-box"
+                  >
+                    <div className="subscription-list">
+                      {filteredMeals?.length > 0 ? (
+                        filteredMeals
+                          .sort((a, b) => new Date(b.date) - new Date(a.date)) // newest first
+                          .map((day, idx) => (
+                            <div key={idx} className="subscription-item">
+                              <h6 className="calorie-history-title">
+                                {new Date(day.date).toLocaleDateString()}
+                              </h6>
+                              {/* Meals Section */}
+                              <div className="subscription-details">
+                                <p>
+                                  <strong>Calories:</strong> {day.totals?.calories || 0}{" "}
+                                  kcal
+                                </p>
+                                <p>
+                                  <strong>Protein:</strong> {day.totals?.protein || 0} g
+                                </p>
+                                <p>
+                                  <strong>Fats:</strong> {day.totals?.fats || 0} g
+                                </p>
+                                <p>
+                                  <strong>Carbs:</strong> {day.totals?.carbs || 0} g
+                                </p>
+                              </div>
+                              <div className="meals-list">
+                                {day.meals.map((meal, i) => (
+                                  <div key={i} className={`meal-item ${meal.status}`}>
+                                    <h6>{meal.type} </h6>
+                                    <p>
+                                      <strong>Calories:</strong> {meal.calories} kcal
+                                    </p>
+                                    <p>
+                                      <strong>Protein:</strong> {meal.protein} g
+                                    </p>
+                                    <p>
+                                      <strong>Fats:</strong> {meal.fats} g
+                                    </p>
+                                    <p>
+                                      <strong>Carbs:</strong> {meal.carbs} g
+                                    </p>
+                                    <div className="subscription-header">
+                                      <h5>{meal.plan}</h5>
+                                      <span
+                                        className={`status-badge ${meal.status === "completed"
+                                          ? "active"
+                                          : "expired"
+                                          }`}
+                                      >
+                                        {meal.status}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        ))
-                    ) : (
-                      <p>No history available.</p>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                          ))
+                      ) : (
+                        <p>No history available.</p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
+        <div className="liquid-glass">
+          {/* liquid glass */}
+        </div>
+        <svg style={{ display: "none" }}>
+          <filter id="displacementFilter">
+            <feImage href={glass} preserveAspectRatio="none" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              scale="200"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </svg>
       </div>
-      <div className="liquid-glass">
-        {/* liquid glass */}
-      </div>
-      <svg style={{ display: "none" }}>
-        <filter id="displacementFilter">
-          <feImage href={glass} preserveAspectRatio="none" />
-          <feDisplacementMap
-            in="SourceGraphic"
-            scale="200"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
     </div>
   );
 };

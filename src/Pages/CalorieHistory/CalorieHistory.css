@@ -21,6 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
 }
 .history-subtitle.calorie p {
   margin: 0;
@@ -59,4 +60,7 @@
 }
 .recharts-wrapper svg:focus-visible {
     outline: none !important;
+}
+.subscription-list h6{
+    color: white;
 }
