@@ -3,6 +3,8 @@ import Calories from "../../Components/Calories/Calories";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./MealDetail.css";
 import {
+    Check,
+    ChevronLast,
     ChevronLeft,
     ChevronRight,
     CookingPot,
@@ -212,9 +214,11 @@ const MealDetail = () => {
                                     {mealStatus === null && !loading && (
                                         <>
                                             <button className="btn-complete" onClick={handleComplete}>
+                                                <Check />
                                                 Completed
                                             </button>
                                             <button className="btn-skip" onClick={handleSkip}>
+                                                <ChevronLast />
                                                 Skip
                                             </button>
                                         </>
@@ -290,9 +294,11 @@ const MealDetail = () => {
                                     {mealStatus === null && (
                                         <>
                                             <button className="btn-complete" onClick={handleComplete}>
+                                                <Check />
                                                 Completed
                                             </button>
                                             <button className="btn-skip" onClick={handleSkip}>
+                                                <ChevronLast />
                                                 Skip
                                             </button>
                                         </>

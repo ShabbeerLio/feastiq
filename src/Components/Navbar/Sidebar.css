@@ -95,11 +95,11 @@
   z-index: 9;
 }
 
-.sidebar-career.liquid-glass{
-border-radius: 25px;
+.sidebar-career.liquid-glass {
+  border-radius: 25px;
 }
-.sidebar-career.liquid-glass:before{
-border-radius: 25px;
+.sidebar-career.liquid-glass:before {
+  border-radius: 25px;
 }
 
 .sidebar-career {
@@ -133,7 +133,7 @@ border-radius: 25px;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border: .8px solid white;
+  border: 0.8px solid white;
   position: relative;
   z-index: 9;
 }

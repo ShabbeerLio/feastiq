@@ -99,7 +99,7 @@
 }
 
 .meal-plan-card.skipped {
-  background-color: #6c757d45;
+  background-color: #7272727f;
 }
 
 .status-badge.completed {
@@ -108,7 +108,7 @@
   letter-spacing: 6px;
 }
 .status-badge.skipped {
-  background-color: #6c757d45;
+  background-color: #7272727f;
   font-size: 8px !important;
   letter-spacing: 6px;
 }

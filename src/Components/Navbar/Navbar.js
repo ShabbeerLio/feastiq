@@ -36,6 +36,21 @@ const Navbar = () => {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (sideactive === "active") {
+      // disable scroll
+      document.body.style.overflow = "hidden";
+    } else {
+      // enable scroll back
+      document.body.style.overflow = "auto";
+    }
+
+    // cleanup to ensure scroll is restored if component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [sideactive]);
+
   const currentBg =
     location.pathname === "/login"
       ? randomBg

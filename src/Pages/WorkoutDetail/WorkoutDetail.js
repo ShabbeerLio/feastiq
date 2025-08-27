@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
 import Calories from "../../Components/Calories/Calories";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import mbg4 from "../../Assets/Workout/workout.jpg";
@@ -83,9 +83,11 @@ const WorkoutDetail = () => {
             {mealStatus === null && (
               <>
                 <button className="btn-complete" onClick={handleComplete}>
+                  <Check />
                   Completed
                 </button>
                 <button className="btn-skip" onClick={handleSkip}>
+                  <ChevronLast />
                   Skip
                 </button>
               </>
