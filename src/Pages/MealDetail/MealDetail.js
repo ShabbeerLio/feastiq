@@ -14,6 +14,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import mbg4 from "../../Assets/Meal/mealbg4.jpg";
 import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
+import glass from "../../Assets/glassbg.jpeg"
 
 const overviewVariants = {
     initial: { x: "-100%", opacity: 0 },
@@ -186,7 +187,7 @@ const MealDetail = () => {
                                 <div className="recipie-box">
                                     <div className="recipie-item-card">
                                         <img src={mbg4} alt="" />
-                                        <div className="mealDetail-header">
+                                        <div className="mealDetail-header liquid-glass">
                                             <div className="wallet-status">
                                                 <DotLottieReact
                                                     className="wallet-success"
@@ -201,7 +202,7 @@ const MealDetail = () => {
                                                     : mealInfo?.meal}
                                             </p>
                                         </div>
-                                        <h6 onClick={() => setShowRecipe(true)}>
+                                        <h6 className="liquid-glass" onClick={() => setShowRecipe(true)}>
                                             Ingredients and Steps <ChevronRight />
                                         </h6>
                                     </div>
@@ -314,6 +315,18 @@ const MealDetail = () => {
                     </AnimatePresence>
                 </div>
             </div>
+            <div className="liquid-glass">{/* liquid glass */}</div>
+            <svg style={{ display: "none" }}>
+                <filter id="displacementFilter">
+                    <feImage href={glass} preserveAspectRatio="none" />
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        scale="200"
+                        xChannelSelector="R"
+                        yChannelSelector="G"
+                    />
+                </filter>
+            </svg>
         </div>
     );
 };

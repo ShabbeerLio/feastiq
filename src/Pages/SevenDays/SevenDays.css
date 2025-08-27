@@ -10,3 +10,15 @@ justify-content: center;
 .subscription-list p{
     color: white;
 }
+
+.meal-item.sevendays{
+display: flex;
+align-items: center;
+justify-content: flex-start;
+gap: 10px;
+text-align: left;
+}
+.meal-item.sevendays img{
+width: 20%;
+margin: 0;
+}

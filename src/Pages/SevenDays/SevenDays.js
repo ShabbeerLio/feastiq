@@ -1,10 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import Slider from "react-slick";
 import Calories from "../../Components/Calories/Calories";
 import Ads from "../../Components/Ads/Ads";
 import NoteContext from "../../Context/FeastContext";
 import "./SevenDays.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import glass from "../../Assets/glassbg.jpeg"
+import meal1 from "../../Assets/Meal/breakfast.png";
+import meal2 from "../../Assets/Meal/lunch.png";
+import meal3 from "../../Assets/Meal/snacks.png";
+import meal4 from "../../Assets/Meal/dinner.png";
+
+const mealImages = {
+  breakfast: meal1,
+  lunch: meal2,
+  snacks: meal3,
+  dinner: meal4,
+};
 
 const SevenDays = () => {
   const { feast, getFeast } = useContext(NoteContext);
@@ -62,14 +73,6 @@ const SevenDays = () => {
         {userData && <Calories userData={userData} />}
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
           <div className="home-scroll-box">
-            {/* <div className="meal-all-box">
-              <h5>7 Days Meal Plan</h5>
-              <Slider {...settings} className="banner-slider">
-                
-              </Slider>
-              <Ads/>
-            </div> */}
-
             <div className="subscription-list">
               <h5>
                 {viewType === "meal"
@@ -82,25 +85,38 @@ const SevenDays = () => {
                   mealPlan.map((day, idx) => (
                     <div key={idx} className="meal-plan-card top ">
                       <h4>{day.day}</h4>
-                      <div className="meal-item">
-                        <strong>Breakfast:</strong> {day.breakfast.meal} (
-                        {day.breakfast.calories} kcal, {day.breakfast.protein}g
-                        protein)
+                      <div className="meal-item sevendays">
+                        <img src={mealImages["breakfast"]} alt={'Breakfast'} />
+                        <div className="mealitem-details">
+                          <strong>Breakfast:</strong> {day.breakfast.meal} (
+                          {day.breakfast.calories} kcal, {day.breakfast.protein}g
+                          protein)
+                        </div>
                       </div>
-                      <div className="meal-item">
-                        <strong>Lunch:</strong> {day.lunch.meal} (
-                        {day.lunch.calories} kcal, {day.lunch.protein}g protein)
+                      <div className="meal-item sevendays">
+                        <img src={mealImages["lunch"]} alt={"Lunch"} />
+                        <div className="mealitem-details">
+                          <strong>Lunch:</strong> {day.lunch.meal} (
+                          {day.lunch.calories} kcal, {day.lunch.protein}g protein)
+                        </div>
                       </div>
-                      <div className="meal-item">
-                        <strong>Dinner:</strong> {day.dinner.meal} (
-                        {day.dinner.calories} kcal, {day.dinner.protein}g
-                        protein)
+                      <div className="meal-item sevendays">
+                        <img src={mealImages["snacks"]} alt={"Snacks"} />
+                        <div className="mealitem-details">
+                          <strong>Snacks:</strong> {day.snacks.meal} (
+                          {day.snacks.calories} kcal, {day.snacks.protein}g
+                          protein)
+                        </div>
                       </div>
-                      <div className="meal-item">
-                        <strong>Snacks:</strong> {day.snacks.meal} (
-                        {day.snacks.calories} kcal, {day.snacks.protein}g
-                        protein)
+                      <div className="meal-item sevendays">
+                        <img src={mealImages["dinner"]} alt={"Dinner"} />
+                        <div className="mealitem-details">
+                          <strong>Dinner:</strong> {day.dinner.meal} (
+                          {day.dinner.calories} kcal, {day.dinner.protein}g
+                          protein)
+                        </div>
                       </div>
+
                     </div>
                   ))
                 ) : (
@@ -128,6 +144,18 @@ const SevenDays = () => {
           </div>
         </div>
       </div>
+      <div className="liquid-glass">{/* liquid glass */}</div>
+      <svg style={{ display: "none" }}>
+        <filter id="displacementFilter">
+          <feImage href={glass} preserveAspectRatio="none" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            scale="200"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
     </div>
   );
 };

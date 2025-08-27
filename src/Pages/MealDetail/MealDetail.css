@@ -17,14 +17,9 @@
 .mealDetail-header {
   border-radius: 40px;
   padding: 1rem;
-  background-color: white;
   position: relative;
   z-index: 4;
   margin-bottom: 5rem;
-  background: hsl(0deg 0% 100% / 5%);
-  backdrop-filter: blur(6px);
-  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
-    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   color: white;
 }
 .mealDetail-header p {
@@ -106,10 +101,6 @@
   /* transform: translate(0, 50%); */
   z-index: 4;
   border-radius: 40px;
-  background: hsl(0deg 0% 100% / 5%);
-  backdrop-filter: blur(6px);
-  box-shadow: inset -1px 1px 5px 0px hsla(0, 0%, 100%, 0.632),
-    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   display: flex;
   justify-content: center;
   align-items: center;

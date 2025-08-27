@@ -17,6 +17,13 @@
   left: 0;
   z-index: 3;
 }
+.Sidebar.liquid-glass {
+  border-radius: 0px;
+  backdrop-filter: brightness(0.8) blur(2px) url(#displacementFilter);
+}
+.Sidebar.liquid-glass:before {
+  border-radius: 0px;
+}
 
 .Sidebar-main {
   position: relative;
@@ -88,6 +95,13 @@
   z-index: 9;
 }
 
+.sidebar-career.liquid-glass{
+border-radius: 25px;
+}
+.sidebar-career.liquid-glass:before{
+border-radius: 25px;
+}
+
 .sidebar-career {
   color: white;
   position: relative;
@@ -119,6 +133,9 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
+  border: .8px solid white;
+  position: relative;
+  z-index: 9;
 }
 
 .sidebar-career h5 {

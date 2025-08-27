@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import glass from "../../Assets/glassbg.jpeg"
 
 const Profile = () => {
   const Host = process.env.REACT_APP_API_BASE_URL;
@@ -96,7 +97,7 @@ const Profile = () => {
   return (
     <div className="Home">
       <div className="Home-main">
-        <div className="glass-container">
+        <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
               <DotLottieReact
@@ -208,6 +209,18 @@ const Profile = () => {
           </form>
         </div>
       </div>
+      <div className="liquid-glass">{/* liquid glass */}</div>
+      <svg style={{ display: "none" }}>
+        <filter id="displacementFilter">
+          <feImage href={glass} preserveAspectRatio="none" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            scale="200"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
     </div>
   );
 };

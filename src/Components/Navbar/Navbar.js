@@ -25,7 +25,7 @@ const Navbar = () => {
     setSideactive("");
   };
 
-  // pick random background only if pathname is /register
+  // pick random background only if pathname is /login
   useEffect(() => {
     if (location.pathname === "/login") {
       const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
@@ -41,7 +41,7 @@ const Navbar = () => {
       ? randomBg
       : location.pathname === "/workout-detail"
       ? bg1
-      : bg3;
+      : randomBg;
 
   return (
     <div>
@@ -90,14 +90,16 @@ const Navbar = () => {
           </nav>
         </div>
       </div>
-      <div className="profile">
+      {location.pathname !== "/login" && 
+        <div className="profile">
         <div className="caloirie-history ">
-            <Link className="liquid-glass" to={"/calorie-history"}>
-              <History />
-              <p>Calorie</p>
-            </Link>
+          <Link className="liquid-glass" to={"/calorie-history"}>
+            <History />
+            <p>Calorie</p>
+          </Link>
         </div>
-      </div>
+      </div>}
+      
       <Sidebar
         sideactive={sideactive}
         sideRef={sideRef}

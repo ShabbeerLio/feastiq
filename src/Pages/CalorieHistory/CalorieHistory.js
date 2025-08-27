@@ -7,6 +7,7 @@ import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
 import CalorieGraph from "./CalorieGraph";
 import glass from "../../Assets/glassbg.jpeg"
+import Ads from "../../Components/Ads/Ads";
 
 const overviewVariants = {
   initial: { x: "-100%", opacity: 0 },
@@ -25,6 +26,7 @@ const CalorieHistory = () => {
   const navigate = useNavigate();
   const dailyMeals = feast.flatMap((i) => i.dailyMeals);
   const [showRecipe, setShowRecipe] = useState(false);
+  const [filter, setFilter] = useState("week");
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -37,10 +39,39 @@ const CalorieHistory = () => {
   console.warn = (message) =>
     message.includes("Buffer size mismatch") ? null : console.warn(message);
 
-  // console.log(feast,"feast")
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth(); // 0-11
+  const currentYear = currentDate.getFullYear();
 
-  const [metric, setMetric] = useState("calories");
-  const [weeklyData, setWeeklyData] = useState();
+  const filterMeals = (meals, filter) => {
+    const today = new Date();
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const threeMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 3, 1);
+    const sixMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 6, 1);
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+    const oneWeekAgo = new Date(today);
+    oneWeekAgo.setDate(today.getDate() - 6); // last 7 days (today included)
+
+    return meals.filter((day) => {
+      const date = new Date(day.date);
+      switch (filter) {
+        case "week":
+          return date >= oneWeekAgo;
+        case "month":
+          return date >= startOfMonth;
+        case "3months":
+          return date >= threeMonthsAgo;
+        case "6months":
+          return date >= sixMonthsAgo;
+        case "year":
+          return date >= startOfYear;
+        default:
+          return true; // "all"
+      }
+    });
+  };
+
+  const filteredMeals = filterMeals(dailyMeals, filter);
 
   return (
     <div className="Home">
@@ -69,6 +100,44 @@ const CalorieHistory = () => {
               }
 
             </div>
+            <div className="filter-buttons">
+              <button
+                className={filter === "all" ? "active" : ""}
+                onClick={() => setFilter("all")}
+              >
+                All
+              </button>
+              <button
+                className={filter === "week" ? "active" : ""}
+                onClick={() => setFilter("week")}
+              >
+                Last 7 Days
+              </button>
+              <button
+                className={filter === "month" ? "active" : ""}
+                onClick={() => setFilter("month")}
+              >
+                This Month
+              </button>
+              <button
+                className={filter === "3months" ? "active" : ""}
+                onClick={() => setFilter("3months")}
+              >
+                Last 3 Months
+              </button>
+              <button
+                className={filter === "6months" ? "active" : ""}
+                onClick={() => setFilter("6months")}
+              >
+                Last 6 Months
+              </button>
+              <button
+                className={filter === "year" ? "active" : ""}
+                onClick={() => setFilter("year")}
+              >
+                {currentYear}
+              </button>
+            </div>
             <AnimatePresence mode="wait">
               {!showRecipe ? (
                 <motion.div
@@ -81,13 +150,14 @@ const CalorieHistory = () => {
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.2}
                   onDragEnd={(e, { offset }) => {
-                    if (offset.x < -100) setShowRecipe(true); // swipe left → open recipe
+                    if (offset.x < -100) setShowRecipe(true);
                   }}
                   className="home-scroll-box"
                 >
                   <div className="subscription-list">
-                    <CalorieGraph/>
+                    <CalorieGraph feast={feast} filter={filter} />
                   </div>
+                  <Ads />
                 </motion.div>
               ) : (
                 <motion.div
@@ -105,10 +175,9 @@ const CalorieHistory = () => {
                   className="home-scroll-box"
                 >
                   <div className="subscription-list">
-                    {dailyMeals?.length > 0 ? (
-                      dailyMeals
-                        .sort((a, b) => new Date(b.date) - new Date(a.date)) // sort by date DESC
-                        .slice(0, 7) // take only 7 latest days
+                    {filteredMeals?.length > 0 ? (
+                      filteredMeals
+                        .sort((a, b) => new Date(b.date) - new Date(a.date)) // newest first
                         .map((day, idx) => (
                           <div key={idx} className="subscription-item">
                             <h6 className="calorie-history-title">
@@ -173,19 +242,19 @@ const CalorieHistory = () => {
         </div>
       </div>
       <div className="liquid-glass">
-                {/* liquid glass */}
-              </div>
-              <svg style={{ display: "none" }}>
-                <filter id="displacementFilter">
-                  <feImage href={glass} preserveAspectRatio="none" />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    scale="200"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                  />
-                </filter>
-              </svg>
+        {/* liquid glass */}
+      </div>
+      <svg style={{ display: "none" }}>
+        <filter id="displacementFilter">
+          <feImage href={glass} preserveAspectRatio="none" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            scale="200"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
     </div>
   );
 };

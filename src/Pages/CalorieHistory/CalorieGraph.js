@@ -1,22 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
-import NoteContext from "../../Context/FeastContext";
 
-const CalorieGraph = () => {
-  const { feast } = useContext(NoteContext);
+const CalorieGraph = ({ feast, filter }) => {
   const [metric, setMetric] = useState("calories");
-
-  // Flatten all dailyMeals from feast
   const dailyMeals = feast.flatMap((i) => i.dailyMeals);
 
-  // Make a map for quick lookup by date (YYYY-MM-DD)
+  // Build map for lookup
   const mealMap = dailyMeals.reduce((acc, day) => {
     const key = new Date(day.date).toISOString().split("T")[0];
     acc[key] = {
@@ -28,22 +25,47 @@ const CalorieGraph = () => {
     return acc;
   }, {});
 
-  // Generate last 7 days including today
   const today = new Date();
-  const last7Days = Array.from({ length: 7 }).map((_, i) => {
-    const d = new Date();
-    d.setDate(today.getDate() - (6 - i)); // oldest to newest
+  let startDate;
+
+  // Set start date based on filter
+  switch (filter) {
+    case "week":
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - 6);
+      break;
+    case "month":
+      startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      break;
+    case "3months":
+      startDate = new Date(today.getFullYear(), today.getMonth() - 3, 1);
+      break;
+    case "6months":
+      startDate = new Date(today.getFullYear(), today.getMonth() - 6, 1);
+      break;
+    case "year":
+      startDate = new Date(today.getFullYear(), 0, 1);
+      break;
+    case "all":
+    default:
+      const allDates = Object.keys(mealMap).map((d) => new Date(d));
+      startDate = allDates.length > 0 ? new Date(Math.min(...allDates)) : today;
+      break;
+  }
+
+  // Generate full date range
+  const chartData = [];
+  for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
     const key = d.toISOString().split("T")[0];
-    return {
+    chartData.push({
       date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       calories: mealMap[key]?.calories || 0,
       protein: mealMap[key]?.protein || 0,
       carbs: mealMap[key]?.carbs || 0,
       fats: mealMap[key]?.fats || 0,
-    };
-  });
+    });
+  }
 
-  // Metric colors
   const colors = {
     calories: "#ff4f4fff",
     protein: "#3ca7ffff",
@@ -52,8 +74,7 @@ const CalorieGraph = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: 400 }}>
-      {/* Dropdown */}
+    <div>
       <div className="form-group">
         <label>Select Metric:</label>
         <select value={metric} onChange={(e) => setMetric(e.target.value)}>
@@ -61,16 +82,40 @@ const CalorieGraph = () => {
           <option value="protein">Protein</option>
           <option value="carbs">Carbs</option>
           <option value="fats">Fats</option>
+          <option value="all">All Metrics</option>
         </select>
       </div>
 
-      <h6>Last 7 Days Overview</h6>
-      <ResponsiveContainer>
-        <BarChart data={last7Days}>
+      <h6>
+        {filter === "all"
+          ? "All Data"
+          : filter === "week"
+          ? "Last 7 Days"
+          : filter === "month"
+          ? "This Month"
+          : filter === "3months"
+          ? "Last 3 Months"
+          : filter === "6months"
+          ? "Last 6 Months"
+          : `${today.getFullYear()}`}
+      </h6>
+
+      <ResponsiveContainer width="100%" height={250}>
+        <BarChart data={chartData}>
           <XAxis dataKey="date" />
           {/* <YAxis /> */}
           <Tooltip />
-          <Bar dataKey={metric} fill={colors[metric]} radius={[25, 25, 0, 0]} />
+          <Legend />
+          {metric === "all" ? (
+            <>
+              <Bar dataKey="calories" fill={colors.calories} radius={[25, 25, 0, 0]} />
+              <Bar dataKey="protein" fill={colors.protein} radius={[25, 25, 0, 0]} />
+              <Bar dataKey="carbs" fill={colors.carbs} radius={[25, 25, 0, 0]} />
+              <Bar dataKey="fats" fill={colors.fats} radius={[25, 25, 0, 0]} />
+            </>
+          ) : (
+            <Bar dataKey={metric} fill={colors[metric]} radius={[25, 25, 0, 0]} />
+          )}
         </BarChart>
       </ResponsiveContainer>
     </div>
