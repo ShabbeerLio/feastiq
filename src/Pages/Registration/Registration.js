@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Registration.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import glass from "../../Assets/glassbg.jpeg"
+import glass from "../../Assets/glassbg.jpeg";
 
 // Animation variants for slide effect
 const slideVariants = {
@@ -31,6 +31,11 @@ const slideVariants = {
 const Registration = () => {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const [step, setStep] = useState(0); // step 0 = choose mode
   const [mode, setMode] = useState(null); // "signup" | "login" | "google"

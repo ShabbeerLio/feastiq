@@ -57,10 +57,11 @@ const Navbar = () => {
                 muted
                 playsInline
               />
-              <Link className="navbar-brand" onClick={handleSidebar}>
-                <UserRound className="nav-name-svg liquid-glass" />
-                {/* <img src={data?.avatar} alt="" /> */}
-              </Link>
+              {location.pathname !== "/login" && (
+                <Link className="navbar-brand" onClick={handleSidebar}>
+                  <UserRound className="nav-name-svg liquid-glass" />
+                </Link>
+              )}
               <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
                   <Link className="nav-link active" aria-current="page" to="/">
@@ -90,16 +91,16 @@ const Navbar = () => {
           </nav>
         </div>
       </div>
-      {location.pathname !== "/login" && 
+      {location.pathname !== "/login" && (
         <div className="profile">
-        <div className="caloirie-history ">
-          <Link className="liquid-glass" to={"/calorie-history"}>
-            <History />
-            <p>Calorie</p>
-          </Link>
+          <div className="caloirie-history ">
+            <Link className="liquid-glass" to={"/calorie-history"}>
+              <History />
+              <p>Calorie</p>
+            </Link>
+          </div>
         </div>
-      </div>}
-      
+      )}
       <Sidebar
         sideactive={sideactive}
         sideRef={sideRef}

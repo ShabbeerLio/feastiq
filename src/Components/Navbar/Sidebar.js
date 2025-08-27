@@ -117,16 +117,6 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
                 Return And Refund
               </Link>
             </li>
-            {/* <li>
-              <Link onClick={handleProfile} to={""}>
-                {" "}
-                <ShieldCheck />
-                Certificates
-              </Link>
-            </li> */}
-            {/* <li>
-                            <Link onClick={handleProfile} to={"/"}> <MdWorkOutline />Carrier</Link>
-                        </li> */}
           </ul>
         </div>
         <div className="sidebar-bottom">
