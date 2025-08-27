@@ -58,7 +58,7 @@ const Navbar = () => {
                 playsInline
               />
               <Link className="navbar-brand" onClick={handleSidebar}>
-                <UserRound className="nav-name-svg" />
+                <UserRound className="nav-name-svg liquid-glass" />
                 {/* <img src={data?.avatar} alt="" /> */}
               </Link>
               <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -91,8 +91,8 @@ const Navbar = () => {
         </div>
       </div>
       <div className="profile">
-        <div className="caloirie-history">
-            <Link to={"/calorie-history"}>
+        <div className="caloirie-history ">
+            <Link className="liquid-glass" to={"/calorie-history"}>
               <History />
               <p>Calorie</p>
             </Link>

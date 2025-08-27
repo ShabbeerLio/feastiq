@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./History.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import glass from "../../Assets/glassbg.jpeg"
 
 const History = () => {
   const [filter, setFilter] = useState("all");
@@ -69,7 +70,7 @@ const History = () => {
   return (
     <div className="Home">
       <div className="Home-main">
-        <div className="glass-container">
+        <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
               <DotLottieReact
@@ -158,6 +159,20 @@ const History = () => {
           </div>
         </div>
       </div>
+      <div className="liquid-glass">
+                {/* liquid glass */}
+              </div>
+              <svg style={{ display: "none" }}>
+                <filter id="displacementFilter">
+                  <feImage href={glass} preserveAspectRatio="none" />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    scale="200"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                  />
+                </filter>
+              </svg>
     </div>
   );
 };

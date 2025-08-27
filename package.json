@@ -9,6 +9,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^12.23.12",
+    "interactjs": "^1.10.27",
     "lucide-react": "^0.539.0",
     "react": "^19.1.1",
     "react-circular-progressbar": "^2.2.0",

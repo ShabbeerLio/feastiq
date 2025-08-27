@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Home.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,8 +10,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Ads from "../../Components/Ads/Ads";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
+import glass from "../../Assets/glassbg.jpeg"
+import interact from "interactjs";
 
 const Home = () => {
+  const cardRef = useRef(null);
+  const position = useRef({ x: 0, y: 0 });
   const { feast, getFeast } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -68,6 +72,26 @@ const Home = () => {
     navigate("/sevendays", { state: { type: type } });
   };
 
+  useEffect(() => {
+  if (!cardRef.current) return;
+
+  const interactable = interact(cardRef.current).draggable({
+    listeners: {
+      move(event) {
+        position.current.x += event.dx;
+        position.current.y += event.dy;
+
+        event.target.style.transform =
+          `translate(${position.current.x}px, ${position.current.y}px)`;
+      },
+    },
+  });
+
+  return () => {
+    if (interactable) interactable.unset(); // safely remove
+  };
+}, []);
+
   return (
     <div className="Home">
       <div className="Home-main">
@@ -99,6 +123,20 @@ const Home = () => {
             <Ads />
           </div>
         </div>
+        <div className="liquid-glass">
+          {/* liquid glass */}
+        </div>
+        <svg style={{ display: "none" }}>
+          <filter id="displacementFilter">
+            <feImage href={glass} preserveAspectRatio="none" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              scale="200"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </svg>
       </div>
     </div>
   );

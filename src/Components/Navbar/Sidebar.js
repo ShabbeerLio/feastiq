@@ -57,7 +57,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
   };
 
   return (
-    <div className={`Sidebar ${sideactive}`} ref={sideRef}>
+    <div className={`Sidebar ${sideactive} liquid-glass`} ref={sideRef}>
       <div className="Sidebar-main">
         <X className="sidebar-closebnt" onClick={handleCloseSidebar} />
         <div className="sidebar-items">
@@ -131,7 +131,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
         </div>
         <div className="sidebar-bottom">
           {userData && (
-            <div className="sidebar-career">
+            <div className="sidebar-career liquid-glass">
               <h5>Hii {userData?.name}!</h5>
               <Link onClick={handleProfile} to={"/profile"}>
                 View Profile
@@ -140,7 +140,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
             </div>
           )}
 
-          <div className="sidebar-logout">
+          <div className="sidebar-logout liquid-glass">
             <p onClick={handleLogout}>Log Out</p>
           </div>
         </div>

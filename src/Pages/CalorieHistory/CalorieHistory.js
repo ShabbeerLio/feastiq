@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
 import CalorieGraph from "./CalorieGraph";
+import glass from "../../Assets/glassbg.jpeg"
 
 const overviewVariants = {
   initial: { x: "-100%", opacity: 0 },
@@ -44,7 +45,7 @@ const CalorieHistory = () => {
   return (
     <div className="Home">
       <div className="Home-main">
-        <div className="glass-container">
+        <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
               <DotLottieReact
@@ -171,6 +172,20 @@ const CalorieHistory = () => {
           </div>
         </div>
       </div>
+      <div className="liquid-glass">
+                {/* liquid glass */}
+              </div>
+              <svg style={{ display: "none" }}>
+                <filter id="displacementFilter">
+                  <feImage href={glass} preserveAspectRatio="none" />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    scale="200"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                  />
+                </filter>
+              </svg>
     </div>
   );
 };

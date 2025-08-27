@@ -26,27 +26,38 @@
 }
 
 .glass-container {
-  position: fixed;
+  width: 92%;
   top: 10%;
   left: 0;
-  width: 92%;
   margin: 0 1rem;
-  border-radius: 40px;
-  /* border: 2px solid hsl(0deg 0% 85.01% / 50%);;
-  background: hsl(0deg 0% 85.01% / 20%);
-  backdrop-filter: blur(2px);
-  box-shadow: inset 0 0 8px 1px hsl(0, 0%, 100%); */
-
-  /* border: 1px solid hsl(0deg 0% 83.31% / 50%); */
-  background: hsl(0deg 0% 100% / 5%);
-  backdrop-filter: blur(6px);
-  box-shadow: inset -1px 1px 5px 0px hsl(0deg 0% 100%),
-    inset 1px -1px 5px 1px hsl(0deg 0% 0%);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  /* overflow: hidden; */
+  overflow: hidden;
+  border-radius: 40px;
+  position: fixed;
+}
+
+
+.liquid-glass {
+  border-radius: 40px;
+  /* transition: opacity 0.26s ease-out; */
+  filter: drop-shadow(-8px -10px 46px #0000005f);
+  backdrop-filter: brightness(1.1) blur(2px) url(#displacementFilter);
+}
+
+.liquid-glass:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 40px;
+  -webkit-box-shadow: inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7),
+    inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+  box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7),
+    inset 0 0 8px 1px rgba(255, 255, 255, 0.7);
 }
 
 .home-text-box {

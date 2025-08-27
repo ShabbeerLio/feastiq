@@ -106,7 +106,7 @@ const Calories = ({ meal, mealplate, userData }) => {
   // console.log(percentage, "percentage")
 
   return (
-    <div className="glass-container">
+    <div className="glass-container liquid-glass">
       {meal ? (
         <>
           <div

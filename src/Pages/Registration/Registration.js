@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import glass from "../../Assets/glassbg.jpeg"
 
 // Animation variants for slide effect
 const slideVariants = {
@@ -194,7 +195,7 @@ const Registration = () => {
     <div className="Home">
       <div className="Home-main">
         <div className="registration">
-          <div className="glass-container">
+          <div className="glass-container liquid-glass">
             {/* ✅ Progress bar */}
             <div className="progress-bar">
               <div
@@ -464,6 +465,18 @@ const Registration = () => {
           </div>
         </div>
       </div>
+      <div className="liquid-glass">{/* liquid glass */}</div>
+      <svg style={{ display: "none" }}>
+        <filter id="displacementFilter">
+          <feImage href={glass} preserveAspectRatio="none" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            scale="200"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
     </div>
   );
 };
