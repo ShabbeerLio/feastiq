@@ -31,8 +31,52 @@ const slideVariants = {
 const Registration = () => {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    const googleToken = new URLSearchParams(window.location.search).get(
+      "token"
+    );
+    if (googleToken) {
+      setLoadingStage("processing");
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/getuser`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": googleToken,
+            },
+          });
+          const json = await response.json();
+          setLoadingStage(null);
+          localStorage.setItem("token", googleToken);
+
+          if (
+            (json && !json.age) ||
+            !json.gender ||
+            !json.weight ||
+            !json.height ||
+            !json.goal
+          ) {
+            // ✅ Prefill form with Google user details
+            setFormData((prev) => ({
+              ...prev,
+              name: json.name || "",
+              email: json.email || "",
+            }));
+
+            setMode("google");
+            setStep(4); // jump directly to "age"
+          } else {
+            setLoadingStage(null);
+            navigate("/");
+          }
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+      fetchUser();
+    } else if (localStorage.getItem("token")) {
       navigate("/");
     }
   }, [navigate]);
@@ -152,6 +196,54 @@ const Registration = () => {
       } else {
         setLoadingStage(null);
         setErrorMessage(data.error || "Invalid email or password");
+      }
+    } catch (err) {
+      setLoadingStage(null);
+      setErrorMessage("Server Error");
+    }
+  };
+
+  const handleGoogleSignup = () => {
+    window.location.href = `${API_BASE_URL}/auth/google`;
+  };
+
+  const handleGoogleSubmit = async (e) => {
+    e.preventDefault();
+    setLoadingStage("processing");
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE_URL}/auth/edituser`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // then add feast details
+        const response = await fetch(`${API_BASE_URL}/detail/addfeast`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const json = await response.json();
+        if (json) {
+          setLoadingStage("success");
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        }
+      } else {
+        setLoadingStage(null);
+        setErrorMessage(data.error || "Something went wrong");
       }
     } catch (err) {
       setLoadingStage(null);
@@ -304,7 +396,7 @@ const Registration = () => {
                       <span className="reg-divider">OR</span>
                       <button
                         className="google-btn"
-                        onClick={() => alert("Google Sign-In clicked!")}
+                        onClick={handleGoogleSignup}
                       >
                         <FaGoogle /> Continue with Google
                       </button>
@@ -461,6 +553,107 @@ const Registration = () => {
                         )}
                         <button type="submit" className="next-btn">
                           {step === loginSteps.length ? "Sign In" : "Next"}
+                        </button>
+                      </div>
+                    </form>
+                  </motion.div>
+                )}
+
+              {mode === "google" &&
+                !loadingStage &&
+                step >= 4 &&
+                step <= signupSteps.length && (
+                  <motion.div
+                    key={`google-${step}`}
+                    variants={slideVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    custom={direction}
+                  >
+                    <div className="wallet-status">
+                      <DotLottieReact
+                        className="wallet-success"
+                        src="https://lottie.host/5faaa157-8ba4-4153-b916-ada3298d2050/GhpWsulDTM.lottie"
+                        loop
+                        autoplay
+                      />
+                    </div>
+                    <form
+                      onSubmit={
+                        step === signupSteps.length
+                          ? handleGoogleSubmit
+                          : handleNext
+                      }
+                    >
+                      {(() => {
+                        const field = signupSteps[step - 1];
+
+                        if (
+                          ["name", "email", "password"].includes(field.name)
+                        ) {
+                          return (
+                            <input
+                              type={field.type}
+                              name={field.name}
+                              value={formData[field.name]}
+                              readOnly
+                              disabled
+                            />
+                          );
+                        }
+
+                        if (field.type === "select") {
+                          return (
+                            <select
+                              name={field.name}
+                              value={formData[field.name]}
+                              onChange={handleChange}
+                              required
+                            >
+                              <option value="">
+                                {field.name === "gender"
+                                  ? "Select Gender"
+                                  : "Select Goal"}
+                              </option>
+                              {field.options.map((opt) => (
+                                <option key={opt} value={opt}>
+                                  {opt}
+                                </option>
+                              ))}
+                            </select>
+                          );
+                        }
+
+                        if (field.type === "textarea") {
+                          return (
+                            <textarea
+                              name={field.name}
+                              placeholder={field.placeholder}
+                              value={formData[field.name]}
+                              onChange={handleChange}
+                            />
+                          );
+                        }
+
+                        return (
+                          <input
+                            type={field.type}
+                            name={field.name}
+                            placeholder={field.placeholder}
+                            value={formData[field.name]}
+                            onChange={handleChange}
+                            required={field.name !== "foodpreferences"}
+                          />
+                        );
+                      })()}
+
+                      <div className="btn-row">
+                        <button className="back-btn" onClick={handleBack}>
+                          <ChevronLeft />
+                        </button>
+                        <button type="submit" className="next-btn">
+                          {step === signupSteps.length ? "Finish" : "Next"}
                         </button>
                       </div>
                     </form>
