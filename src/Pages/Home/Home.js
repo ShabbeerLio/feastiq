@@ -12,12 +12,15 @@ import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
 import glass from "../../Assets/glassbg.jpeg"
 import interact from "interactjs";
+import Loading from "../../Components/Loading/Loading";
 
 const Home = () => {
   const cardRef = useRef(null);
   const position = useRef({ x: 0, y: 0 });
   const { feast, getFeast } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadingStatus, setLoadingStatus] = useState("active");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +36,12 @@ const Home = () => {
       navigate("/login");
     } else {
       getFeast();
+      setTimeout(() => {
+        setLoadingStatus("disactive");
+      }, 2000);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500);
     }
   }, [navigate]);
 
@@ -91,6 +100,10 @@ const Home = () => {
       if (interactable) interactable.unset(); // safely remove
     };
   }, []);
+
+  if (loading) {
+    return <Loading status={loadingStatus} />
+  }
 
   return (
     <div className="Home">

@@ -186,7 +186,7 @@ const Profile = () => {
               <div className="form-group">
                 <label>Goal</label>
                 <select
-                  name="gender"
+                  name="goal"
                   value={formData.goal}
                   onChange={handleChange}
                 >
