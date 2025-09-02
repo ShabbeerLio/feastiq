@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import CalorieGraph from "./CalorieGraph";
 import glass from "../../Assets/glassbg.jpeg"
 import Ads from "../../Components/Ads/Ads";
+import Reaction from "../../Components/Reaction/Reaction";
 
 const overviewVariants = {
   initial: { x: "-100%", opacity: 0 },
@@ -99,12 +100,13 @@ const CalorieHistory = () => {
         <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
-              <DotLottieReact
+              <Reaction meals={filteredMeals} filter={filter} />
+              {/* <DotLottieReact
                 className="wallet-success"
                 src="https://lottie.host/5f7a12ee-88d4-4db0-947f-517892e40aee/jfx11DB4Ky.lottie"
                 loop
                 autoplay
-              />
+              /> */}
             </div>
             <h5>Calorie History</h5>
           </div>
@@ -178,6 +180,13 @@ const CalorieHistory = () => {
                     <div className="subscription-list">
                       <CalorieGraph feast={feast} filter={filter} />
                     </div>
+                    <h6
+                    style={{marginTop:"1rem"}}
+                      className="seven-day-buttons"
+                      onClick={() => window.location.href = "/bmi"}
+                    >
+                      BMI (Body Mass Index) <ChevronRight />
+                    </h6>
                     <Ads />
                     <div className="importantConsiderations-box">
                       <h5>Important Considerations</h5>

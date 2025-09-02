@@ -11,6 +11,7 @@ import bg5 from "../../Assets/Background/reg3.mp4";
 import bg6 from "../../Assets/Background/reg4.mp4";
 import bg7 from "../../Assets/Background/reg5.mp4";
 import bg8 from "../../Assets/Background/reg6.mp4";
+import { BsSpeedometer2 } from "react-icons/bs";
 
 const Navbar = () => {
   const location = useLocation();
@@ -55,8 +56,8 @@ const Navbar = () => {
     location.pathname === "/login"
       ? randomBg
       : location.pathname === "/workout-detail"
-      ? bg1
-      : randomBg;
+        ? bg1
+        : randomBg;
 
   return (
     <div>
@@ -108,6 +109,11 @@ const Navbar = () => {
       </div>
       {location.pathname !== "/login" && (
         <div className="profile">
+          <div className="bmi-meter">
+            <Link className="liquid-glass" to={"/bmi"}> 
+            <BsSpeedometer2 />
+            </Link>
+          </div>
           <div className="caloirie-history ">
             <Link className="liquid-glass" to={"/calorie-history"}>
               <History />

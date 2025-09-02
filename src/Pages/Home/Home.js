@@ -133,7 +133,15 @@ const Home = () => {
             <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("workout")}>
               7 Days Workout <ChevronRight />
             </h6>
+            <h6
+              style={{ marginTop: "1rem", textAlign: "center" }}
+              className="recipie-card"
+              onClick={() => window.location.href = "/bmi"}
+            >
+              BMI (Body Mass Index) <ChevronRight />
+            </h6>
             <Ads />
+
             <div className="importantConsiderations-box">
               <h5>Important Considerations</h5>
               <ul>

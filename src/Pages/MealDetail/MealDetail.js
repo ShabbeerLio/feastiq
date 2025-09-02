@@ -236,6 +236,13 @@ const MealDetail = () => {
                                 <h6 className="seven-day-buttons meal" onClick={() => handleSevenDaysWorkout("meal")}>
                                     7 Days Meals <ChevronRight />
                                 </h6>
+                                <h6
+                                    style={{ marginTop: "1rem", textAlign:"center" }}
+                                    className="recipie-card"
+                                    onClick={() => window.location.href = "/bmi"}
+                                >
+                                    BMI (Body Mass Index) <ChevronRight />
+                                </h6>
                                 <Ads />
                             </motion.div>
                         ) : (
@@ -314,6 +321,13 @@ const MealDetail = () => {
                                 </div>
                                 <h6 className="seven-day-buttons meal" onClick={() => handleSevenDaysWorkout("meal")}>
                                     7 Days Meals <ChevronRight />
+                                </h6>
+                                <h6
+                                    style={{ marginTop: "1rem", textAlign:"center" }}
+                                    className="recipie-card"
+                                    onClick={() => window.location.href = "/bmi"}
+                                >
+                                    BMI (Body Mass Index) <ChevronRight />
                                 </h6>
                                 <Ads />
                             </motion.div>

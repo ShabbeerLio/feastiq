@@ -14,6 +14,7 @@ import Help from "./Pages/OtherPages/Help";
 import Profile from "./Pages/Profile/Profile";
 import ContextState from "./Context/ContextState";
 import CalorieHistory from "./Pages/CalorieHistory/CalorieHistory";
+import BMIPage from "./Pages/Bmi/Bmi";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function MainLayout() {
           <Route path="/return-refund" element={<ReturnRefund />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/calorie-history" element={<CalorieHistory />} />
+          <Route path="/bmi" element={<BMIPage />} />
         </Routes>
       </div>
     </ContextState>

@@ -51,6 +51,22 @@
   top: 0;
   right: 0;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.profile .bmi-meter a{
+padding: 5px;
+color: white;
+width: 35px;
+height: 35px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.profile .bmi-meter svg{
+width: 20px;
+height: 20px;
 }
 
 .caloirie-history a {
@@ -62,9 +78,9 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  margin: .3125rem;
+  margin: 0.3125rem;
 }
-.caloirie-history a p{
+.caloirie-history a p {
   margin: 0;
 }
 @media screen and (min-width: 1200px) {

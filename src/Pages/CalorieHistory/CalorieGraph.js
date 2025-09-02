@@ -108,13 +108,29 @@ const CalorieGraph = ({ feast, filter }) => {
           <Legend />
           {metric === "all" ? (
             <>
-              <Bar dataKey="calories" fill={colors.calories} radius={[25, 25, 0, 0]} />
-              <Bar dataKey="protein" fill={colors.protein} radius={[25, 25, 0, 0]} />
-              <Bar dataKey="carbs" fill={colors.carbs} radius={[25, 25, 0, 0]} />
+              <Bar
+                dataKey="calories"
+                fill={colors.calories}
+                radius={[25, 25, 0, 0]}
+              />
+              <Bar
+                dataKey="protein"
+                fill={colors.protein}
+                radius={[25, 25, 0, 0]}
+              />
+              <Bar
+                dataKey="carbs"
+                fill={colors.carbs}
+                radius={[25, 25, 0, 0]}
+              />
               <Bar dataKey="fats" fill={colors.fats} radius={[25, 25, 0, 0]} />
             </>
           ) : (
-            <Bar dataKey={metric} fill={colors[metric]} radius={[25, 25, 0, 0]} />
+            <Bar
+              dataKey={metric}
+              fill={colors[metric]}
+              radius={[25, 25, 0, 0]}
+            />
           )}
         </BarChart>
       </ResponsiveContainer>
