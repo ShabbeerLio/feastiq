@@ -13,14 +13,20 @@ import NoteContext from "../../Context/FeastContext";
 import glass from "../../Assets/glassbg.jpeg"
 import interact from "interactjs";
 import Loading from "../../Components/Loading/Loading";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const Home = () => {
   const cardRef = useRef(null);
+  const Host = process.env.REACT_APP_API_BASE_URL;
+    const token = localStorage.getItem("token");
   const position = useRef({ x: 0, y: 0 });
   const { feast, getFeast } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState("active");
+  const [showModal, setShowModal] = useState(true);
+  const [newWeight, setNewWeight] = useState("");
+  const [status, setStatus] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +50,8 @@ const Home = () => {
       }, 2500);
     }
   }, [navigate]);
+
+  console.log(feast,"feast")
 
   // Parse API response
   const userDataa = feast?.map((i) => {
@@ -101,6 +109,73 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+  if (feast && feast.length > 0) {
+    const createdAt = new Date(feast[0].createdAt);
+    const today = new Date();
+
+    // difference in days
+    const diffTime = today.getTime() - createdAt.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log("Account age in days:", diffDays);
+
+    // last submission day stored in localStorage
+    const lastSubmittedDay = Number(localStorage.getItem("lastSubmittedDay") || 0);
+
+    // check if user already submitted this cycle
+    const alreadySubmitted = lastSubmittedDay === diffDays;
+
+    // open modal on 15, 16, 17 (unless submitted already)
+    if (!alreadySubmitted && (diffDays % 15 === 0 || diffDays % 15 === 1 || diffDays % 15 === 2)) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }
+}, [feast]);
+
+// when user successfully updates weight
+const handleUpdateWeight = async () => {
+  if (!newWeight) return;
+  setLoading(true);
+  setStatus("Processing");
+
+  try {
+    const response = await fetch(`${Host}/auth/update-weight`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": token,
+      },
+      body: JSON.stringify({ weight: Number(newWeight) }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      setStatus("Updated successfully");
+      setNewWeight("");
+
+      // ✅ save submission day to localStorage
+      const diffTime = new Date().getTime() - new Date(feast[0].createdAt).getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      localStorage.setItem("lastSubmittedDay", diffDays);
+
+      setTimeout(() => {
+        setShowModal(false);
+        window.location.reload();
+      }, 1200);
+    } else {
+      setStatus("❌ Failed to update");
+    }
+  } catch (err) {
+    console.error(err);
+    setStatus("❌ Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
   if (loading) {
     return <Loading status={loadingStatus} />
   }
@@ -154,6 +229,65 @@ const Home = () => {
         </div>
         <div className="liquid-glass">
           {/* liquid glass */}
+        </div>
+        {/* --- Update Weight Modal --- */}
+        <div className={`modal-overlay ${showModal}`}>
+          <div className="modal-content liquid-glass">
+            <h4>Update Your Weight</h4>
+            <p>Update your weight to get the perfect results</p>
+            {!status &&
+              <>
+                <input
+                  type="number"
+                  placeholder="Enter new weight"
+                  value={newWeight}
+                  onChange={(e) => setNewWeight(e.target.value)}
+                />
+                <div className="modal-actions">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="close"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleUpdateWeight}
+                    disabled={loading}
+
+                  >
+                    {loading ? "Processing..." : "Submit"}
+                  </button>
+
+                </div>
+              </>
+            }
+            {status === "Processing" &&
+              <>
+                <div className="wallet-status">
+                  <DotLottieReact
+                    className="wallet-success"
+                    src="https://lottie.host/cf5cf153-8658-460c-8b18-f94ccda10b81/t5omOi421I.lottie"
+                    loop
+                    autoplay
+                  />
+                  <p className="status-msg">{status}</p>
+                </div>
+              </>
+            }
+            {status === "Updated successfully" &&
+              <>
+                <div className="wallet-status">
+                  <DotLottieReact
+                    className="wallet-success"
+                    src="https://lottie.host/e63d43ae-3f25-49b2-a2e4-721b5e4ed7dd/NjKNhinvXI.lottie"
+                    loop
+                    autoplay
+                  />
+                  <p className="status-msg">{status}</p>
+                </div>
+              </>
+            }
+          </div>
         </div>
         <svg style={{ display: "none" }}>
           <filter id="displacementFilter">

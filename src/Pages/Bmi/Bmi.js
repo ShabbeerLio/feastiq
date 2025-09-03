@@ -132,7 +132,7 @@ const BMIPage = () => {
     console.warn = (message) =>
         message.includes("Buffer size mismatch") ? null : console.warn(message);
 
-    console.log(chartData, "chartData")
+    // console.log(chartData, "chartData")
 
     return (
         <div className="Home">
