@@ -17,9 +17,13 @@
   left: 0;
   z-index: 3;
 }
-.Sidebar.liquid-glass {
+/* .Sidebar.liquid-glass {
   border-radius: 0px;
-  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter);
+  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter) !important;
+} */
+.Sidebar.active.liquid-glass {
+  border-radius: 0px;
+  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter) !important;
 }
 .Sidebar.liquid-glass:before {
   border-radius: 0px;
