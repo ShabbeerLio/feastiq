@@ -135,6 +135,7 @@ const Reaction = ({ meals = [], filter = "week" }) => {
     if (!dayEntry) continue;
     const hasAnyMeal = Array.isArray(dayEntry.meals) && dayEntry.meals.length > 0;
 
+    // Optional extra: also treat as completed if totals show activity
     const hasTotals =
       dayEntry?.totals &&
       (dayEntry.totals.calories > 0 ||

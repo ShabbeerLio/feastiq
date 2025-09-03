@@ -9,6 +9,7 @@ import CalorieGraph from "./CalorieGraph";
 import glass from "../../Assets/glassbg.jpeg"
 import Ads from "../../Components/Ads/Ads";
 import Reaction from "../../Components/Reaction/Reaction";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 const overviewVariants = {
   initial: { x: "-100%", opacity: 0 },
@@ -100,13 +101,58 @@ const CalorieHistory = () => {
 
   const userData = userDataa && userDataa[0];
 
+  // Define your targets
+  const CALORIE_TARGET_PER_DAY = userData?.calorieBreakdown.calories;
+  const WORKOUT_TARGET_PER_DAY = userData?.calorieBreakdown.calories;
+
+  // 🔹 Calculate range (based on current filter)
+  const rangeMeals = filterMeals(dailyMeals, filter);
+
+  // 🔹 Get actual date range length (not just logged days)
+  let numDays = 0;
+  const today = new Date();
+
+  switch (filter) {
+    case "week":
+      numDays = 7;
+      break;
+    case "month":
+      numDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(); // days in month
+      break;
+    case "3months":
+      numDays = 90;
+      break;
+    case "6months":
+      numDays = 180;
+      break;
+    case "year":
+      numDays = 365;
+      break;
+    default:
+      numDays = rangeMeals.length; // fallback
+  }
+
+  // Sum actual calories + workouts
+  const totalCalories = rangeMeals.reduce((acc, day) => acc + (day?.totals?.calories || 0), 0);
+  const totalWorkout = rangeMeals.reduce((acc, day) => {
+    return acc + (day?.totals?.burned || 0);
+  }, 0);
+
+  // Targets
+  const calorieTarget = CALORIE_TARGET_PER_DAY * numDays;
+  const workoutTarget = WORKOUT_TARGET_PER_DAY * numDays;
+
+  // Percentages
+  const caloriePercent = calorieTarget > 0 ? Math.min(Math.round((totalCalories / calorieTarget) * 100), 100) : 0;
+  const workoutPercent = workoutTarget > 0 ? Math.min(Math.round((totalWorkout / workoutTarget) * 100), 100) : 0;
+
   return (
     <div className="Home">
       <div className="Home-main">
         <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
-              <Reaction meals={filteredMeals} filter={filter} />
+              <Reaction meals={filteredMeals} filter={filter}/>
               {/* <DotLottieReact
                 className="wallet-success"
                 src="https://lottie.host/5f7a12ee-88d4-4db0-947f-517892e40aee/jfx11DB4Ky.lottie"
@@ -115,6 +161,48 @@ const CalorieHistory = () => {
               /> */}
             </div>
             <h5>Calorie History</h5>
+            <div className="home-text-box">
+              <div className="home-text-card">
+                <div className="progress-wrapper">
+                  <CircularProgressbar
+                    value={caloriePercent}
+                    maxValue={100}
+                    text={`${caloriePercent}%`}
+                    strokeWidth={20}
+                    styles={buildStyles({
+                      textSize: "12px",
+                      pathColor: "#1f90edff",
+                      textColor: "#71b6efff",
+                      trailColor: "#d9e5ef",
+                    })}
+                  />
+                </div>
+                <div className="home-text-card-item ">
+                  <h2> <span>{caloriePercent}</span>/{"100%"}</h2>
+                  <p>Consumed</p>
+                </div>
+              </div>
+              <div className="home-text-card">
+                <div className="progress-wrapper">
+                  <CircularProgressbar
+                    value={workoutPercent}
+                    maxValue={100}
+                    text={`${workoutPercent}%`}
+                    strokeWidth={20}
+                    styles={buildStyles({
+                      textSize: "12px",
+                      pathColor: "#1f90edff",
+                      textColor: "#71b6efff",
+                      trailColor: "#d9e5ef",
+                    })}
+                  />
+                </div>
+                <div className="home-text-card-item">
+                  <h2><span>{workoutPercent}</span>/{"100%"}</h2>
+                  <p>Burned</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
@@ -184,7 +272,7 @@ const CalorieHistory = () => {
                     className="home-scroll-box"
                   >
                     <div className="subscription-list">
-                      <CalorieGraph feast={feast} filter={filter} userData={userData}/>
+                      <CalorieGraph feast={feast} filter={filter} userData={userData} />
                     </div>
                     <h6
                       style={{ marginTop: "1rem" }}

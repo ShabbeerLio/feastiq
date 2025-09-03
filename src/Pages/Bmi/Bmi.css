@@ -90,3 +90,11 @@
     width: 18px;
     height: 18px;
 }
+
+.home-scroll.bmi{
+bottom: -47%;
+}
+
+.home-scroll.bmi.scrolled {
+bottom: 0;
+}

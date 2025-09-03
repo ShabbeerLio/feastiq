@@ -49,12 +49,12 @@ const BMIPage = () => {
 
                 if (json.weightHistory && json.weightHistory.length > 0) {
                     const formatted = json.weightHistory.map((entry) => ({
-                        date: new Date(entry.date).toLocaleDateString(),
+                        date: new Date(entry.date).getTime(), // ✅ use timestamp
                         weight: entry.weight,
                     }));
                     setChartData(formatted);
                 } else {
-                    setChartData([{ date: "Current", weight: json.weight }]);
+                    setChartData([{ date: new Date().getTime(), weight: json.weight }]);
                 }
             } catch (error) {
                 console.log("error", error);
@@ -132,6 +132,8 @@ const BMIPage = () => {
     console.warn = (message) =>
         message.includes("Buffer size mismatch") ? null : console.warn(message);
 
+    console.log(chartData, "chartData")
+
     return (
         <div className="Home">
             <div className="Home-main">
@@ -149,7 +151,7 @@ const BMIPage = () => {
                     </div>
                 </div>
 
-                <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
+                <div className={`home-scroll bmi ${isScrolled ? "scrolled" : ""}`}>
                     <div className="home-scroll-box">
                         <div className="history-card">
                             <h5>BMI Report</h5>
@@ -163,6 +165,10 @@ const BMIPage = () => {
                                             dataKey="date"
                                             stroke="#ffffff"
                                             tick={{ fill: "#ffffff" }}
+                                            tickFormatter={(ts) => {
+                                                const d = new Date(ts);
+                                                return `${d.getMonth() + 1}/${d.getDate()}`;
+                                            }}
                                         />
                                         <YAxis
                                             stroke="#ffffff"
@@ -172,7 +178,13 @@ const BMIPage = () => {
                                                 Number(bmiData?.maxWeight),
                                             ]}
                                         />
-                                        <Tooltip />
+                                        <Tooltip
+                                            labelFormatter={(ts) => {
+                                                const d = new Date(ts);
+                                                return `${d.toLocaleDateString()}`
+                                            }}
+                                            formatter={(value, name) => [`${value} kg`, "Weight"]}
+                                        />
                                         <Legend />
 
                                         <Line
@@ -288,7 +300,7 @@ const BMIPage = () => {
                                 <hr />
 
                                 <h5>Your BMI: {bmiData?.bmi}</h5>
-                                <div className="bmi-status">
+                                <div className="bmi-status" onClick={() => window.location.href = "/calorie-history"}>
                                     <p className={`bmi-category ${bmiData?.category.replace(" ", "-").toLowerCase()}`}>
                                         <strong>Current Status:</strong> {bmiData?.category === "Underweight"
                                             ? "⚠️ Underweight"
@@ -298,7 +310,7 @@ const BMIPage = () => {
                                                     ? "⚠️ Overweight"
                                                     : "❌ Obese"}
                                     </p>
-                                    <span onClick={() => window.location.href = "/calorie-history"}><ChevronRight /></span>
+                                    <span><ChevronRight /></span>
 
                                 </div>
 

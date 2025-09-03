@@ -55,7 +55,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
       break;
   }
 
-  console.log(mealMap,"mealMap")
+  // console.log(mealMap,"mealMap")
 
   // Generate full date range
   const chartData = [];
