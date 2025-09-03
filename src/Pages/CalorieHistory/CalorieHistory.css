@@ -15,6 +15,9 @@
 .calorie-history-title {
   border-bottom: 1px solid #e4e4e4;
   padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .history-subtitle.calorie {
@@ -63,4 +66,22 @@
 }
 .subscription-list h6{
     color: white;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.8s ease-in-out;
+}
+
+.accordion-content.open {
+  max-height: 1000px; /* large enough to fit content */
+}
+
+.accordion-arrow.open svg{
+  rotate: 180deg;
+  transition: all 0.5s ease-in-out;
+}
+.accordion-arrow svg{
+  transition: all 0.5s ease-in-out;
 }

@@ -211,6 +211,7 @@ const BMIPage = () => {
                             >
                                 Update Weight <ChevronRight />
                             </h6>
+                            <Ads />
 
                             {/* --- Update Weight Modal --- */}
                             <div className={`modal-overlay ${showModal}`}>
@@ -287,9 +288,20 @@ const BMIPage = () => {
                                 <hr />
 
                                 <h5>Your BMI: {bmiData?.bmi}</h5>
-                                <p>
-                                    <strong>Category:</strong> {bmiData?.category}
-                                </p>
+                                <div className="bmi-status">
+                                    <p className={`bmi-category ${bmiData?.category.replace(" ", "-").toLowerCase()}`}>
+                                        <strong>Current Status:</strong> {bmiData?.category === "Underweight"
+                                            ? "⚠️ Underweight"
+                                            : bmiData?.category === "Normal weight"
+                                                ? "✅ Normal weight"
+                                                : bmiData?.category === "Overweight"
+                                                    ? "⚠️ Overweight"
+                                                    : "❌ Obese"}
+                                    </p>
+                                    <span onClick={() => window.location.href = "/calorie-history"}><ChevronRight /></span>
+
+                                </div>
+
                             </div>
 
                             <div className="bmi-card">
@@ -305,18 +317,19 @@ const BMIPage = () => {
                                     </p>
                                 )}
                             </div>
-                            <Ads />
+
 
                             <h5>Calculation:</h5>
                             <div className="bmi-card bmi-calculation">
                                 <img src={calculation} alt="" />
-                                    <p>BMI = Weight (kg) ÷ [Height (m) × Height (m)]</p>
-                                    <p>
-                                        BMI = {bmiData?.weightKg} ÷ ({bmiData?.heightM} ×{" "}
-                                        {bmiData?.heightM})
-                                    </p>
-                                    <p>BMI = {bmiData?.bmi}</p>
+                                <p>BMI = Weight (kg) ÷ [Height (m) × Height (m)]</p>
+                                <p>
+                                    BMI = {bmiData?.weightKg} ÷ ({bmiData?.heightM} ×{" "}
+                                    {bmiData?.heightM})
+                                </p>
+                                <p>BMI = {bmiData?.bmi}</p>
                             </div>
+                            <Ads />
                         </div>
                     </div>
                 </div>

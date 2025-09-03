@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./CalorieHistory.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,12 @@ const CalorieHistory = () => {
   const [showRecipe, setShowRecipe] = useState(false);
   const [filter, setFilter] = useState("week");
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleAccordion = (idx) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -178,10 +184,10 @@ const CalorieHistory = () => {
                     className="home-scroll-box"
                   >
                     <div className="subscription-list">
-                      <CalorieGraph feast={feast} filter={filter} />
+                      <CalorieGraph feast={feast} filter={filter} userData={userData}/>
                     </div>
                     <h6
-                    style={{marginTop:"1rem"}}
+                      style={{ marginTop: "1rem" }}
                       className="seven-day-buttons"
                       onClick={() => window.location.href = "/bmi"}
                     >
@@ -218,54 +224,63 @@ const CalorieHistory = () => {
                           .sort((a, b) => new Date(b.date) - new Date(a.date)) // newest first
                           .map((day, idx) => (
                             <div key={idx} className="subscription-item">
-                              <h6 className="calorie-history-title">
-                                {new Date(day.date).toLocaleDateString()}
-                              </h6>
-                              {/* Meals Section */}
-                              <div className="subscription-details">
-                                <p>
-                                  <strong>Calories:</strong> {day.totals?.calories || 0}{" "}
-                                  kcal
-                                </p>
-                                <p>
-                                  <strong>Protein:</strong> {day.totals?.protein || 0} g
-                                </p>
-                                <p>
-                                  <strong>Fats:</strong> {day.totals?.fats || 0} g
-                                </p>
-                                <p>
-                                  <strong>Carbs:</strong> {day.totals?.carbs || 0} g
-                                </p>
+                              <div
+                                className="accordion-header"
+                                onClick={() => toggleAccordion(idx)}
+                              >
+                                <h6 className="calorie-history-title">
+                                  {new Date(day.date).toLocaleDateString()}
+                                  <span className={`accordion-arrow ${openIndex === idx ? "open" : ""
+                                    }`}><ChevronDown /></span>
+                                </h6>
+                                <div className="subscription-details">
+                                  <p>
+                                    <strong>Calories:</strong> {day.totals?.calories || 0} kcal
+                                  </p>
+                                  <p>
+                                    <strong>Protein:</strong> {day.totals?.protein || 0} g
+                                  </p>
+                                  <p>
+                                    <strong>Fats:</strong> {day.totals?.fats || 0} g
+                                  </p>
+                                  <p>
+                                    <strong>Carbs:</strong> {day.totals?.carbs || 0} g
+                                  </p>
+                                </div>
                               </div>
-                              <div className="meals-list">
-                                {day.meals.map((meal, i) => (
-                                  <div key={i} className={`meal-item ${meal.status}`}>
-                                    <h6>{meal.type} </h6>
-                                    <p>
-                                      <strong>Calories:</strong> {meal.calories} kcal
-                                    </p>
-                                    <p>
-                                      <strong>Protein:</strong> {meal.protein} g
-                                    </p>
-                                    <p>
-                                      <strong>Fats:</strong> {meal.fats} g
-                                    </p>
-                                    <p>
-                                      <strong>Carbs:</strong> {meal.carbs} g
-                                    </p>
-                                    <div className="subscription-header">
-                                      <h5>{meal.plan}</h5>
-                                      <span
-                                        className={`status-badge ${meal.status === "completed"
-                                          ? "active"
-                                          : "expired"
-                                          }`}
-                                      >
-                                        {meal.status}
-                                      </span>
+
+                              <div
+                                className={`accordion-content ${openIndex === idx ? "open" : ""
+                                  }`}
+                              >
+                                <div className="meals-list">
+                                  {day.meals.map((meal, i) => (
+                                    <div key={i} className={`meal-item ${meal.status}`}>
+                                      <div className="subscription-header">
+                                        <h5>{meal.plan}</h5>
+                                        <span
+                                          className={`status-badge ${meal.status === "completed" ? "active" : "expired"
+                                            }`}
+                                        >
+                                          {meal.status}
+                                        </span>
+                                      </div>
+                                      <h6>{meal.type}</h6>
+                                      <p>
+                                        <strong>Calories:</strong> {meal.calories} kcal
+                                      </p>
+                                      <p>
+                                        <strong>Protein:</strong> {meal.protein} g
+                                      </p>
+                                      <p>
+                                        <strong>Fats:</strong> {meal.fats} g
+                                      </p>
+                                      <p>
+                                        <strong>Carbs:</strong> {meal.carbs} g
+                                      </p>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           ))

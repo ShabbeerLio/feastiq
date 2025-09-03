@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const CalorieGraph = ({ feast, filter }) => {
+const CalorieGraph = ({ feast, filter, userData }) => {
   const [metric, setMetric] = useState("all");
   const dailyMeals = feast.flatMap((i) => i.dailyMeals);
 
@@ -73,6 +73,13 @@ const CalorieGraph = ({ feast, filter }) => {
     fats: "#3fff5fff",
   };
 
+   // Extract target values from userData
+  const targets = userData?.calorieBreakdown || {};
+  const yDomain =
+    metric !== "all"
+      ? [0, Math.max(...chartData.map((d) => d[metric]), targets[metric] || 0)]
+      : undefined;
+
   return (
     <div>
       <div className="form-group">
@@ -103,7 +110,7 @@ const CalorieGraph = ({ feast, filter }) => {
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={chartData}>
           <XAxis dataKey="date" />
-          {/* <YAxis /> */}
+           {metric !== "all" && <YAxis domain={yDomain} />}
           <Tooltip />
           <Legend />
           {metric === "all" ? (

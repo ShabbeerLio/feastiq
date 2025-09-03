@@ -8,9 +8,9 @@
   overflow: hidden;
 }
 
-.modal-overlay.true{
-    top: 0;
-    transition: all 0.5s ease-in-out;
+.modal-overlay.true {
+  top: 0;
+  transition: all 0.5s ease-in-out;
 }
 
 .modal-overlay {
@@ -52,18 +52,41 @@
   background-color: white;
 }
 
-
-.modal-content .wallet-status p{
-    text-align: center;
-    margin-top: 1rem;
+.modal-content .wallet-status p {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-.bmi-calculation{
-   position: relative;
+.bmi-calculation {
+  position: relative;
 }
-.bmi-calculation img{
-    width: 35%;
-    position: absolute;
-    bottom: 5%;
-    right: 5%;
+.bmi-calculation img {
+  width: 30%;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+
+.bmi-category {
+  margin: 0;
+}
+.bmi-category.overweight {
+  color: #ff0000; /* red for un weight */
+}
+.bmi-category.normal-weight {
+  color: #4caf50; /* Green for Normal weight */
+}
+.bmi-category.underweight {
+  color: #ffbd42; /* Green for Normal weight */
+}
+
+
+.bmi-status{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bmi-status span svg{
+    width: 18px;
+    height: 18px;
 }
