@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import poses1 from "../../Assets/Poses/bench press.png";
 import poses2 from "../../Assets/Poses/squats.png";
 import poses3 from "../../Assets/Poses/Bent-over.png";
@@ -40,8 +40,11 @@ const imageMap = {
   step: poses17,
 };
 
-const WorkoutCard = ({ workoutPlan }) => {
+const WorkoutCard = ({ workoutPlan, isScrolled }) => {
+  const Host = process.env.REACT_APP_API_BASE_URL;
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const [dailyMeal, setDailyMeal] = useState();
 
   const handleExerciseClick = (exercise) => {
     const keyword = exercise.name.toLowerCase();
@@ -51,14 +54,48 @@ const WorkoutCard = ({ workoutPlan }) => {
     const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
 
     const exerciseInfo = {
-      name: exercise.name,
+      workout: exercise.name,
       calories: exercise.calories,
       image: matchedImage,
     };
 
-    navigate("/workout-detail", { state: { exerciseInfo } });
+    navigate("/workout-detail", {
+      state: {
+        exerciseInfo: exerciseInfo,
+        isScrolled: isScrolled,
+      },
+    });
     localStorage.setItem("exerciseInfo", JSON.stringify(exerciseInfo));
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${Host}/detail/dailyMeals`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+        const json = await response.json();
+        setDailyMeal(json);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [Host, token]);
+
+  //   console.log(dailyMeal,"dailyMeal")
+  const todayDate = new Date().toISOString().split("T")[0];
+  //   console.log(todayDate,"todayDate")
+  const todayPlan = dailyMeal?.find(
+    (d) => new Date(d.date).toISOString().split("T")[0] === todayDate
+  );
 
   return (
     <>
@@ -70,20 +107,18 @@ const WorkoutCard = ({ workoutPlan }) => {
         );
         const matchedImage = matchedKey ? imageMap[matchedKey] : poses6;
 
-        const status = localStorage.getItem(
-          `workoutStatus-${exercise.name}`
-        );
-        const cardClass =
-          status === "completed"
-            ? "exercises-card completed"
-            : status === "skipped"
-            ? "exercises-card skipped"
-            : "exercises-card";
+        const backendMealStatus = todayPlan?.workouts?.find(
+          (m) =>
+            m.type.toLowerCase() ===
+            keyword.charAt(0).toLowerCase() + keyword.slice(1)
+        )?.status;
+
+        const status = backendMealStatus;
 
         return (
           <div
             key={index}
-            className={cardClass}
+            className={`exercises-card ${status}`}
             onClick={() => handleExerciseClick(exercise)}
           >
             <img src={matchedImage} alt={exercise.name} />

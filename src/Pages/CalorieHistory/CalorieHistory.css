@@ -44,7 +44,7 @@
   color: white !important;
 }
 
-.recharts-default-tooltip{
+.recharts-default-tooltip {
   border-radius: 25px;
   background-color: rgba(255, 255, 255, 0.05) !important;
   border: none !important;
@@ -54,18 +54,18 @@
   fill: transparent !important;
 }
 
-.recharts-tooltip-item{
-    color: white !important;
+.recharts-tooltip-item {
+  color: white !important;
 }
 
 .recharts-wrapper:focus-visible {
-    outline: none !important;
+  outline: none !important;
 }
 .recharts-wrapper svg:focus-visible {
-    outline: none !important;
+  outline: none !important;
 }
-.subscription-list h6{
-    color: white;
+.subscription-list h6 {
+  color: white;
 }
 
 .accordion-content {
@@ -76,12 +76,13 @@
 
 .accordion-content.open {
   max-height: 1000px; /* large enough to fit content */
+  overflow: auto;
 }
 
-.accordion-arrow.open svg{
+.accordion-arrow.open svg {
   rotate: 180deg;
   transition: all 0.5s ease-in-out;
 }
-.accordion-arrow svg{
+.accordion-arrow svg {
   transition: all 0.5s ease-in-out;
 }

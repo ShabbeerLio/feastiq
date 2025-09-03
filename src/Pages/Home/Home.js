@@ -127,7 +127,7 @@ const Home = () => {
             <h5>Today's Workout Plan ({todayWorkoutPlan?.day})</h5>
             <div className="exercise-box">
               {todayWorkoutPlan && (
-                <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} />
+                <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} isScrolled={isScrolled} />
               )}
             </div>
             <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("workout")}>

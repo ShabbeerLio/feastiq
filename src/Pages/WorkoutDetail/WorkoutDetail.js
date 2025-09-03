@@ -8,17 +8,33 @@ import Ads from "../../Components/Ads/Ads";
 import { FaYoutube } from "react-icons/fa";
 import "./WorkoutDetail.css";
 import glass from "../../Assets/glassbg.jpeg";
+import CompleteSkip from "../../Components/CompleteSkip/CompleteSkip";
 
 const WorkoutDetail = () => {
-  const { state } = useLocation();
+  const Host = process.env.REACT_APP_API_BASE_URL;
+  const token = localStorage.getItem("token");
+  const location = useLocation();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(true);
   const handleClose = () => setIsScrolled(false);
   const [mealplate, setMealplate] = useState(true);
-  const exerciseInfo =
-    state?.exerciseInfo || JSON.parse(localStorage.getItem("exerciseInfo"));
-
-  // console.log(exerciseInfo, "exerciseInfo")
+  const [exerciseInfo, setExerciseInfo] = useState(null);
+  useEffect(() => {
+    // If coming from navigate with state
+    if (location.state?.exerciseInfo) {
+      setExerciseInfo(location.state.exerciseInfo);
+      localStorage.setItem(
+        "exerciseInfo",
+        JSON.stringify(location.state.exerciseInfo)
+      );
+    } else {
+      // Fallback if state is lost (like after sidebar toggle)
+      const storedMeal = localStorage.getItem("exerciseInfo");
+      if (storedMeal) {
+        setExerciseInfo(JSON.parse(storedMeal));
+      }
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,19 +52,86 @@ const WorkoutDetail = () => {
     navigate("/sevendays", { state: { type: type } });
   };
 
-  const [mealStatus, setMealStatus] = useState(
-    localStorage.getItem(`workoutStatus-${exerciseInfo?.name}`) || null
+  // Keep initial as null (safe default)
+  const [mealStatus, setMealStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const todayDate = new Date().toISOString().split("T")[0];
+
+  // 🔹 Save meal status into backend
+  const updateStatus = async (status) => {
+    if (!exerciseInfo) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`${Host}/detail/dailyMeals`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify({
+          date: todayDate,
+          workouts: [
+            {
+              type: exerciseInfo.workout,
+              caloriesBurned: exerciseInfo.calories,
+              duration: 30,
+              status: status,
+            },
+          ],
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update workout status");
+      await res.json();
+
+      setMealStatus(status); // update UI
+    } catch (error) {
+      console.error("Error updating Workout:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleComplete = () => updateStatus("completed");
+  const handleSkip = () => updateStatus("skipped");
+
+  const [dailyMeal, setDailyMeal] = useState();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${Host}/detail/dailyMeals`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+        const json = await response.json();
+        setDailyMeal(json);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [Host, token]);
+
+  const todayPlan = dailyMeal?.find(
+    (d) => new Date(d.date).toISOString().split("T")[0] === todayDate
   );
 
-  const handleComplete = () => {
-    setMealStatus("completed");
-    localStorage.setItem(`workoutStatus-${exerciseInfo?.name}`, "completed");
-  };
+  const mealtypesData = todayPlan?.workouts?.find(
+    (m) => m.type.toLowerCase() === exerciseInfo.workout.toLowerCase()
+  );
 
-  const handleSkip = () => {
-    setMealStatus("skipped");
-    localStorage.setItem(`workoutStatus-${exerciseInfo?.name}`, "skipped");
-  };
+  useEffect(() => {
+    if (mealtypesData?.status) {
+      setMealStatus(mealtypesData.status);
+    }
+  }, [mealtypesData]);
 
   return (
     <div className="Home">
@@ -72,11 +155,8 @@ const WorkoutDetail = () => {
                     autoplay
                   />
                 </div>
-                <p>{exerciseInfo.name}</p>
+                <p>{exerciseInfo?.workout}</p>
               </div>
-              {/* <h6 onClick={() => setShowRecipe(true)}>
-                                Ingredients and Steps <ChevronRight />
-                                </h6> */}
             </div>
           </div>
           <div className="meal-actions">
@@ -101,8 +181,9 @@ const WorkoutDetail = () => {
               <p className="status skipped">⏭️ Workout Skipped</p>
             )}
           </div>
+          {/* <CompleteSkip  detail={exerciseInfo} /> */}
           <div className="recipie-card youtube">
-            <Link to="https://youtu.be/WaTZTULwmGU?si=kFaNYiydNBCJ881J">
+            <Link to={`https://www.youtube.com/results?search_query=${exerciseInfo?.workout.toLowerCase()} workout`}>
               <FaYoutube /> How to do this Exercise <ChevronRight />
             </Link>
           </div>

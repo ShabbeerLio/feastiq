@@ -87,6 +87,7 @@ const CalorieHistory = () => {
   };
 
   const filteredMeals = filterMeals(dailyMeals, filter);
+  console.log(filteredMeals, "filteredMeals");
 
   const userDataa = feast?.map((i) => {
     try {
@@ -246,6 +247,12 @@ const CalorieHistory = () => {
                                   <p>
                                     <strong>Carbs:</strong> {day.totals?.carbs || 0} g
                                   </p>
+                                  <p>
+                                    <strong>Burned:</strong> {day.totals?.burned || 0} g
+                                  </p>
+                                  <p>
+                                    <strong>Net Calories:</strong> {day.totals?.netCalories} g
+                                  </p>
                                 </div>
                               </div>
 
@@ -257,7 +264,6 @@ const CalorieHistory = () => {
                                   {day.meals.map((meal, i) => (
                                     <div key={i} className={`meal-item ${meal.status}`}>
                                       <div className="subscription-header">
-                                        <h5>{meal.plan}</h5>
                                         <span
                                           className={`status-badge ${meal.status === "completed" ? "active" : "expired"
                                             }`}
@@ -277,6 +283,27 @@ const CalorieHistory = () => {
                                       </p>
                                       <p>
                                         <strong>Carbs:</strong> {meal.carbs} g
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="meals-list">
+                                  {day.workouts?.map((workouts, i) => (
+                                    <div key={i} className={`meal-item ${workouts.status}`}>
+                                      <div className="subscription-header">
+                                        <span
+                                          className={`status-badge ${workouts.status === "completed" ? "active" : "expired"
+                                            }`}
+                                        >
+                                          {workouts.status}
+                                        </span>
+                                      </div>
+                                      <h6>{workouts.type}</h6>
+                                      <p>
+                                        <strong>Calories:</strong> {workouts.caloriesBurned} kcal
+                                      </p>
+                                      <p>
+                                        <strong>Duration:</strong> {workouts.duration} min
                                       </p>
                                     </div>
                                   ))}

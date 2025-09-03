@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
 const CalorieGraph = ({ feast, filter, userData }) => {
@@ -73,7 +74,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
     fats: "#3fff5fff",
   };
 
-   // Extract target values from userData
+  // Extract target values from userData
   const targets = userData?.calorieBreakdown || {};
   const yDomain =
     metric !== "all"
@@ -110,9 +111,18 @@ const CalorieGraph = ({ feast, filter, userData }) => {
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={chartData}>
           <XAxis dataKey="date" />
-           {metric !== "all" && <YAxis domain={yDomain} />}
+          {metric !== "all" && <YAxis domain={yDomain} />}
           <Tooltip />
           <Legend />
+          {/* 🔴 Target line (from userData) */}
+          {metric !== "all" && targets[metric] && (
+            <ReferenceLine
+              y={targets[metric]}
+              stroke="red"
+              strokeDasharray="3 3"
+              label={`${metric} target: ${targets[metric]}`}
+            />
+          )}
           {metric === "all" ? (
             <>
               <Bar

@@ -91,6 +91,13 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
               </Link>
             </li>
             <li>
+              <Link onClick={handleProfile} to={"/bmi"}>
+                {" "}
+                <History />
+                BMI(Body Mass Index)
+              </Link>
+            </li>
+            <li>
               <Link onClick={handleProfile} to={"/history"}>
                 {" "}
                 <ArrowRightLeft /> History

@@ -237,7 +237,7 @@ const MealDetail = () => {
                                     7 Days Meals <ChevronRight />
                                 </h6>
                                 <h6
-                                    style={{ marginTop: "1rem", textAlign:"center" }}
+                                    style={{ marginTop: "1rem", textAlign: "center" }}
                                     className="recipie-card"
                                     onClick={() => window.location.href = "/bmi"}
                                 >
@@ -292,7 +292,9 @@ const MealDetail = () => {
                                     ))}
 
                                     <div className="recipie-card youtube">
-                                        <Link to="https://youtu.be/WaTZTULwmGU?si=kFaNYiydNBCJ881J">
+                                        <Link to={`https://www.youtube.com/results?search_query=${Array.isArray(mealInfo?.meal)
+                                            ? mealInfo?.meal.join(", ")
+                                            : mealInfo?.meal} meal recipe`}>
                                             <FaYoutube /> How to make this recipe <ChevronRight />
                                         </Link>
                                     </div>
@@ -323,7 +325,7 @@ const MealDetail = () => {
                                     7 Days Meals <ChevronRight />
                                 </h6>
                                 <h6
-                                    style={{ marginTop: "1rem", textAlign:"center" }}
+                                    style={{ marginTop: "1rem", textAlign: "center" }}
                                     className="recipie-card"
                                     onClick={() => window.location.href = "/bmi"}
                                 >
