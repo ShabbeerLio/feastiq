@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import glass from "../../Assets/glassbg.jpeg"
+import glass from "../../Assets/glassbg.jpeg";
 
 const Profile = () => {
   const Host = process.env.REACT_APP_API_BASE_URL;
@@ -13,9 +13,9 @@ const Profile = () => {
     email: "",
     age: "",
     gender: "",
-    weight: "",
     height: "",
     goal: "",
+    foodpreferences: "",
   });
 
   useEffect(() => {
@@ -36,9 +36,9 @@ const Profile = () => {
           email: json.email || "",
           age: json.age || "",
           gender: json.gender || "",
-          weight: json.weight || "",
           height: json.height || "",
           goal: json.goal || "",
+          foodpreferences: json.foodpreferences || "",
         });
       } catch (error) {
         console.log("error", error);
@@ -162,17 +162,6 @@ const Profile = () => {
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Weight (kg)</label>
-                <input
-                  type="number"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  placeholder="Weight"
-                />
-              </div>
-
-              <div className="form-group">
                 <label>Height (cm)</label>
                 <input
                   type="number"
@@ -183,20 +172,25 @@ const Profile = () => {
                 />
               </div>
             </div>
-              <div className="form-group">
-                <label>Goal</label>
-                <select
-                  name="goal"
-                  value={formData.goal}
-                  onChange={handleChange}
-                >
-                  <option value="">Select</option>
-                  <option value="Gain Weight">Gain Weight</option>
-                  <option value="Loss Weight">Loss Weight</option>
-                  <option value="Maintain Weight">Maintain Weight</option>
-                </select>
-              </div>
-
+            <div className="form-group">
+              <label>Goal</label>
+              <select name="goal" value={formData.goal} onChange={handleChange}>
+                <option value="">Select</option>
+                <option value="Gain Weight">Gain Weight</option>
+                <option value="Loss Weight">Loss Weight</option>
+                <option value="Maintain Weight">Maintain Weight</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Food Preferences</label>
+              <textarea
+                type="number"
+                name="foodpreferences"
+                value={formData.foodpreferences}
+                onChange={handleChange}
+                placeholder="Foodpreferences"
+              />
+            </div>
 
             <button type="submit" className="seven-day-buttons help">
               {processing === "Updating"

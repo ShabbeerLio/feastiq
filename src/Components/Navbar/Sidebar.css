@@ -19,7 +19,7 @@
 }
 .Sidebar.liquid-glass {
   border-radius: 0px;
-  backdrop-filter: brightness(0.8) blur(2px) url(#displacementFilter);
+  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter);
 }
 .Sidebar.liquid-glass:before {
   border-radius: 0px;

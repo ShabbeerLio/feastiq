@@ -26,16 +26,27 @@ const Navbar = () => {
     setSideactive("");
   };
 
-  // pick random background only if pathname is /login
-  useEffect(() => {
-    if (location.pathname === "/login") {
-      const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
-      const randomIndex = Math.floor(
-        Math.random() * registerBackgrounds.length
-      );
-      setRandomBg(registerBackgrounds[randomIndex]);
-    }
-  }, [location.pathname]);
+  // pick random background for /login and also fallback for others
+useEffect(() => {
+  const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
+
+  if (location.pathname === "/login") {
+    const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
+    setRandomBg(registerBackgrounds[randomIndex]);
+  } else if (location.pathname !== "/workout-detail") {
+    // give other routes random bg as well
+    const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
+    setRandomBg(registerBackgrounds[randomIndex]);
+  }
+}, [location.pathname]);
+
+// set current background
+const currentBg =
+  location.pathname === "/login"
+    ? randomBg
+    : location.pathname === "/workout-detail"
+    ? bg1
+    : randomBg; // fallback if not set
 
   useEffect(() => {
     if (sideactive === "active") {
@@ -52,12 +63,6 @@ const Navbar = () => {
     };
   }, [sideactive]);
 
-  const currentBg =
-    location.pathname === "/login"
-      ? randomBg
-      : location.pathname === "/workout-detail"
-        ? bg1
-        : randomBg;
 
   return (
     <div>
