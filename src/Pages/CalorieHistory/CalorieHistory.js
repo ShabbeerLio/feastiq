@@ -87,7 +87,6 @@ const CalorieHistory = () => {
   };
 
   const filteredMeals = filterMeals(dailyMeals, filter);
-  console.log(filteredMeals, "filteredMeals");
 
   const userDataa = feast?.map((i) => {
     try {
@@ -251,7 +250,7 @@ const CalorieHistory = () => {
                                     <strong>Burned:</strong> {day.totals?.burned || 0} g
                                   </p>
                                   <p>
-                                    <strong>Net Calories:</strong> {day.totals?.netCalories} g
+                                    <strong>Net Calories:</strong> {day.totals?.netCalories || 0} g
                                   </p>
                                 </div>
                               </div>

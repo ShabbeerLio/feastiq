@@ -22,6 +22,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
       protein: day.totals?.protein || 0,
       carbs: day.totals?.carbs || 0,
       fats: day.totals?.fats || 0,
+      workout: day.totals?.burned || 0,
     };
     return acc;
   }, {});
@@ -54,6 +55,8 @@ const CalorieGraph = ({ feast, filter, userData }) => {
       break;
   }
 
+  console.log(mealMap,"mealMap")
+
   // Generate full date range
   const chartData = [];
   for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
@@ -64,6 +67,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
       protein: mealMap[key]?.protein || 0,
       carbs: mealMap[key]?.carbs || 0,
       fats: mealMap[key]?.fats || 0,
+      workout: mealMap[key]?.workout || 0,
     });
   }
 
@@ -72,6 +76,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
     protein: "#3ca7ffff",
     carbs: "#ffd53fff",
     fats: "#3fff5fff",
+    workout: "#c23fffff",
   };
 
   // Extract target values from userData
@@ -91,6 +96,7 @@ const CalorieGraph = ({ feast, filter, userData }) => {
           <option value="protein">Protein</option>
           <option value="carbs">Carbs</option>
           <option value="fats">Fats</option>
+          <option value="workout">Workout</option>
         </select>
       </div>
 
@@ -130,17 +136,22 @@ const CalorieGraph = ({ feast, filter, userData }) => {
                 fill={colors.calories}
                 radius={[25, 25, 0, 0]}
               />
+                <Bar
+                  dataKey="carbs"
+                  fill={colors.carbs}
+                  radius={[25, 25, 0, 0]}
+                />
+                <Bar dataKey="fats" fill={colors.fats} radius={[25, 25, 0, 0]} />
               <Bar
                 dataKey="protein"
                 fill={colors.protein}
                 radius={[25, 25, 0, 0]}
               />
               <Bar
-                dataKey="carbs"
-                fill={colors.carbs}
+                dataKey="workout"
+                fill={colors.workout}
                 radius={[25, 25, 0, 0]}
               />
-              <Bar dataKey="fats" fill={colors.fats} radius={[25, 25, 0, 0]} />
             </>
           ) : (
             <Bar
