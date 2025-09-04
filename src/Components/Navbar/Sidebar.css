@@ -8,23 +8,21 @@
   padding: 1rem;
   transition: all ease-in-out 0.5s;
   overflow: auto;
-  background: rgba(0, 0, 0, 0.283);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
+  backdrop-filter: brightness(1.1) blur(5px) url(#displacementFilter) !important;
+  -webkit-backdrop-filter: brightness(1.1) blur(5px) url(#displacementFilter) !important;
 }
 
 .Sidebar.active {
   left: 0;
   z-index: 3;
 }
-/* .Sidebar.liquid-glass {
+.Sidebar.liquid-glass {
   border-radius: 0px;
-  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter) !important;
-} */
-.Sidebar.active.liquid-glass {
-  border-radius: 0px;
-  backdrop-filter: brightness(0.8) blur(5px) url(#displacementFilter) !important;
+  backdrop-filter: brightness(1.1) blur(5px) url(#displacementFilter) !important;
+  -webkit-backdrop-filter: brightness(1.1) blur(5px) url(#displacementFilter) !important;
+  background-color: #00000075;
 }
+
 .Sidebar.liquid-glass:before {
   border-radius: 0px;
 }

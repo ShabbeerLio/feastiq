@@ -3,6 +3,7 @@ import "./Sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
 import career from "../../Assets/career.png";
 import profile from "../../Assets/profile.png";
+import glass from "../../Assets/glassbg.jpeg"
 import {
   ArrowRightLeft,
   BanknoteArrowUp,
@@ -19,7 +20,7 @@ import {
 
 const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
   const navigate = useNavigate();
-  
+
   const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState();
@@ -141,6 +142,17 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
             <p onClick={handleLogout}>Log Out</p>
           </div>
         </div>
+        <svg style={{ display: "none" }}>
+          <filter id="displacementFilter">
+            <feImage href={glass} preserveAspectRatio="none" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              scale="200"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </svg>
       </div>
     </div>
   );

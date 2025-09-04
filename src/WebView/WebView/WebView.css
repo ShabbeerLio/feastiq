@@ -1,0 +1,935 @@
+/* _______________________________ Our Poppins font ____________________ */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* _______________________ 
+Our Reusable CSS codes
+________________________________- */
+
+.webview {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+}
+
+.webview {
+  font-size: 62.5%;
+  /* 1rem = 10px */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.webview {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.webview a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #242421;
+}
+
+.webview li {
+  list-style: none;
+}
+
+.webview p {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.common-container {
+  max-width: 130rem;
+  margin: 0 auto;
+}
+
+.common-container2 {
+  max-width: 130rem;
+  margin: 0 auto;
+}
+
+/* ________________________________________
+ Our Top Header CSS code
+ _____________________ */
+
+.main {
+  position: relative;
+  padding-top: 10rem;
+  width: 100%;
+  background: url("../../Assets/WebView/bg.jpg") no-repeat center center/cover;
+}
+
+.top-header-comp {
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  background-color: transparent;
+  padding-block: 2rem;
+  padding-inline: 5rem;
+}
+
+.top-hedr-flex {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-bx {
+  position: relative;
+  width: 25rem;
+}
+
+.logo-bx img {
+  width: 65%;
+  height: auto;
+}
+
+.comn-btn {
+  position: relative;
+  width: max-content;
+  padding: 1rem 2rem;
+  /* background-color: #fffd75; */
+  background: linear-gradient(180deg, #466572, #203a43, #112128);
+  border: none;
+  letter-spacing: 0.55px;
+  font-size: 18px;
+  border-radius: 4rem;
+  color: white;
+  cursor: pointer;
+  /* border: .1rem solid #fffd75; */
+  transition: 500ms ease;
+}
+.comn-btn svg {
+  font-size: 20px;
+}
+
+.comn-btn:hover {
+  background-color: transparent;
+  color: white;
+}
+
+/* _______________________________________
+Our Hero comp css code
+-------------------------- */
+
+.hero-comp {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-block-start: 2rem;
+  padding-inline: 5rem;
+  padding-block-end: 5.5rem;
+}
+.hero-grid {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  column-gap: 7rem;
+  row-gap: 7rem;
+}
+
+.hero-info-bx {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-info-bx h1 {
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  max-width: 60rem;
+}
+
+.hero-info-bx h1 span {
+  color: #2c5364;
+}
+
+.hero-info-bx p {
+  color: #5f5f5d;
+  max-width: 90%;
+  font-size: 18px;
+}
+
+.hero-info-bx .hero-downloads {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+.hero-info-bx .hero-downloads a {
+  width: 30%;
+}
+
+.hero-downloads {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.hero-downloads a {
+  width: 20%;
+}
+
+.right-hero-form-bx {
+  position: relative;
+  width: 100%;
+  border-radius: 40px;
+  /* background-color: #2c2d31; */
+  background: linear-gradient(180deg, #466572, #203a43, #112128);
+  padding: 1rem;
+}
+
+.right-hero-form-bx h6 {
+  text-align: center;
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.right-hero-form-bx form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.h-inpt-bx {
+  position: relative;
+  width: 100%;
+  /* background-color: #fff; */
+  /* border-radius: 3rem; */
+}
+
+.h-inpt-bx input,
+.h-inpt-bx select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  /* padding-inline: 1.87rem; */
+  font-size: 14px;
+  /* background-color: transparent; */
+  color: #242421;
+}
+
+.h-inpt-bx input::placeholder {
+  color: #242421;
+}
+
+.h-inpt-bx select {
+  position: relative;
+}
+
+.h-selct-bx:before {
+  content: "\f107";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 14px;
+  color: #2c2d31;
+}
+
+.form-submt-btn {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #fffd75;
+  border-radius: 3rem;
+  font-size: 18px;
+  color: black;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: 400ms cubic-bezier(0.33, 1, 0.68, 1);
+  border: none;
+  border: 0.1rem solid #fffd75;
+  cursor: pointer;
+}
+
+.form-submt-btn:hover {
+  background-color: transparent;
+  color: #fffd75;
+}
+
+/* _________________________________________
+ Our slider test comp css code
+ ---------------------- */
+
+.slider-text-sec {
+  position: relative;
+}
+
+.slider-back-bx {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #646363;
+}
+
+.slider-text-comp {
+  position: relative;
+  left: -1rem;
+  width: 120%;
+  margin-bottom: 6rem;
+  padding-block: 2rem;
+  /* background-color: #181818; */
+  background: linear-gradient(180deg, #466572, #203a43, #112128);
+  transform: rotate(-2deg);
+  z-index: 99;
+}
+
+.slider-text-comp p {
+  margin-bottom: 0;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 2.5rem;
+  color: #fff;
+  letter-spacing: 0.76px;
+  font-weight: 600;
+  text-transform: uppercase;
+  animation: moveslide 55s linear infinite;
+}
+
+@keyframes moveslide {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-170%);
+  }
+}
+.slider-text-comp p span {
+  color: #fffd75;
+  padding-inline: 12rem;
+  font-weight: 700;
+}
+
+/* ______________________________ 
+ Our service comp 
+ ----------------- */
+
+.serv-comp {
+  position: relative;
+  width: 100%;
+  padding: 4rem 5rem;
+}
+
+.comn-heading {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.comn-heading {
+  margin-bottom: 3rem;
+}
+
+.comn-heading h3 {
+  font-size: 2.5rem;
+    font-weight: 600;
+}
+.comn-heading h3 span {
+  color: #2c5364;
+}
+
+.serv-grid-main {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 3rem;
+  row-gap: 3rem;
+  margin-top: 2rem;
+}
+
+.serv-btn {
+  margin: 4rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.serv-box {
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+  border: 0.1rem solid #eee;
+  border-radius: 40px;
+  padding: 2rem 2rem;
+  overflow: hidden;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.serv-box h5 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.55px;
+}
+
+.serv-box p {
+  font-size: 16px;
+  color: #6a6a6a;
+  letter-spacing: 0.3px;
+  line-height: 1.8;
+}
+
+.read-more-btn-bx {
+  position: relative;
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 4rem;
+}
+
+.arrow-bx {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: grid;
+  place-items: center;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.arrow-bx i {
+  font-size: 1.6rem;
+  color: #2c2d31;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.read-more-btn-bx button {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  letter-spacing: 0.2px;
+  color: #7e7d7d;
+  font-weight: 500;
+}
+
+.serv-img-bx {
+  position: absolute;
+      bottom: -3rem;
+    right: -2rem;
+  width: 12rem;
+  height: 12rem;
+  /* background: #f3f3f3; */
+  background: linear-gradient(180deg, #466572, #203a43, #112128);
+  border-radius: 50%;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serv-img-bx img {
+  position: absolute;
+  top: 37%;
+  left: 43%;
+  transform: translate(-50%, -50%);
+  width: 6rem;
+  height: auto;
+  object-fit: cover;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.serv-box:hover {
+  transform: translateY(-25px);
+  box-shadow: 0 10px 60px rgba(0, 0, 0, 0.1);
+}
+
+.serv-box:hover .arrow-bx {
+  background-color: #fffd75;
+}
+
+.serv-box:hover .arrow-bx i {
+  color: #fff;
+}
+
+/* 0 10px 60px rgba(0, 0, 0, 0.1) */
+
+.choose-us-comp {
+  position: relative;
+  width: 100%;
+  margin-top: 3rem;
+  background: linear-gradient(180deg, #466572, #203a43, #112128);
+  padding: 5rem 5rem;
+}
+
+.choose-us-grid {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1rem;
+  row-gap: 3rem;
+}
+
+.left-chooseus-img {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.left-chooseus-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.right-choose-us-info {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right-choose-us-info h3 {
+  font-size: 2.6rem;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.right-choose-us-info h3 span {
+  color: #fffd75;
+  font-size: 2.5rem;
+}
+
+.right-choose-us-info p {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: white;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* ________________________________________
+ Our Faq comp css code
+ ---------------------- */
+
+.faq-comp {
+  margin-top: 0;
+  background-color: #f6f8fc;
+}
+
+.comn-heading2 h6 {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+}
+
+.comn-heading2 h4 {
+  font-size: 2.5rem;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.comn-heading2 h4 span {
+  color: #fffd75;
+}
+
+.faq-main {
+  position: relative;
+  max-width: 55rem;
+  margin: 3rem auto;
+}
+
+.faq-bx {
+  position: relative;
+  width: 100%;
+}
+
+.faq-title-btn-bx {
+  position: relative;
+  width: 100%;
+  padding-block: 1.5rem;
+  padding-inline: 1rem;
+  cursor: pointer;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.faq-title-btn-bx h5 {
+  font-size: 18px;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  margin-bottom: 0 !important;
+}
+
+.faq-title-btn-bx:hover h5 {
+  color: #fffd75;
+}
+
+.faq-bx {
+  border-bottom: 0.1rem solid #ddd;
+  color: white;
+}
+
+.faq-bx p {
+  position: relative;
+  width: 100%;
+  font-size: 16px;
+  padding-inline: 1rem;
+  line-height: 1.8;
+  color: white;
+  padding-bottom: 2rem;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  transform-origin: top;
+
+  padding-bottom: 0;
+  display: none;
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid #fffd75;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.arrow-btn svg {
+  color: #fffd75;
+}
+
+.faq-bx.faqactive p {
+  padding-bottom: 2rem;
+  display: block;
+}
+
+.faq-bx.faqactive .faq-title-btn-bx:hover {
+  cursor: default;
+}
+
+.faq-bx.faqactive .faq-title-btn-bx:hover h5 {
+  cursor: default;
+  color: #2c2d31;
+}
+
+.faq-bx.faqactive .arrow-btn {
+  transform: translateY(-50%) rotate(-180deg);
+  cursor: default;
+}
+
+.requst-quote-comp {
+  position: relative;
+  width: 100%;
+  /* margin-top: 3rem; */
+  padding: 8rem 5rem;
+  background: url("../../Assets/WebView/patrn.svg") no-repeat center
+    center/cover;
+}
+
+.requst-quote-bx {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.requst-quote-bx h6 {
+  font-size: 18px;
+  color: #2c2d31;
+  letter-spacing: 0.45px;
+  font-weight: 500;
+}
+
+.requst-quote-bx h5 {
+  font-size: 50px;
+  max-width: 40rem;
+  line-height: 1.2;
+  font-weight: 700;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.1rem #2c5364;
+  background-clip: text;
+}
+
+.requst-quote-bx p {
+  font-size: 16px;
+  max-width: 40rem;
+  line-height: 1.8;
+  letter-spacing: 0.35px;
+  color: #2c2d31;
+}
+
+.flex-btn-bx {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.comn-btn a {
+  color: white;
+  display: flex;
+  gap: 10px;
+}
+
+.requst-quote-bx h6,
+.requst-quote-bx h5 {
+  text-transform: capitalize;
+}
+
+.footer-sec {
+  position: relative;
+  width: 100%;
+  background-color: #181818;
+  padding: 2rem 1.87rem;
+}
+
+.footer-flex-bx {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  text-align: center;
+}
+
+.footer-flex-bx p {
+  font-size: 14px;
+  color: #f5f5f5;
+  margin-bottom: 0;
+  letter-spacing: 0.55px;
+  font-weight: 400;
+}
+
+.footer-links {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-links li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 1rem;
+}
+.footer-links li a:hover {
+  color: #2c5364;
+}
+
+.comn-btn:hover a {
+  color: #fffd75;
+}
+
+@media all and (min-width: 1124px) and (max-width: 1200px) {
+  .webview {
+    font-size: 56.2%;
+  }
+
+  .serv-img-bx {
+    width: 20rem;
+    height: 20rem;
+    bottom: -6rem;
+    right: -4rem;
+  }
+}
+
+@media all and (min-width: 1024px) and (max-width: 1124px) {
+  .webview {
+    font-size: 56.2%;
+  }
+
+  .serv-img-bx {
+    width: 20rem;
+    height: 20rem;
+    bottom: -6rem;
+    right: -4rem;
+  }
+
+  .common-container {
+    max-width: 100rem;
+  }
+
+  .serv-grid-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media all and (min-width: 767px) and (max-width: 1024px) {
+  .webview {
+    font-size: 56.2%;
+  }
+
+  .serv-img-bx {
+    width: 20rem;
+    height: 20rem;
+    bottom: -6rem;
+    right: -4rem;
+  }
+
+  .common-container {
+    max-width: 80rem;
+  }
+
+  .serv-grid-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .faq-title-btn-bx h5 {
+    font-size: 1.55rem;
+  }
+
+  .faq-bx p {
+    font-size: 1.4rem;
+  }
+
+  .choose-us-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3rem;
+  }
+
+  .hero-info-bx h1 {
+    font-size: 3.3rem;
+  }
+
+  .right-hero-form-bx {
+    padding: 3.5rem 3.5rem 4.5rem 3.5rem;
+  }
+}
+
+@media all and (min-width: 320px) and (max-width: 767px) {
+  .webview {
+    font-size: 56.2%;
+  }
+
+  .serv-img-bx {
+    width: 20rem;
+    height: 20rem;
+    bottom: -6rem;
+    right: -4rem;
+  }
+
+  .common-container {
+    max-width: 50rem;
+  }
+
+  .serv-grid-main {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .faq-title-btn-bx h5 {
+    font-size: 1.45rem;
+    max-width: 30rem;
+  }
+
+  .arrow-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .arrow-btn i {
+    font-size: 1.2rem;
+  }
+
+  .faq-bx p {
+    font-size: 1.35rem;
+  }
+
+  .choose-us-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .hero-grid {
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 3rem;
+  }
+
+  .logo-bx {
+    width: 21rem;
+  }
+
+  .slider-text-comp p span {
+    padding-inline: 8rem;
+  }
+
+  .slider-text-comp {
+    margin-bottom: 5rem;
+  }
+
+  .hero-info-bx h1 {
+    font-size: 2.3rem;
+  }
+
+  .right-hero-form-bx {
+    padding: 1rem;
+  }
+
+  .slider-text-comp p {
+    animation: moveslide 20s linear infinite;
+  }
+
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.webview::-webkit-scrollbar {
+  width: 0.456rem;
+}
+
+.webview::-webkit-scrollbar-thumb {
+  background-color: #fffd75;
+}
+
+.webview::-webkit-scrollbar-track {
+  background-color: transparent;
+}

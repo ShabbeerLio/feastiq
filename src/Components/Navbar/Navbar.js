@@ -12,6 +12,7 @@ import bg6 from "../../Assets/Background/reg4.mp4";
 import bg7 from "../../Assets/Background/reg5.mp4";
 import bg8 from "../../Assets/Background/reg6.mp4";
 import { BsSpeedometer2 } from "react-icons/bs";
+import glass from "../../Assets/glassbg.jpeg"
 
 const Navbar = () => {
   const location = useLocation();
@@ -27,26 +28,26 @@ const Navbar = () => {
   };
 
   // pick random background for /login and also fallback for others
-useEffect(() => {
-  const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
+  useEffect(() => {
+    const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
 
-  if (location.pathname === "/login") {
-    const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
-    setRandomBg(registerBackgrounds[randomIndex]);
-  } else if (location.pathname !== "/workout-detail") {
-    // give other routes random bg as well
-    const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
-    setRandomBg(registerBackgrounds[randomIndex]);
-  }
-}, [location.pathname]);
+    if (location.pathname === "/login") {
+      const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
+      setRandomBg(registerBackgrounds[randomIndex]);
+    } else if (location.pathname !== "/workout-detail") {
+      // give other routes random bg as well
+      const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
+      setRandomBg(registerBackgrounds[randomIndex]);
+    }
+  }, [location.pathname]);
 
-// set current background
-const currentBg =
-  location.pathname === "/login"
-    ? randomBg
-    : location.pathname === "/workout-detail"
-    ? bg1
-    : randomBg; // fallback if not set
+  // set current background
+  const currentBg =
+    location.pathname === "/login"
+      ? randomBg
+      : location.pathname === "/workout-detail"
+        ? bg1
+        : randomBg; // fallback if not set
 
   useEffect(() => {
     if (sideactive === "active") {
@@ -115,8 +116,8 @@ const currentBg =
       {location.pathname !== "/login" && (
         <div className="profile">
           <div className="bmi-meter">
-            <Link className="liquid-glass" to={"/bmi"}> 
-            <BsSpeedometer2 />
+            <Link className="liquid-glass" to={"/bmi"}>
+              <BsSpeedometer2 />
             </Link>
           </div>
           <div className="caloirie-history ">
@@ -132,6 +133,17 @@ const currentBg =
         sideRef={sideRef}
         handleCloseSidebar={handleCloseSidebar}
       />
+      <svg style={{ display: "none" }}>
+        <filter id="displacementFilter">
+          <feImage href={glass} preserveAspectRatio="none" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            scale="200"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
     </div>
   );
 };

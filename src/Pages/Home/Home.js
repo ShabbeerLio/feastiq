@@ -51,8 +51,6 @@ const Home = () => {
     }
   }, [navigate]);
 
-  console.log(feast,"feast")
-
   // Parse API response
   const userDataa = feast?.map((i) => {
     try {
@@ -266,7 +264,7 @@ const handleUpdateWeight = async () => {
                 <div className="wallet-status">
                   <DotLottieReact
                     className="wallet-success"
-                    src="https://lottie.host/cf5cf153-8658-460c-8b18-f94ccda10b81/t5omOi421I.lottie"
+                    src="https://lottie.host/5066ed2e-4dbb-4c34-ac26-2bfada68301f/QJPWTrsYv7.lottie"
                     loop
                     autoplay
                   />
