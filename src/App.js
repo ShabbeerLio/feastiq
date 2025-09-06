@@ -23,6 +23,8 @@ import WAbout from "./WebView/OtherPages/WAbout";
 import WContact from "./WebView/OtherPages/WContact";
 import Footer from "./WebView/Footer/Footer";
 import TopBar from "./WebView/TopBar/TopBar";
+import Checkout from "./Pages/Checkout/Checkout";
+import Subscription from "./Pages/Subscription/Subscription";
 
 // ✅ simple function to detect if mobile
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
@@ -57,6 +59,8 @@ function MainLayout() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/calorie-history" element={<CalorieHistory />} />
               <Route path="/bmi" element={<BMIPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/subscription" element={<Subscription />} />
             </Routes>
           </>
         ) : (

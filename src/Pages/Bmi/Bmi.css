@@ -6,6 +6,7 @@
   color: white;
   margin-bottom: 1rem;
   overflow: hidden;
+  position: relative;
 }
 
 .modal-overlay.true {
@@ -15,7 +16,7 @@
 
 .modal-overlay {
   position: fixed;
-  top: 115%;
+  top: 150%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -33,6 +34,9 @@
   padding: 1.5rem;
   background-color: rgba(255, 255, 255, 0.05);
   color: white;
+}
+.modal-content h4 span{
+  font-size: 16px;
 }
 .modal-content.liquid-glass::before {
   z-index: -1;

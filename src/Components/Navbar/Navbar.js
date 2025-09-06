@@ -82,6 +82,7 @@ const Navbar = () => {
               {location.pathname !== "/login" && (
                 <Link className="navbar-brand" onClick={handleSidebar}>
                   <UserRound className="nav-name-svg liquid-glass" />
+                  Shabbeer
                 </Link>
               )}
               <div className="collapse navbar-collapse" id="navbarNavAltMarkup">

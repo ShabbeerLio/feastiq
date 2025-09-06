@@ -36,44 +36,56 @@ const Footer = () => {
             </div>
             <div className="flex-btn-bx">
               <button className="comn-btn">
-                <Link to="tel:+919821861897">
-                  <FaFacebook />
-                </Link>
-              </button>
-              <button className="comn-btn">
-                <Link to="https://api.whatsapp.com/send/?phone=919821861897&text=Hi%2C+this+is+a+massage+from+Digital+Dezire+Website&type=phone_number&app_absent=0">
+                <Link to="">
                   <FaWhatsapp />{" "}
                 </Link>
               </button>
               <button className="comn-btn">
-                <Link to="https://api.whatsapp.com/send/?phone=919821861897&text=Hi%2C+this+is+a+massage+from+Digital+Dezire+Website&type=phone_number&app_absent=0">
-                  <FaYoutube />{" "}
-                </Link>
-              </button>
-              <button className="comn-btn">
-                <Link to="https://api.whatsapp.com/send/?phone=919821861897&text=Hi%2C+this+is+a+massage+from+Digital+Dezire+Website&type=phone_number&app_absent=0">
+                <Link to="">
                   <FaInstagram />{" "}
                 </Link>
               </button>
               <button className="comn-btn">
-                <i className="fa-regular fa-envelope"></i> Request a Quote
+                <Link to="">
+                  <FaFacebook />
+                </Link>
+              </button>
+              <button className="comn-btn">
+                <Link to="">
+                  <FaYoutube />{" "}
+                </Link>
+              </button>
+              <button className="comn-btn">
+                <a href="#">
+                   Request Query
+                </a>
               </button>
             </div>
             <ul className="footer-links">
               <li>
-                <Link onClick={handleLinkClick} to={"/about"}>About Us</Link>
+                <Link onClick={handleLinkClick} to={"/about"}>
+                  About Us
+                </Link>
               </li>
               <li>
-                <Link onClick={handleLinkClick} to={"/contact-us"}>Contact Us</Link>
+                <Link onClick={handleLinkClick} to={"/contact-us"}>
+                  Contact Us
+                </Link>
               </li>
               <li>
-                <Link onClick={handleLinkClick} to={"/privacy-policy"}>Privacy Policy</Link>
+                <Link onClick={handleLinkClick} to={"/privacy-policy"}>
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <Link onClick={handleLinkClick} to={"/term-and-conditions"}>Term And Conditions</Link>
+                <Link onClick={handleLinkClick} to={"/term-and-conditions"}>
+                  Term And Conditions
+                </Link>
               </li>
               <li>
-                <Link onClick={handleLinkClick} to={"/return-refund"}>Return And Refund</Link>
+                <Link onClick={handleLinkClick} to={"/return-refund"}>
+                  Return And Refund
+                </Link>
               </li>
             </ul>
           </div>
@@ -83,8 +95,8 @@ const Footer = () => {
       <footer className="footer-sec">
         <div className="common-container">
           <div className="footer-flex-bx">
-            <p>© NASHA IQ Inovations 2025 | All Rights Reserved.</p>
-            <p>Dev. By: Digital Dezire Web Solutions.</p>
+            <p>© NASHA <span>IQ</span> INOVATIONS 2025 | All Rights Reserved.</p>
+            <p>Dev. By: <Link to={"https://digitaldezire.com/"}>Digital Dezire.</Link> </p>
           </div>
         </div>
       </footer>

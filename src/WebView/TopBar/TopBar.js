@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../Assets/WebView/logo-1.png";
 import { FaWhatsapp, FaGooglePlay } from "react-icons/fa";
 
@@ -21,15 +21,15 @@ const TopBar = () => {
         </div>
         <div className="flex-btn-bx">
           <button className="comn-btn">
-            <a href="tel:+919821861897">
+            <Link to="">
               <FaGooglePlay />
               Download from Playstore{" "}
-            </a>
+            </Link>
           </button>
           <button className="comn-btn">
-            <a href="https://api.whatsapp.com/send/?phone=919821861897&text=Hi%2C+this+is+a+massage+from+Digital+Dezire+Website&type=phone_number&app_absent=0">
+            <Link to="">
               <FaWhatsapp />
-            </a>
+            </Link>
           </button>
         </div>
       </div>

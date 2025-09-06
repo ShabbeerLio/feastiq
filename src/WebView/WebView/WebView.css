@@ -536,6 +536,10 @@ Our Hero comp css code
   line-height: 1.8;
   margin-bottom: 1rem;
 }
+.right-choose-us-info p svg{
+  color: #fffd75;
+  margin-right: 5px;
+}
 
 /* ________________________________________
  Our Faq comp css code
@@ -644,7 +648,7 @@ Our Hero comp css code
 
 .faq-bx.faqactive .faq-title-btn-bx:hover h5 {
   cursor: default;
-  color: #2c2d31;
+  color: #fffd75;
 }
 
 .faq-bx.faqactive .arrow-btn {
@@ -740,6 +744,14 @@ Our Hero comp css code
   margin-bottom: 0;
   letter-spacing: 0.55px;
   font-weight: 400;
+}
+.footer-flex-bx p span{
+  color: #fffd75;
+}
+.footer-flex-bx p a{
+  color: #fffd75;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .footer-links {

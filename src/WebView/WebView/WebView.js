@@ -2,23 +2,30 @@ import "./WebView.css"
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { Link } from 'react-router-dom'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
-import { ChevronDown, MoveRight } from 'lucide-react'
-import Footer from '../Footer/Footer'
+import { ChevronDown, CircleCheckBig, MoveRight } from 'lucide-react'
+import { useEffect } from "react";
 
 const WebView = () => {
     console.warn = (message) =>
         message.includes("Buffer size mismatch") ? null : console.warn(message);
 
-    const faqBx = document.querySelectorAll('.faq-bx');
+    useEffect(() => {
+        const faqBx = document.querySelectorAll(".faq-bx");
 
-    for (let i = 0; i < faqBx.length; i++) {
-        faqBx[i].addEventListener("click", function () {
-            for (let k = 0; k < faqBx.length; k++) {
-                faqBx[k].classList.remove('faqactive');
-            }
-            faqBx[i].classList.add('faqactive');
-        })
-    }
+        faqBx.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                faqBx.forEach((bx) => bx.classList.remove("faqactive"));
+                item.classList.add("faqactive");
+            });
+        });
+
+        // ✅ Cleanup listeners on unmount
+        return () => {
+            faqBx.forEach((item) => {
+                item.replaceWith(item.cloneNode(true)); // removes attached listeners
+            });
+        };
+    }, []);
 
     return (
         <>
@@ -58,9 +65,9 @@ const WebView = () => {
                                     <div className="h-inpt-bx">
                                         <input type="text" name="number" id="number" placeholder="Number" />
                                     </div>
-                                    <textarea type="text" name="description" id="description" placeholder="Description" />
+                                    <textarea type="text" name="description" id="description" placeholder="Your Query" />
 
-                                    <button type="submit" className="form-submt-btn">Submit To Explore</button>
+                                    <button type="submit" className="form-submt-btn">Submit Your Query</button>
 
                                 </form>
                             </div>
@@ -297,12 +304,12 @@ const WebView = () => {
 
                         <div className="right-choose-us-info">
                             <h3>Why <span>Choose Us ?</span> </h3>
-                            <p>✅ All-in-One Solution – No need for separate apps. FeastIQ combines meal planning + workout routines + tracking in one place. </p>
-                            <p>✅ AI-Powered Personalization – Your age, weight, fitness goals, and food preferences are used to create custom plans that actually fit your lifestyle. </p>
-                            <p>✅ Science-Backed Guidance – Nutrition and workouts are built on proven fitness principles, ensuring safe and effective results. </p>
-                            <p>✅ Flexible & Adaptive – Plans adjust as you progress, keeping your journey dynamic and motivating. </p>
-                            <p>✅ Track & Stay Consistent – Easy-to-use calorie tracker, BMI calculator, and history logs help you stay on track. </p>
-                            <p>✅ For Everyone – Whether you’re a beginner, athlete, or someone simply wanting to stay healthy, FeastIQ adapts to your needs.</p>
+                            <p><CircleCheckBig /> All-in-One Solution – No need for separate apps. FeastIQ combines meal planning + workout routines + tracking in one place. </p>
+                            <p><CircleCheckBig /> AI-Powered Personalization – Your age, weight, fitness goals, and food preferences are used to create custom plans that actually fit your lifestyle. </p>
+                            <p><CircleCheckBig /> Science-Backed Guidance – Nutrition and workouts are built on proven fitness principles, ensuring safe and effective results. </p>
+                            <p><CircleCheckBig /> Flexible & Adaptive – Plans adjust as you progress, keeping your journey dynamic and motivating. </p>
+                            <p><CircleCheckBig /> Track & Stay Consistent – Easy-to-use calorie tracker, BMI calculator, and history logs help you stay on track. </p>
+                            <p><CircleCheckBig /> For Everyone – Whether you’re a beginner, athlete, or someone simply wanting to stay healthy, FeastIQ adapts to your needs.</p>
                             <p>FeastIQ combines AI-powered meal planning and personalized workouts into one app, helping you eat smarter, train better, and stay consistent with your health goals—simple, adaptive, and effective.</p>
 
                             <a href="#">

@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
+import tag from "../../Assets/tag.png"
 
 const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
   const navigate = useNavigate();
@@ -56,6 +57,11 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
     navigate("/login");
     handleCloseSidebar();
   };
+
+  const handleSubscribe = () => {
+    navigate("/subscription");
+    handleCloseSidebar();
+  }
 
   return (
     <div className={`Sidebar ${sideactive} liquid-glass`} ref={sideRef}>
@@ -129,13 +135,28 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
         </div>
         <div className="sidebar-bottom">
           {userData && (
-            <div className="sidebar-career liquid-glass">
-              <h5>Hii {userData?.name}!</h5>
-              <Link onClick={handleProfile} to={"/profile"}>
-                View Profile
-              </Link>
-              <img src={profile} alt="" />
-            </div>
+            <>
+              <div className="sidebar-career liquid-glass">
+                <h5>Hii {userData?.name}!
+                  {userData?.subscription.status === "Active" &&
+                    <img src={tag} alt="" />
+                  }
+                </h5>
+                <Link onClick={handleProfile} to={"/profile"}>
+                  View Profile
+                </Link>
+                <img src={profile} alt="" />
+              </div>
+              {userData?.subscription.status !== "Active" &&
+                <div className="sidebar-career subscription liquid-glass" onClick={handleSubscribe}>
+                  <div className="subscription-side">
+                    <img src={tag} alt="" />
+                    <p>Get Your Subscription Plan Now! </p>
+                  </div>
+                  <p><ChevronRight /></p>
+                </div>
+              }
+            </>
           )}
 
           <div className="sidebar-logout liquid-glass">
