@@ -114,17 +114,6 @@ const Profile = () => {
         <div className="Other-pages-box">
           <form className="profile-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your name"
-              />
-            </div>
-
-            <div className="form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -132,6 +121,17 @@ const Profile = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
+                disabled
+              />
+            </div>
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your name"
               />
             </div>
 

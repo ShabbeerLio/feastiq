@@ -27,7 +27,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState("active");
   const [showModal, setShowModal] = useState(true);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const [newWeight, setNewWeight] = useState("");
   const [status, setStatus] = useState("");
 
