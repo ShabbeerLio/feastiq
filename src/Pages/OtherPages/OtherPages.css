@@ -24,6 +24,12 @@
     overflow: auto;
 }
 
+.Other-pages-box p a{
+  text-decoration: none;
+  margin-left: 5px;
+  color: #fffd75;
+}
+
 /* help */
 /* Container */
 .help-container {

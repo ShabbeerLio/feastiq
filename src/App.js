@@ -25,6 +25,7 @@ import Footer from "./WebView/Footer/Footer";
 import TopBar from "./WebView/TopBar/TopBar";
 import Checkout from "./Pages/Checkout/Checkout";
 import Subscription from "./Pages/Subscription/Subscription";
+import DeleteReq from "./Pages/DeleteReq/DeleteReq";
 
 // ✅ simple function to detect if mobile
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
@@ -61,6 +62,7 @@ function MainLayout() {
               <Route path="/bmi" element={<BMIPage />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/subscription" element={<Subscription />} />
+              <Route path="/delete-account" element={<DeleteReq />} />
             </Routes>
           </>
         ) : (

@@ -30,16 +30,16 @@ const slideVariants = {
 };
 
 const Registration = () => {
-  const { userDetail, getUserDetails, } = useContext(NoteContext);
-    const navigate = useNavigate();
+  const { userDetail, getUserDetails } = useContext(NoteContext);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!localStorage.getItem("token")) {
-            navigate("/login");
-        } else {
-            getUserDetails();
-        }
-    }, [navigate]);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getUserDetails();
+    }
+  }, [navigate]);
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -90,6 +90,11 @@ const Registration = () => {
   const [loadingStage, setLoadingStage] = useState(null);
   const [direction, setDirection] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+  // Add state
+  const [forgotStep, setForgotStep] = useState(0);
+  const [resetEmail, setResetEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -528,14 +533,30 @@ const Registration = () => {
                       {(() => {
                         const field = loginSteps[step - 1];
                         return (
-                          <input
-                            type={field.type}
-                            name={field.name}
-                            placeholder={field.placeholder}
-                            value={formData[field.name]}
-                            onChange={handleChange}
-                            required
-                          />
+                          <>
+                            <input
+                              type={field.type}
+                              name={field.name}
+                              placeholder={field.placeholder}
+                              value={formData[field.name]}
+                              onChange={handleChange}
+                              required
+                            />
+
+                            {/* 👇 Add forgot password link only when rendering password field */}
+                            {field.name === "password" && (
+                              <p
+                              className="forgot-password-txt"
+                                onClick={() => {
+                                  setForgotStep(1); // start forgot password flow
+                                  setMode("forgot");
+                                  setStep(0);
+                                }}
+                              >
+                                Forgot Password?
+                              </p>
+                            )}
+                          </>
                         );
                       })()}
 
@@ -663,6 +684,152 @@ const Registration = () => {
                     </form>
                   </motion.div>
                 )}
+              {/* FORGOT PASSWORD FLOW */}
+              {mode === "forgot" && !loadingStage && (
+                <motion.div
+                  key={`forgot-${forgotStep}`}
+                  variants={slideVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  custom={direction}
+                >
+                  <div className="wallet-status">
+                    <DotLottieReact
+                      className="wallet-success"
+                      src="https://lottie.host/5faaa157-8ba4-4153-b916-ada3298d2050/GhpWsulDTM.lottie"
+                      loop
+                      autoplay
+                    />
+                  </div>
+
+                  {forgotStep === 1 && (
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setLoadingStage("processing");
+                        try {
+                          const res = await fetch(
+                            `${API_BASE_URL}/auth/send-otp`,
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ email: resetEmail }),
+                            }
+                          );
+                          const data = await res.json();
+                          setLoadingStage(null);
+                          if (data.success) {
+                            setForgotStep(2);
+                          } else {
+                            setErrorMessage(data.error || "Failed to send OTP");
+                          }
+                        } catch {
+                          setLoadingStage(null);
+                          setErrorMessage("Server error");
+                        }
+                      }}
+                    >
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="next-btn">
+                        Send OTP
+                      </button>
+                    </form>
+                  )}
+
+                  {forgotStep === 2 && (
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setLoadingStage("processing");
+                        try {
+                          const res = await fetch(
+                            `${API_BASE_URL}/auth/verify-reset-otp`,
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ email: resetEmail, otp }),
+                            }
+                          );
+                          const data = await res.json();
+                          setLoadingStage(null);
+                          if (data.success) {
+                            setForgotStep(3);
+                          } else {
+                            setErrorMessage(data.error || "Invalid OTP");
+                          }
+                        } catch {
+                          setLoadingStage(null);
+                          setErrorMessage("Server error");
+                        }
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="next-btn">
+                        Verify OTP
+                      </button>
+                    </form>
+                  )}
+
+                  {forgotStep === 3 && (
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setLoadingStage("processing");
+                        try {
+                          const res = await fetch(
+                            `${API_BASE_URL}/auth/reset-password`,
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                email: resetEmail,
+                                otp,
+                                newPassword,
+                              }),
+                            }
+                          );
+                          const data = await res.json();
+                          setLoadingStage(null);
+                          if (data.success) {
+                            setMode("login");
+                            setLoadingStage("success");
+                            setStep(1);
+                          } else {
+                            setErrorMessage(data.error || "Reset failed");
+                          }
+                        } catch {
+                          setLoadingStage(null);
+                          setErrorMessage("Server error");
+                        }
+                      }}
+                    >
+                      <input
+                        type="password"
+                        placeholder="Enter new password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="next-btn">
+                        Reset Password
+                      </button>
+                    </form>
+                  )}
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
         </div>
