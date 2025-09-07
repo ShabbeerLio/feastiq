@@ -8,7 +8,7 @@ import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
 
 const Subscription = () => {
-  const { adminDetail, getAdminDetails, } = useContext(NoteContext);
+  const { adminDetail, getAdminDetails, userDetail, getUserDetails } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const Subscription = () => {
       navigate("/login");
     } else {
       getAdminDetails();
+      getUserDetails();
     }
   }, [navigate]);
 
@@ -32,6 +33,9 @@ const Subscription = () => {
     message.includes("Buffer size mismatch") ? null : console.warn(message);
 
   const plans = adminDetail[0]?.plan || [];
+
+  const lastBought = userDetail?.subscription?.plan
+  console.log(lastBought, "lastBought")
 
   return (
     <div className="Home">
@@ -78,14 +82,16 @@ const Subscription = () => {
                 <div key={plan._id} className={`bmi-card sub-plan ${plan.plan}`}>
                   <div className="sub-plan-top">
                     <div className="sub-plan-top-left">
+                      {lastBought === plan.plan && <h1 className="last-subs">Last Subscribed</h1>}
                       <h6>{plan.plan}</h6>
                       <p>{plan.description}</p>
                     </div>
                     <div className="sub-plan-top-right">
                       <h5>
-                        ₹{plan.slprice} <del>{plan.price}</del>
+                        ₹{plan.slprice}
                       </h5>
-                      <p>+GST</p>
+                      <del>{plan.price}</del>
+                      {/* <p>+GST</p> */}
                     </div>
                   </div>
 

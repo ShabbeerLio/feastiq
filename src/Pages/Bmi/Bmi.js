@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Bmi.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
@@ -15,10 +15,24 @@ import {
 import Ads from "../../Components/Ads/Ads";
 import { ChevronRight } from "lucide-react";
 import calculation from "../../Assets/Bmi.png";
+import NoteContext from "../../Context/FeastContext";
+import { useNavigate } from "react-router-dom";
 
 const BMIPage = () => {
+    const { userDetail, getUserDetails, } = useContext(NoteContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+        } else {
+            getUserDetails();
+        }
+    }, [navigate]);
+
     const Host = process.env.REACT_APP_API_BASE_URL;
     const token = localStorage.getItem("token");
+    
     const [userData, setUserData] = useState(null);
     const [bmiData, setBmiData] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -33,14 +47,7 @@ const BMIPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`${Host}/auth/getuser`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "auth-token": token,
-                    },
-                });
-                const json = await response.json();
+                const json = await userDetail;
                 setUserData(json);
 
                 if (json.height && json.weight) {

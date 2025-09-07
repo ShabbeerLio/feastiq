@@ -106,3 +106,17 @@
   font-size: 14px;
   text-align: end;
 }
+
+.last-subs{
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #466572;
+    color: white;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+.sub-plan-top-right{
+    text-align: right;
+    padding-bottom: 8px;
+}

@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Profile.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
+import { useNavigate } from "react-router-dom";
+import NoteContext from "../../Context/FeastContext";
 
 const Profile = () => {
+  const { userDetail, getUserDetails } = useContext(NoteContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getUserDetails();
+    }
+  }, [navigate]);
+
   const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [processing, setProcessing] = useState("");
-  const [userData, setUserData] = useState();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,15 +33,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${Host}/auth/getuser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
-          },
-        });
-        const json = await response.json();
-        setUserData(json);
+        const json = await userDetail;
         // Pre-fill form with data
         setFormData({
           name: json.name || "",
@@ -73,8 +77,7 @@ const Profile = () => {
 
       const result = await response.json();
       if (response.ok) {
-        // alert("Profile updated successfully!");
-        setUserData(result);
+        getUserDetails();
         setTimeout(() => {
           setProcessing("Updated");
         }, 2000);
@@ -83,11 +86,9 @@ const Profile = () => {
         }, 3000);
       } else {
         console.log(result.error, "error");
-        // alert(result.error || "Failed to update profile");
       }
     } catch (error) {
       console.log("Update error", error);
-      // alert("Something went wrong!");
     }
   };
 

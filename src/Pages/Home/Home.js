@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import MealCard from "../../Components/MealCard/MealCard";
 import WorkoutCard from "../../Components/WorkoutCard/WorkoutCard";
 import Calories from "../../Components/Calories/Calories";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Ads from "../../Components/Ads/Ads";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
@@ -14,20 +14,27 @@ import glass from "../../Assets/glassbg.jpeg"
 import interact from "interactjs";
 import Loading from "../../Components/Loading/Loading";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import expire from "../../Assets/Expire.png"
 
 const Home = () => {
+  const {feast, getFeast, userDetail, getUserDetails, } = useContext(NoteContext);
+  const navigate = useNavigate();
   const cardRef = useRef(null);
   const Host = process.env.REACT_APP_API_BASE_URL;
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const position = useRef({ x: 0, y: 0 });
-  const { feast, getFeast } = useContext(NoteContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState("active");
   const [showModal, setShowModal] = useState(true);
+  const [showAlert, setShowAlert] = useState(true);
   const [newWeight, setNewWeight] = useState("");
   const [status, setStatus] = useState("");
-  const navigate = useNavigate();
+
+  const endDate = new Date(userDetail?.subscription?.endDate);
+  const todayTime = new Date();
+  const diffInTime = endDate.getTime() - todayTime.getTime();
+  const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,7 +48,11 @@ const Home = () => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     } else {
+      getUserDetails();
       getFeast();
+      if (diffInDays <= 2) {
+        setShowAlert(true)
+      }
       setTimeout(() => {
         setLoadingStatus("disactive");
       }, 2000);
@@ -108,74 +119,78 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-  if (feast && feast.length > 0) {
-    const createdAt = new Date(feast[0].createdAt);
-    const today = new Date();
+    if (feast && feast.length > 0) {
+      const createdAt = new Date(feast[0].createdAt);
+      const today = new Date();
 
-    // difference in days
-    const diffTime = today.getTime() - createdAt.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    console.log("Account age in days:", diffDays);
-
-    // last submission day stored in localStorage
-    const lastSubmittedDay = Number(localStorage.getItem("lastSubmittedDay") || 0);
-
-    // check if user already submitted this cycle
-    const alreadySubmitted = lastSubmittedDay === diffDays;
-
-    // open modal on 15, 16, 17 (unless submitted already)
-    if (!alreadySubmitted && (diffDays % 15 === 0 || diffDays % 15 === 1 || diffDays % 15 === 2)) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
-    }
-  }
-}, [feast]);
-
-// when user successfully updates weight
-const handleUpdateWeight = async () => {
-  if (!newWeight) return;
-  setLoading(true);
-  setStatus("Processing");
-
-  try {
-    const response = await fetch(`${Host}/auth/update-weight`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": token,
-      },
-      body: JSON.stringify({ weight: Number(newWeight) }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      setStatus("Updated successfully");
-      setNewWeight("");
-
-      // ✅ save submission day to localStorage
-      const diffTime = new Date().getTime() - new Date(feast[0].createdAt).getTime();
+      // difference in days
+      const diffTime = today.getTime() - createdAt.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      localStorage.setItem("lastSubmittedDay", diffDays);
 
-      setTimeout(() => {
+      // console.log("Account age in days:", diffDays);
+
+      // last submission day stored in localStorage
+      const lastSubmittedDay = Number(localStorage.getItem("lastSubmittedDay") || 0);
+
+      // check if user already submitted this cycle
+      const alreadySubmitted = lastSubmittedDay === diffDays;
+
+      // open modal on 15, 16, 17 (unless submitted already)
+      if (!alreadySubmitted && (diffDays % 15 === 0 || diffDays % 15 === 1 || diffDays % 15 === 2)) {
+        setShowModal(true);
+      } else {
         setShowModal(false);
-        window.location.reload();
-      }, 1200);
-    } else {
-      setStatus("❌ Failed to update");
+      }
     }
-  } catch (err) {
-    console.error(err);
-    setStatus("❌ Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
+  }, [feast]);
+
+  // when user successfully updates weight
+  const handleUpdateWeight = async () => {
+    if (!newWeight) return;
+    setLoading(true);
+    setStatus("Processing");
+
+    try {
+      const response = await fetch(`${Host}/auth/update-weight`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify({ weight: Number(newWeight) }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setStatus("Updated successfully");
+        setNewWeight("");
+
+        // ✅ save submission day to localStorage
+        const diffTime = new Date().getTime() - new Date(feast[0].createdAt).getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        localStorage.setItem("lastSubmittedDay", diffDays);
+
+        setTimeout(() => {
+          setShowModal(false);
+          window.location.reload();
+        }, 1200);
+      } else {
+        setStatus("❌ Failed to update");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("❌ Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loading status={loadingStatus} />
+  }
+
+  const handleSubscribe = () => {
+    navigate("/subscription");
   }
 
   return (
@@ -285,6 +300,28 @@ const handleUpdateWeight = async () => {
                 </div>
               </>
             }
+          </div>
+        </div>
+        <div className={`modal-overlay ${showAlert}`}>
+          <div className="modal-content liquid-glass subscription-ending">
+            <div
+              className="subscription-end-alert"
+            >
+              <button
+                onClick={() => setShowAlert(false)}
+                className="close"
+              >
+                <X/>
+              </button>
+              <img className="subscription-alert-image" src={expire} alt="" />
+              <div className="sub-endbox">
+                <p>Your Plan is expiring in {diffInDays} days</p>
+                <p>Get Your Subscription Plan Now!</p>
+              </div>
+              <h6 className="seven-day-buttons" onClick={handleSubscribe}>
+                Subscribe Now! <ChevronRight />
+              </h6>
+            </div>
           </div>
         </div>
         <svg style={{ display: "none" }}>

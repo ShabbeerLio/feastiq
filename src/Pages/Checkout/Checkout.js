@@ -1,17 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
 import { useLocation, useNavigate } from "react-router-dom";
 import Ads from "../../Components/Ads/Ads";
 import "./Checkout.css"
+import NoteContext from "../../Context/FeastContext";
 
 const Checkout = () => {
+  const { userDetail, getUserDetails, } = useContext(NoteContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+        } else {
+            getUserDetails();
+        }
+    }, [navigate]);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState();
   const location = useLocation();
-  const navigate = useNavigate();
   const [coupons, setCoupons] = useState([]);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
@@ -80,14 +91,7 @@ const Checkout = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${Host}/auth/getuser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
-          },
-        });
-        const json = await response.json();
+        const json = await userDetail;
         setUserData(json);
         // Pre-fill form with data
         if (json?.invoices && json.invoices.length > 0) {

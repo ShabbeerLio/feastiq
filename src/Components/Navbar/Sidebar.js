@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
-import career from "../../Assets/career.png";
+import expire from "../../Assets/Expire.png";
 import profile from "../../Assets/profile.png";
 import glass from "../../Assets/glassbg.jpeg"
 import {
@@ -18,35 +18,21 @@ import {
   X,
 } from "lucide-react";
 import tag from "../../Assets/tag.png"
+import NoteContext from "../../Context/FeastContext";
 
 const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
+  const { userDetail, getUserDetails, } = useContext(NoteContext);
   const navigate = useNavigate();
 
-  const Host = process.env.REACT_APP_API_BASE_URL;
-  const token = localStorage.getItem("token");
-  const [userData, setUserData] = useState();
-
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`${Host}/auth/getuser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token"),
-          },
-        });
-        const json = await response.json();
-        setUserData(json);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    if (token) {
-      fetchUser();
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getUserDetails();
     }
-  }, [Host, token]);
+  }, [navigate]);
+
+  const userData = userDetail;
 
   const handleProfile = () => {
     handleCloseSidebar();
@@ -62,6 +48,11 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
     navigate("/subscription");
     handleCloseSidebar();
   }
+
+  const endDate = new Date(userData?.subscription?.endDate);
+  const today = new Date();
+  const diffInTime = endDate.getTime() - today.getTime();
+  const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
 
   return (
     <div className={`Sidebar ${sideactive} liquid-glass`} ref={sideRef}>
@@ -138,7 +129,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
             <>
               <div className="sidebar-career liquid-glass">
                 <h5>Hii {userData?.name}!
-                  {userData?.subscription.status === "Active" &&
+                  {userData?.subscription?.status === "Active" && userData?.subscription?.plan !== "Free" &&
                     <img src={tag} alt="" />
                   }
                 </h5>
@@ -147,13 +138,30 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
                 </Link>
                 <img src={profile} alt="" />
               </div>
-              {userData?.subscription.status !== "Active" &&
+              {userData?.subscription?.status === "Expired" || "Cancelled" && userData?.subscription?.plan === "Free" &&
                 <div className="sidebar-career subscription liquid-glass" onClick={handleSubscribe}>
                   <div className="subscription-side">
                     <img src={tag} alt="" />
                     <p>Get Your Subscription Plan Now! </p>
                   </div>
                   <p><ChevronRight /></p>
+                </div>
+              }
+              {diffInDays <= 2 &&
+                <div
+                  className="sidebar-career subscription liquid-glass subscription-ending"
+                  onClick={handleSubscribe}
+                >
+                  <div className="subscription-side">
+                    <img className="subscription-alert-image" src={expire} alt="" />
+                    <div className="sub-endbox">
+                      <p>Your Plan is expiring in {diffInDays} days</p>
+                      <p>Get Your Subscription Plan Now!</p>
+                    </div>
+                  </div>
+                  <p>
+                    <ChevronRight />
+                  </p>
                 </div>
               }
             </>

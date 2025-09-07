@@ -182,6 +182,24 @@
   color: white;
 }
 
+.subscription-end-alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.subscription-end-alert img {
+  width: 30%;
+}
+.subscription-end-alert button {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+.subscription-end-alert .seven-day-buttons {
+  color: black;
+}
 @media screen and (min-width: 1200px) {
   .Home-main {
     max-width: 1200px;

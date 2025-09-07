@@ -1,9 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./History.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
+import NoteContext from "../../Context/FeastContext";
+import { useNavigate } from "react-router-dom";
 
 const History = () => {
+  const { userDetail, getUserDetails, } = useContext(NoteContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getUserDetails();
+    }
+  }, [navigate]);
+
   const [filter, setFilter] = useState("all");
   const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
@@ -14,14 +27,7 @@ const History = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${Host}/auth/getuser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
-          },
-        });
-        const json = await response.json();
+        const json = await userDetail;
         setUserData(json);
       } catch (error) {
         console.log("error", error);
@@ -99,8 +105,6 @@ const History = () => {
     setSelectedInvoice(null);
     setShowModal(false);
   };
-
-  console.log(selectedInvoice,"setSelectedInvoice")
 
   console.warn = (message) =>
     message.includes("Buffer size mismatch") ? null : console.warn(message);

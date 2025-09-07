@@ -152,7 +152,7 @@
 }
 .sidebar-career h5 img {
   position: relative;
-  width: 8%;
+  width: 6%;
 }
 
 .sidebar-career.subscription {
@@ -173,4 +173,28 @@
 .subscription-side img {
   position: relative;
   width: 8%;
+}
+
+.subscription-ending:before{
+      box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7), inset 0 0 8px 1px rgb(255 0 0 / 70%) !important;
+}
+
+@keyframes flipPause {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(180deg);
+  }
+  70% {
+    transform: rotate(180deg); /* pause 1s at 180 */
+  }
+  100% {
+    transform: rotate(360deg);   /* return back */
+  }
+}
+
+.subscription-alert-image {
+  rotate: 180deg;
+  animation: flipPause 3s infinite linear; /* 3s = 2s rotate + 1s pause */
 }

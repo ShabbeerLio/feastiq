@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Registration.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import glass from "../../Assets/glassbg.jpeg";
+import NoteContext from "../../Context/FeastContext";
 
 // Animation variants for slide effect
 const slideVariants = {
@@ -29,8 +30,18 @@ const slideVariants = {
 };
 
 const Registration = () => {
+  const { userDetail, getUserDetails, } = useContext(NoteContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+        } else {
+            getUserDetails();
+        }
+    }, [navigate]);
+
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-  const navigate = useNavigate();
 
   useEffect(() => {
     const googleToken = new URLSearchParams(window.location.search).get(
@@ -40,14 +51,7 @@ const Registration = () => {
       setLoadingStage("processing");
       const fetchUser = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/auth/getuser`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": googleToken,
-            },
-          });
-          const json = await response.json();
+          const json = await userDetail;
           setLoadingStage(null);
           localStorage.setItem("token", googleToken);
 
