@@ -207,6 +207,13 @@ const WorkoutDetail = () => {
           >
             7 Days Workout <ChevronRight />
           </h6>
+          <h6
+            style={{ marginTop: "1rem", textAlign: "center" }}
+            className="recipie-card"
+            onClick={() => navigate("/bmi")}
+          >
+            BMI (Body Mass Index) <ChevronRight />
+          </h6>
           <Ads />
         </div>
       </div>

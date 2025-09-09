@@ -282,7 +282,7 @@ const CalorieHistory = () => {
                     <h6
                       style={{ marginTop: "1rem" }}
                       className="seven-day-buttons"
-                      onClick={() => window.location.href = "/bmi"}
+                      onClick={() => navigate("/bmi")}
                     >
                       BMI (Body Mass Index) <ChevronRight />
                     </h6>

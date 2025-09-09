@@ -245,7 +245,7 @@ const MealDetail = () => {
                                 <h6
                                     style={{ marginTop: "1rem", textAlign: "center" }}
                                     className="recipie-card"
-                                    onClick={() => window.location.href = "/bmi"}
+                                    onClick={() => navigate("/bmi")}
                                 >
                                     BMI (Body Mass Index) <ChevronRight />
                                 </h6>
@@ -333,7 +333,7 @@ const MealDetail = () => {
                                 <h6
                                     style={{ marginTop: "1rem", textAlign: "center" }}
                                     className="recipie-card"
-                                    onClick={() => window.location.href = "/bmi"}
+                                    onClick={() => navigate("/bmi")}
                                 >
                                     BMI (Body Mass Index) <ChevronRight />
                                 </h6>

@@ -22,6 +22,8 @@ const BMIPage = () => {
     const { userDetail, getUserDetails, } = useContext(NoteContext);
     const navigate = useNavigate();
 
+    console.log(userDetail,"userDetail")
+
     useEffect(() => {
         if (!localStorage.getItem("token")) {
             navigate("/login");
