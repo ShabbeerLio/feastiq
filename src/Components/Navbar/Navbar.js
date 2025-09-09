@@ -64,7 +64,7 @@ const Navbar = () => {
 
 
   return (
-    <div>
+    <div className="navbar-box">
       <div className="navbar">
         <div className="navbar-main">
           <nav className="navbar navbar-expand-lg navbar-light">
