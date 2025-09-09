@@ -3,14 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Sidebar from "./Sidebar";
 import { UserRound, History } from "lucide-react";
-import bg1 from "../../Assets/Background/bg1.mp4";
-import bg3 from "../../Assets/Background/bg3.mp4";
-import bg2 from "../../Assets/Background/reg1.mp4";
-import bg4 from "../../Assets/Background/reg2.mp4";
-import bg5 from "../../Assets/Background/reg3.mp4";
-import bg6 from "../../Assets/Background/reg4.mp4";
-import bg7 from "../../Assets/Background/reg5.mp4";
-import bg8 from "../../Assets/Background/reg6.mp4";
+import bg1 from "../../Assets/Background/bg1.jpeg";
+import bg2 from "../../Assets/Background/bg2.jpg";
+import bg3 from "../../Assets/Background/bg3.jpeg";
+import bg4 from "../../Assets/Background/bg4.jpeg";
+import bg5 from "../../Assets/Background/bg5.jpg";
+import bg6 from "../../Assets/Background/bg6.jpg";
 import { BsSpeedometer2 } from "react-icons/bs";
 import glass from "../../Assets/glassbg.jpeg"
 
@@ -29,7 +27,7 @@ const Navbar = () => {
 
   // pick random background for /login and also fallback for others
   useEffect(() => {
-    const registerBackgrounds = [bg2, bg4, bg5, bg6, bg7, bg8];
+    const registerBackgrounds = [bg1, bg2, bg3, bg4, bg5, bg6];
 
     if (location.pathname === "/login") {
       const randomIndex = Math.floor(Math.random() * registerBackgrounds.length);
@@ -71,14 +69,15 @@ const Navbar = () => {
         <div className="navbar-main">
           <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container-fluid nav-name">
-              <video
+              {/* <video
                 className="backdrop"
                 src={currentBg}
                 autoPlay
                 loop
                 muted
                 playsInline
-              />
+              /> */}
+              <img className="backdrop" src={currentBg} alt="" />
               {location.pathname !== "/login" && (
                 <Link className="navbar-brand" onClick={handleSidebar}>
                   <UserRound className="nav-name-svg liquid-glass" />
