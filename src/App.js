@@ -33,54 +33,54 @@ const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 function App() {
   return (
     <BrowserRouter>
-      <MainLayout />
+      <ContextState>
+        <div className="app-container">
+          {isMobile ? (
+            <div className="mobile-view">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/meal" element={<MealDetail />} />
+                <Route path="/login" element={<Registration />} />
+                <Route path="/sevendays" element={<SevenDays />} />
+                <Route path="/workout-detail" element={<WorkoutDetail />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route
+                  path="/term-and-conditions"
+                  element={<TermCondition />}
+                />
+                <Route path="/return-refund" element={<ReturnRefund />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/calorie-history" element={<CalorieHistory />} />
+                <Route path="/bmi" element={<BMIPage />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/subscription" element={<Subscription />} />
+                <Route path="/delete-account" element={<DeleteReq />} />
+              </Routes>
+            </div>
+          ) : (
+            <div className="webview">
+              <TopBar />
+              <Routes>
+                <Route path="/" element={<WebView />} />
+                <Route path="/privacy-policy" element={<WPrivacyPolicy />} />
+                <Route
+                  path="/term-and-conditions"
+                  element={<WTermCondition />}
+                />
+                <Route path="/return-refund" element={<WReturnRefund />} />
+                <Route path="/about" element={<WAbout />} />
+                <Route path="/contact-us" element={<WContact />} />
+              </Routes>
+              <Footer />
+            </div>
+          )}
+        </div>
+      </ContextState>
     </BrowserRouter>
-  );
-}
-
-function MainLayout() {
-  return (
-    <ContextState>
-      <div className="app-container">
-        {isMobile ? (
-          <>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/meal" element={<MealDetail />} />
-              <Route path="/login" element={<Registration />} />
-              <Route path="/sevendays" element={<SevenDays />} />
-              <Route path="/workout-detail" element={<WorkoutDetail />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/history" element={<History />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/term-and-conditions" element={<TermCondition />} />
-              <Route path="/return-refund" element={<ReturnRefund />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/calorie-history" element={<CalorieHistory />} />
-              <Route path="/bmi" element={<BMIPage />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/subscription" element={<Subscription />} />
-              <Route path="/delete-account" element={<DeleteReq />} />
-            </Routes>
-          </>
-        ) : (
-          <div className="webview">
-            <TopBar />
-            <Routes>
-              <Route path="/" element={<WebView />} />
-              <Route path="/privacy-policy" element={<WPrivacyPolicy />} />
-              <Route path="/term-and-conditions" element={<WTermCondition />} />
-              <Route path="/return-refund" element={<WReturnRefund />} />
-              <Route path="/about" element={<WAbout />} />
-              <Route path="/contact-us" element={<WContact />} />
-            </Routes>
-            <Footer />
-          </div>
-        )}
-      </div>
-    </ContextState>
   );
 }
 
