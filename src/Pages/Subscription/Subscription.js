@@ -35,7 +35,6 @@ const Subscription = () => {
   const plans = adminDetail[0]?.plan || [];
 
   const lastBought = userDetail?.subscription?.plan
-  console.log(lastBought, "lastBought")
 
   return (
     <div className="Home">

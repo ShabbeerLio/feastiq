@@ -5,18 +5,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Ads from "../../Components/Ads/Ads";
 import "./Checkout.css"
 import NoteContext from "../../Context/FeastContext";
+import { ChevronRight, PartyPopper, X } from "lucide-react";
 
 const Checkout = () => {
   const { userDetail, getUserDetails, } = useContext(NoteContext);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!localStorage.getItem("token")) {
-            navigate("/login");
-        } else {
-            getUserDetails();
-        }
-    }, [navigate]);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      getUserDetails();
+    }
+  }, [navigate]);
 
   const [isScrolled, setIsScrolled] = useState(false);
   const Host = process.env.REACT_APP_API_BASE_URL;
@@ -31,6 +32,8 @@ const Checkout = () => {
   const [showBillingForm, setShowBillingForm] = useState(false);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [voucherMessage, setVoucherMessage] = useState("")
   const [billingDetails, setBillingDetails] = useState({
     name: "",
     email: "",
@@ -78,6 +81,11 @@ const Checkout = () => {
   useEffect(() => {
     if (!checkoutData?.data) {
       navigate("/", { replace: true });
+    }
+    if (userDetail?.subscription?.plan === "Free") {
+      setTimeout(() => {
+        setShowAlert(true)
+      }, 1000);
     }
   }, [checkoutData, navigate]);
 
@@ -149,6 +157,7 @@ const Checkout = () => {
 
   // Remove coupon
   const handleRemoveCoupon = () => {
+    setVoucherMessage("")
     setAppliedCoupon(null);
     setDiscountedPrice(null);
     setCouponCode("");
@@ -231,6 +240,27 @@ const Checkout = () => {
     handleSubscribe();
   };
 
+  const handleCollectVoucher = () => {
+    setShowAlert(false)
+    if (coupons.length > 0) {
+      const firstCoupon = coupons[0];
+      setCouponCode(firstCoupon.code);
+      setVoucherMessage("Conratulations! You are our 1st 100 users")
+
+      // apply it directly
+      if (firstCoupon.status === "enable" && firstCoupon.type === type) {
+        setAppliedCoupon(firstCoupon);
+        setErrorMessage("");
+        const newPrice = basePrice - (basePrice * firstCoupon.discount) / 100;
+        setDiscountedPrice(newPrice.toFixed(2));
+      } else {
+        setErrorMessage("Voucher not valid for this checkout");
+      }
+    } else {
+      setErrorMessage("No vouchers available");
+    }
+  };
+
   if (!checkoutData?.data) {
     return (
       <p style={{ textAlign: "center", marginTop: "2rem" }}>Redirecting...</p>
@@ -277,6 +307,13 @@ const Checkout = () => {
                       <p>+GST</p>
                     </div>
                   </div>
+                  {voucherMessage &&
+                    <div className="voucher-message">
+                      <p><PartyPopper />{voucherMessage}</p>
+                    </div>
+                  }
+
+
                 </div>
               )}
 
@@ -455,6 +492,29 @@ const Checkout = () => {
                 </div>
               </div>
               <Ads />
+            </div>
+          </div>
+        </div>
+        <div className={`modal-overlay ${showAlert}`}>
+          <div className="modal-content liquid-glass">
+            <div
+              className="subscription-end-alert voucher-box"
+            >
+              <div className="wallet-status voucher">
+                <h1 className="status-msg">Congratulations</h1>
+                <p className="status-msg">You are our 1st 1000 user</p>
+              </div>
+              <div className="wallet-status">
+                <DotLottieReact
+                  className="wallet-success Congratulations"
+                  src="https://lottie.host/968f1433-70b9-42ce-a73a-fe52464b9c5e/uv81rsKJ3r.lottie"
+                  loop
+                  autoplay
+                />
+              </div>
+              <h6 className="seven-day-buttons" onClick={() => handleCollectVoucher()}>
+                Collect Voucher<ChevronRight />
+              </h6>
             </div>
           </div>
         </div>

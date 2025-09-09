@@ -51,3 +51,35 @@
     text-align: center;
     margin-bottom: 0;
 }
+
+.voucher-box{
+  position: relative;
+}
+.voucher{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%,-50%);
+}
+.voucher h1{
+  color: #fffd75;
+}
+
+.voucher-message{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.voucher-message p{
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  margin: 0;
+}
+.voucher-message svg{
+   width: 18px;
+   height: 18px;
+}
