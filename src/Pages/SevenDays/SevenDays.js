@@ -9,6 +9,7 @@ import meal1 from "../../Assets/Meal/breakfast.png";
 import meal2 from "../../Assets/Meal/lunch.png";
 import meal3 from "../../Assets/Meal/snacks.png";
 import meal4 from "../../Assets/Meal/dinner.png";
+import { ChevronDown, ChevronLeft } from "lucide-react";
 
 const mealImages = {
   breakfast: meal1,
@@ -49,15 +50,6 @@ const SevenDays = () => {
   const mealPlan = userData?.mealPlan || [];
   const workoutPlan = userData?.workoutPlan || [];
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplaySpeed: 3000,
-  };
-
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -67,6 +59,8 @@ const SevenDays = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleClose = () => setIsScrolled(false);
+
   return (
     <div className="Home">
       <div className="Home-main">
@@ -74,11 +68,15 @@ const SevenDays = () => {
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
           <div className="home-scroll-box">
             <div className="subscription-list">
-              <h5>
-                {viewType === "meal"
+              <div className="headerfornavigate">
+                <h5 className="mealdetail-title"> <ChevronLeft
+                  className="cursor-pointer"
+                  onClick={() => navigate(-1)}
+                /> {viewType === "meal"
                   ? "7 Days Meal Plan"
-                  : "7 Days Workout Plan"}
-              </h5>
+                  : "7 Days Workout Plan"}</h5>
+                <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+              </div>
 
               {viewType === "meal" ? (
                 mealPlan.length > 0 ? (

@@ -6,6 +6,7 @@ import ai from "../../Assets/ai.png"
 import "./Subscription.css"
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
+import { ChevronDown, ChevronLeft } from "lucide-react";
 
 const Subscription = () => {
   const { adminDetail, getAdminDetails, userDetail, getUserDetails } = useContext(NoteContext);
@@ -28,6 +29,8 @@ const Subscription = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleClose = () => setIsScrolled(false);
 
   console.warn = (message) =>
     message.includes("Buffer size mismatch") ? null : console.warn(message);
@@ -56,9 +59,17 @@ const Subscription = () => {
         <div className={`home-scroll bmi ${isScrolled ? "scrolled" : ""}`}>
           <div className="home-scroll-box">
             <div className="history-card">
-              <div className="subs-title">
-                <h5>Subscribe To Unlock </h5>
-                <h5>World Of Premium Benifits! </h5>
+              <div className="headerfornavigate subs-title">
+                <h5 className="mealdetail-title">
+                  <ChevronLeft
+                    className="cursor-pointer"
+                    onClick={() => navigate(-1)} // goes back to previous page
+                  /> Subscribe To Unlock
+                </h5>
+                <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+              </div>
+              <div className="subs-title2">
+                <h5>World Of Premium Benifits!</h5>
               </div>
               <div className="subs-head">
                 <div className="subs-head-card">

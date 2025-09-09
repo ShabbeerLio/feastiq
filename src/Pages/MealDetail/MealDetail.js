@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./MealDetail.css";
 import {
     Check,
+    ChevronDown,
     ChevronLast,
     ChevronLeft,
     ChevronRight,
@@ -166,10 +167,15 @@ const MealDetail = () => {
             <div className="Home-main">
                 <Calories meal={mealInfo} mealplate={mealplate} />
                 <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
-                    <h5 className="mealdetail-title">
-                        {isScrolled && <ChevronLeft onClick={handleClose} />}{""}
-                        {mealInfo?.type} <span>({mealInfo?.time})</span>
-                    </h5>
+                    <div className="headerfornavigate">
+                        <h5 className="mealdetail-title">
+                            <ChevronLeft
+                                className="cursor-pointer"
+                                onClick={() => navigate(-1)} // goes back to previous page
+                            /> {mealInfo?.type} <span>({mealInfo?.time})</span>
+                        </h5>
+                        <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+                    </div>
                     <AnimatePresence mode="wait">
                         {!showRecipe ? (
                             <motion.div

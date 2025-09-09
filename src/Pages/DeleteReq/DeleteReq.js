@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DeleteReq.css";
 import NoteContext from "../../Context/FeastContext";
+import { ChevronLeft } from "lucide-react";
 
 const DeleteReq = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
@@ -82,6 +83,11 @@ const DeleteReq = () => {
                   Deleting your account is permanent and cannot be undone.
                   Please confirm your email to proceed.
                 </p>
+                <div className="btn-row">
+                  <button className="back-btn" onClick={() => navigate(-1)}>
+                    <ChevronLeft />
+                  </button>
+                </div>
                 <form>
                   <input
                     type="email"

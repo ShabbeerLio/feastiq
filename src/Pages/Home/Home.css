@@ -130,16 +130,6 @@
   border-radius: 50px;
   transform: translate(-50%, 100%);
 }
-/* .home-scroll:before {
-  content: "";
-  position: absolute;
-  top: -10%;
-  right: 0%;
-  height: 15%;
-  width: 100%;
-  background-image: linear-gradient(0deg, #000 0%, rgba(255, 255, 255, 0) 100%);
-  z-index: -1;
-} */
 
 .home-scroll.scrolled {
   bottom: 0%;
@@ -151,6 +141,13 @@
 .home-scroll-box h5 {
   margin: 1rem 0 0.5rem 0;
   color: white;
+}
+
+.headerfornavigate{
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .seven-day-buttons {

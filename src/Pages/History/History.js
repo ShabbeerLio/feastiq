@@ -4,6 +4,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 
 const History = () => {
   const { userDetail, getUserDetails, } = useContext(NoteContext);
@@ -128,7 +129,13 @@ const History = () => {
 
         <div className="Other-pages-box">
           <div className="history-card">
+            
             <p className="history-subtitle">
+              <ChevronLeft
+                  className="cursor-pointer"
+                  onClick={() => navigate(-1)}
+                  style={{marginRight:"10px"}}
+                />
               View your past and active subscriptions for meal & fitness plans.
             </p>
 

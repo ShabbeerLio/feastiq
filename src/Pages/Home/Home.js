@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import MealCard from "../../Components/MealCard/MealCard";
 import WorkoutCard from "../../Components/WorkoutCard/WorkoutCard";
 import Calories from "../../Components/Calories/Calories";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Ads from "../../Components/Ads/Ads";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
@@ -17,7 +17,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import expire from "../../Assets/Expire.png"
 
 const Home = () => {
-  const {feast, getFeast, userDetail, getUserDetails, } = useContext(NoteContext);
+  const { feast, getFeast, userDetail, getUserDetails, } = useContext(NoteContext);
   const navigate = useNavigate();
   const cardRef = useRef(null);
   const Host = process.env.REACT_APP_API_BASE_URL;
@@ -199,10 +199,13 @@ const Home = () => {
         {userData && <Calories userData={userData} />}
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
           <div className="home-scroll-box">
-            <h5>
-              {isScrolled && <ChevronLeft onClick={handleClose} />} Today's Meal
-              Plan ({todayMealPlan?.day})
-            </h5>
+            <div className="headerfornavigate">
+              <h5>
+                Today's Meal Plan ({todayMealPlan?.day})
+
+              </h5>
+              <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+            </div>
             <div className="meal-plan-box">
               {todayMealPlan && (
                 <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
@@ -311,7 +314,7 @@ const Home = () => {
                 onClick={() => setShowAlert(false)}
                 className="close"
               >
-                <X/>
+                <X />
               </button>
               <img className="subscription-alert-image" src={expire} alt="" />
               <div className="sub-endbox">

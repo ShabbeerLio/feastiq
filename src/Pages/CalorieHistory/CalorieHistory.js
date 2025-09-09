@@ -152,7 +152,7 @@ const CalorieHistory = () => {
         <div className="glass-container liquid-glass">
           <div className="otherpage-box">
             <div className="wallet-status">
-              <Reaction meals={filteredMeals} filter={filter}/>
+              <Reaction meals={filteredMeals} filter={filter} />
               {/* <DotLottieReact
                 className="wallet-success"
                 src="https://lottie.host/5f7a12ee-88d4-4db0-947f-517892e40aee/jfx11DB4Ky.lottie"
@@ -209,7 +209,12 @@ const CalorieHistory = () => {
           <div className="home-scroll-box">
             <div className="history-card">
               <div className="history-subtitle calorie">
-                <p>Your today's and past Calorie.</p>
+                <p> <ChevronLeft
+                  className="cursor-pointer"
+                  onClick={() => navigate(-1)}
+                  style={{ marginRight: "10px" }}
+                />
+                  Your today's and past Calorie.</p>
                 {showRecipe === true ?
                   <button onClick={() => setShowRecipe(false)}><ChevronLeft />View Graph</button>
                   :

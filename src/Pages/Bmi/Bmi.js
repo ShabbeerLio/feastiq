@@ -13,7 +13,7 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import Ads from "../../Components/Ads/Ads";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import calculation from "../../Assets/Bmi.png";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
@@ -140,6 +140,7 @@ const BMIPage = () => {
         message.includes("Buffer size mismatch") ? null : console.warn(message);
 
     // console.log(chartData, "chartData")
+      const handleClose = () => setIsScrolled(false);
 
     return (
         <div className="Home">
@@ -161,7 +162,15 @@ const BMIPage = () => {
                 <div className={`home-scroll bmi ${isScrolled ? "scrolled" : ""}`}>
                     <div className="home-scroll-box">
                         <div className="history-card">
-                            <h5>BMI Report</h5>
+                            <div className="headerfornavigate">
+                        <h5 className="mealdetail-title">
+                            <ChevronLeft
+                                className="cursor-pointer"
+                                onClick={() => navigate(-1)} // goes back to previous page
+                            /> BMI Report
+                        </h5>
+                        <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+                    </div>
                             <div className="bmi-card">
                                 <ResponsiveContainer width="100%" height={300}>
                                     <LineChart

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Check, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  ChevronLast,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Calories from "../../Components/Calories/Calories";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import mbg4 from "../../Assets/Workout/workout.jpg";
@@ -138,11 +144,17 @@ const WorkoutDetail = () => {
       <div className="Home-main workout">
         <Calories meal={exerciseInfo} mealplate={mealplate} />
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""} mealtype`}>
-          <h5 className="mealdetail-title">
-            {isScrolled && <ChevronLeft onClick={handleClose} />}
-            {""}
-            Workout Details <span></span>
-          </h5>
+          <div className="headerfornavigate">
+            <h5 className="mealdetail-title">
+              {" "}
+              <ChevronLeft
+                className="cursor-pointer"
+                onClick={() => navigate(-1)} // goes back to previous page
+              />{" "}
+              Workout Details
+            </h5>
+            <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+          </div>
           <div className="recipie-box">
             <div className="recipie-item-card">
               <img src={mbg4} alt="" />
@@ -183,7 +195,9 @@ const WorkoutDetail = () => {
           </div>
           {/* <CompleteSkip  detail={exerciseInfo} /> */}
           <div className="recipie-card youtube">
-            <Link to={`https://www.youtube.com/results?search_query=${exerciseInfo?.workout.toLowerCase()} workout`}>
+            <Link
+              to={`https://www.youtube.com/results?search_query=${exerciseInfo?.workout.toLowerCase()} workout`}
+            >
               <FaYoutube /> How to do this Exercise <ChevronRight />
             </Link>
           </div>
