@@ -36,10 +36,23 @@ const Home = () => {
   const diffInTime = endDate.getTime() - todayTime.getTime();
   const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
 
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 1);
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // how much user has scrolled in %
+      const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+
+      if (scrolledPercent >= 99) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -90,10 +103,6 @@ const Home = () => {
     (item) => item.day === today
   );
 
-  const handleClose = () => {
-    setIsScrolled(false);
-  };
-
   const handleSevenDaysWorkout = (type) => {
     navigate("/sevendays", { state: { type: type } });
   };
@@ -122,19 +131,13 @@ const Home = () => {
     if (feast && feast.length > 0) {
       const createdAt = new Date(feast[0].createdAt);
       const today = new Date();
-
       // difference in days
       const diffTime = today.getTime() - createdAt.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-      // console.log("Account age in days:", diffDays);
-
       // last submission day stored in localStorage
       const lastSubmittedDay = Number(localStorage.getItem("lastSubmittedDay") || 0);
-
       // check if user already submitted this cycle
       const alreadySubmitted = lastSubmittedDay === diffDays;
-
       // open modal on 15, 16, 17 (unless submitted already)
       if (!alreadySubmitted && (diffDays % 15 === 0 || diffDays % 15 === 1 || diffDays % 15 === 2)) {
         setShowModal(true);
@@ -143,6 +146,10 @@ const Home = () => {
       }
     }
   }, [feast]);
+
+   const handleClose = () => {
+    setIsScrolled(false);
+  };
 
   // when user successfully updates weight
   const handleUpdateWeight = async () => {
@@ -206,7 +213,7 @@ const Home = () => {
               </h5>
               <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
             </div>
-            <div className="meal-plan-box">
+            <div>
               {todayMealPlan && (
                 <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
               )}
@@ -216,7 +223,7 @@ const Home = () => {
             </h6>
 
             <h5>Today's Workout Plan ({todayWorkoutPlan?.day})</h5>
-            <div className="exercise-box">
+            <div >
               {todayWorkoutPlan && (
                 <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} isScrolled={isScrolled} />
               )}
@@ -252,7 +259,7 @@ const Home = () => {
             <h4>Update Your Weight</h4>
             <p>Update your weight to get the perfect results</p>
             {!status &&
-              <>
+              <div>
                 <input
                   type="number"
                   placeholder="Enter new weight"
@@ -275,10 +282,10 @@ const Home = () => {
                   </button>
 
                 </div>
-              </>
+              </div>
             }
             {status === "Processing" &&
-              <>
+              <div>
                 <div className="wallet-status">
                   <DotLottieReact
                     className="wallet-success"
@@ -288,10 +295,10 @@ const Home = () => {
                   />
                   <p className="status-msg">{status}</p>
                 </div>
-              </>
+              </div>
             }
             {status === "Updated successfully" &&
-              <>
+              <div>
                 <div className="wallet-status">
                   <DotLottieReact
                     className="wallet-success"
@@ -301,7 +308,7 @@ const Home = () => {
                   />
                   <p className="status-msg">{status}</p>
                 </div>
-              </>
+              </div>
             }
           </div>
         </div>

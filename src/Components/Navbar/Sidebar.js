@@ -126,7 +126,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
         </div>
         <div className="sidebar-bottom">
           {userData && (
-            <>
+            <div>
               <div className="sidebar-career liquid-glass">
                 <h5>Hii {userData?.name}!
                   {userData?.subscription?.status === "Active" && userData?.subscription?.plan !== "Free" &&
@@ -164,7 +164,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
                   </p>
                 </div>
               }
-            </>
+            </div>
           )}
 
           <div className="sidebar-logout liquid-glass">

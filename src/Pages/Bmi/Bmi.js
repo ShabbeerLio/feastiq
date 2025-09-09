@@ -22,7 +22,7 @@ const BMIPage = () => {
     const { userDetail, getUserDetails, } = useContext(NoteContext);
     const navigate = useNavigate();
 
-    console.log(userDetail,"userDetail")
+    console.log(userDetail, "userDetail")
 
     useEffect(() => {
         if (!localStorage.getItem("token")) {
@@ -34,7 +34,7 @@ const BMIPage = () => {
 
     const Host = process.env.REACT_APP_API_BASE_URL;
     const token = localStorage.getItem("token");
-    
+
     const [userData, setUserData] = useState(null);
     const [bmiData, setBmiData] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -75,8 +75,22 @@ const BMIPage = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 1);
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+
+            // how much user has scrolled in %
+            const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+
+            if (scrolledPercent >= 99) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
         };
+
+        setTimeout(() => setIsScrolled(false), 500);
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -142,7 +156,7 @@ const BMIPage = () => {
         message.includes("Buffer size mismatch") ? null : console.warn(message);
 
     // console.log(chartData, "chartData")
-      const handleClose = () => setIsScrolled(false);
+    const handleClose = () => setIsScrolled(false);
 
     return (
         <div className="Home">
@@ -165,14 +179,14 @@ const BMIPage = () => {
                     <div className="home-scroll-box">
                         <div className="history-card">
                             <div className="headerfornavigate">
-                        <h5 className="mealdetail-title">
-                            <ChevronLeft
-                                className="cursor-pointer"
-                                onClick={() => navigate(-1)} // goes back to previous page
-                            /> BMI Report
-                        </h5>
-                        <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
-                    </div>
+                                <h5 className="mealdetail-title">
+                                    <ChevronLeft
+                                        className="cursor-pointer"
+                                        onClick={() => navigate(-1)} // goes back to previous page
+                                    /> BMI Report
+                                </h5>
+                                <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
+                            </div>
                             <div className="bmi-card">
                                 <ResponsiveContainer width="100%" height={300}>
                                     <LineChart

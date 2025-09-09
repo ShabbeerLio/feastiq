@@ -98,7 +98,7 @@ const WorkoutCard = ({ workoutPlan, isScrolled }) => {
   );
 
   return (
-    <>
+    <div className="exercise-box">
       {workoutPlan?.map((exercise, index) => {
         const keyword = exercise?.name?.toLowerCase() || "";
 
@@ -127,7 +127,7 @@ const WorkoutCard = ({ workoutPlan, isScrolled }) => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

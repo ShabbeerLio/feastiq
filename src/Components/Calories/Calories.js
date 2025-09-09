@@ -108,7 +108,7 @@ const Calories = ({ meal, mealplate, userData }) => {
   return (
     <div className="glass-container liquid-glass">
       {meal ? (
-        <>
+        <div className="thebox">
           <div
             className={`home-imag mealtype ${mealplate ? "mealplate" : ""}`}
           >
@@ -193,9 +193,9 @@ const Calories = ({ meal, mealplate, userData }) => {
             </div>
           </div>
           <p className="motivation">{motivationalTip}</p>
-        </>
+        </div>
       ) : (
-        <>
+        <div className="thebox">
           {/* Calorie Breakdown */}
           <div className="progress-wrapper">
             <CircularProgressbar
@@ -293,7 +293,7 @@ const Calories = ({ meal, mealplate, userData }) => {
             </div>
           </div>
           <p className="motivation">{motivationalTip}</p>
-        </>
+        </div>
       )}
     </div>
   );

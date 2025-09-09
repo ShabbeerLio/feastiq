@@ -73,7 +73,7 @@ const MealCard = ({ mealPlan, isScrolled, userData }) => {
   );
 
   return (
-    <>
+    <div className="meal-plan-box">
       {mealPlan.map((dayPlan, index) =>
         Object.keys(dayPlan)
           .filter((key) => key !== "day") // skip the "day" property
@@ -116,7 +116,7 @@ const MealCard = ({ mealPlan, isScrolled, userData }) => {
             );
           })
       )}
-    </>
+    </div>
   );
 };
 

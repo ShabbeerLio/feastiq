@@ -52,12 +52,26 @@ const SevenDays = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 1);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+          const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+      
+            // how much user has scrolled in %
+            const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+      
+            if (scrolledPercent >= 99) {
+              setIsScrolled(true);
+            } else {
+              setIsScrolled(false);
+            }
+          };
+  
+          setTimeout(() => setIsScrolled(false), 500);
+      
+          window.addEventListener("scroll", handleScroll);
+          return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
 
   const handleClose = () => setIsScrolled(false);
 

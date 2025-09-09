@@ -55,18 +55,28 @@ const MealDetail = () => {
         }
     }, [location.state]);
 
-
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 1);
+          const scrollTop = window.scrollY;
+          const windowHeight = window.innerHeight;
+          const docHeight = document.documentElement.scrollHeight;
+    
+          // how much user has scrolled in %
+          const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+    
+          if (scrolledPercent >= 99) {
+            setIsScrolled(true);
+          } else {
+            setIsScrolled(false);
+          }
         };
-        window.addEventListener("scroll", handleScroll);
 
         setTimeout(() => setIsScrolled(false), 500);
         setTimeout(() => setMealplate(false), 1000);
-
+    
+        window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+      }, []);
 
     const handleClose = () => setIsScrolled(false);
 

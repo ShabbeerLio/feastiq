@@ -44,7 +44,7 @@ const Navbar = () => {
     location.pathname === "/login"
       ? randomBg
       : location.pathname === "/workout-detail"
-        ? bg1
+        ? bg3
         : randomBg; // fallback if not set
 
   useEffect(() => {
