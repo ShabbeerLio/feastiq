@@ -167,28 +167,40 @@ const Checkout = () => {
   // Final Subscribe
   const handleSubscribe = async () => {
     try {
-      const finalPrice = discountedPrice || basePrice;
-      const transactionId = "TXN" + Date.now()
+      if (voucherMessage) {
+        const finalPrice = discountedPrice || basePrice;
+        const transactionId = "TXN" + Date.now()
 
-      const response = await fetch(`${Host}/subscription/assign`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-        body: JSON.stringify({
-          plan: data.plan,
-          paymentMethod: "online", // you can update based on user selection
-          transactionId: transactionId,
-          couponCode: appliedCoupon?.code || null,
-        }),
-      });
+        const response = await fetch(`${Host}/subscription/assign`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+          body: JSON.stringify({
+            plan: data.plan,
+            paymentMethod: "online", // you can update based on user selection
+            transactionId: transactionId,
+            couponCode: appliedCoupon?.code || null,
+          }),
+        });
 
-      const result = await response.json();
-      if (result.success) {
-        await handleInvoice(finalPrice, transactionId);
+        const result = await response.json();
+        if (result.success) {
+          await handleInvoice(finalPrice, transactionId);
+        }
+      }
+      else{
+        setStatus("Error");
+        setTimeout(() => {
+          navigate("/")
+        }, 4000);
       }
     } catch (error) {
+      setStatus("Error");
+      setTimeout(() => {
+          navigate("/")
+        }, 4000);
       console.log("Subscribe error", error);
     }
   };
@@ -400,7 +412,7 @@ const Checkout = () => {
                     required
                   />
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Phone"
                     value={billingDetails.phone}
                     onChange={(e) =>
@@ -422,7 +434,7 @@ const Checkout = () => {
                     }
                   />
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Pincode"
                     value={billingDetails.pincode}
                     onChange={(e) =>
@@ -462,7 +474,6 @@ const Checkout = () => {
               {/* --- Update Weight Modal --- */}
               <div className={`modal-overlay ${showModal}`}>
                 <div className="modal-content liquid-glass">
-                  <h4>Update Your Weight</h4>
                   {status === "Processing" &&
                     <>
                       <div className="wallet-status">
@@ -486,6 +497,19 @@ const Checkout = () => {
                           autoplay
                         />
                         <p className="status-msg">{status}</p>
+                      </div>
+                    </>
+                  }
+                  {status === "Error" &&
+                    <>
+                      <div className="wallet-status">
+                        <DotLottieReact
+                          className="wallet-success"
+                          src="https://lottie.host/dd6421fc-909f-4cd9-a504-52b0e952886c/QsiJljc2b3.lottie"
+                          loop
+                          autoplay
+                        />
+                        <p className="status-msg">Server Not responding, Please tyr again later.</p>
                       </div>
                     </>
                   }
