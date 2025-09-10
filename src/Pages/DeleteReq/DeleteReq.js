@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "./DeleteReq.css";
 import NoteContext from "../../Context/FeastContext";
 import { ChevronLeft } from "lucide-react";
+import Host from "../../Host";
 
 const DeleteReq = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [email, setEmail] = useState("");
   const [loadingStage, setLoadingStage] = useState(null);

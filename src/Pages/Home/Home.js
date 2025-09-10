@@ -15,12 +15,12 @@ import interact from "interactjs";
 import Loading from "../../Components/Loading/Loading";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import expire from "../../Assets/Expire.png"
+import Host from "../../Host";
 
 const Home = () => {
   const { feast, getFeast, userDetail, getUserDetails, } = useContext(NoteContext);
   const navigate = useNavigate();
   const cardRef = useRef(null);
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const position = useRef({ x: 0, y: 0 });
   const [isScrolled, setIsScrolled] = useState(false);

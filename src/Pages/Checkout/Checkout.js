@@ -6,6 +6,7 @@ import Ads from "../../Components/Ads/Ads";
 import "./Checkout.css"
 import NoteContext from "../../Context/FeastContext";
 import { ChevronRight, PartyPopper, X } from "lucide-react";
+import Host from "../../Host";
 
 const Checkout = () => {
   const { userDetail, getUserDetails, } = useContext(NoteContext);
@@ -20,7 +21,6 @@ const Checkout = () => {
   }, [navigate]);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState();
   const location = useLocation();

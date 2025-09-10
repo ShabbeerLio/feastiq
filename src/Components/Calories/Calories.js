@@ -6,9 +6,9 @@ import {
   buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Host from "../../Host";
 
 const Calories = ({ meal, mealplate, userData }) => {
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [dailyMeals, setDailyMeal] = useState();
   // Animated states

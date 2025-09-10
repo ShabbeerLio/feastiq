@@ -15,9 +15,9 @@ import { FaYoutube } from "react-icons/fa";
 import "./WorkoutDetail.css";
 import glass from "../../Assets/glassbg.jpeg";
 import CompleteSkip from "../../Components/CompleteSkip/CompleteSkip";
+import Host from "../../Host";
 
 const WorkoutDetail = () => {
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const location = useLocation();
   const navigate = useNavigate();

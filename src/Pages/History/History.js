@@ -5,6 +5,7 @@ import glass from "../../Assets/glassbg.jpeg";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
+import Host from "../../Host";
 
 const History = () => {
   const { userDetail, getUserDetails, } = useContext(NoteContext);
@@ -19,7 +20,6 @@ const History = () => {
   }, [navigate]);
 
   const [filter, setFilter] = useState("all");
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState();
   const [selectedInvoice, setSelectedInvoice] = useState(null);

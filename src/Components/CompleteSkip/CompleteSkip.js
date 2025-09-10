@@ -1,9 +1,10 @@
 import { Check, ChevronLast } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import Host from "../../Host";
 
 const CompleteSkip = ({ detail }) => {
 //   console.log(detail, "detail");
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const API_BASE_URL = Host;
   // Keep initial as null (safe default)
   const [mealStatus, setMealStatus] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,6 @@ const CompleteSkip = ({ detail }) => {
   const handleSkip = () => updateStatus("skipped");
 
   const [dailyMeal, setDailyMeal] = useState();
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
 
   useEffect(() => {

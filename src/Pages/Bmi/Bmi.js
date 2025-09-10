@@ -17,6 +17,7 @@ import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import calculation from "../../Assets/Bmi.png";
 import NoteContext from "../../Context/FeastContext";
 import { useNavigate } from "react-router-dom";
+import Host from "../../Host";
 
 const BMIPage = () => {
     const { userDetail, getUserDetails, } = useContext(NoteContext);
@@ -32,7 +33,6 @@ const BMIPage = () => {
         }
     }, [navigate]);
 
-    const Host = process.env.REACT_APP_API_BASE_URL;
     const token = localStorage.getItem("token");
 
     const [userData, setUserData] = useState(null);

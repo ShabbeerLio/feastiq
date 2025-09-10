@@ -1,9 +1,10 @@
 import react from "react";
 import FeastContext from "./FeastContext";
 import { useState } from "react";
+import Host from "../Host";
 
 const ContextState = (props) => {
-  const Host = process.env.REACT_APP_API_BASE_URL;
+  const Host = Host;
   const feastsData = [];
   const adminData = [];
   const userData = [];

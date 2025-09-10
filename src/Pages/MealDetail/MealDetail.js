@@ -18,6 +18,7 @@ import mbg4 from "../../Assets/Meal/mealbg4.jpg";
 import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
 import glass from "../../Assets/glassbg.jpeg"
+import Host from "../../Host";
 
 const overviewVariants = {
     initial: { x: "-100%", opacity: 0 },
@@ -32,7 +33,7 @@ const recipeVariants = {
 };
 
 const MealDetail = () => {
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+    const API_BASE_URL = Host
     const navigate = useNavigate();
     const location = useLocation();
     const [mealInfo, setMealInfo] = useState(null);
@@ -133,7 +134,6 @@ const MealDetail = () => {
     const handleSkip = () => updateMealStatus("skipped");
 
     const [dailyMeal, setDailyMeal] = useState();
-    const Host = process.env.REACT_APP_API_BASE_URL;
     const token = localStorage.getItem("token");
 
     useEffect(() => {

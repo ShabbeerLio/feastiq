@@ -4,6 +4,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import glass from "../../Assets/glassbg.jpeg";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
+import Host from "../../Host";
 
 const Profile = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
@@ -17,7 +18,6 @@ const Profile = () => {
     }
   }, [navigate]);
 
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
   const [processing, setProcessing] = useState("");
   const [formData, setFormData] = useState({

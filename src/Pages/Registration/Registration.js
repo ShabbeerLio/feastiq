@@ -7,6 +7,7 @@ import { FaGoogle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import glass from "../../Assets/glassbg.jpeg";
 import NoteContext from "../../Context/FeastContext";
+import Host from "../../Host";
 
 // Animation variants for slide effect
 const slideVariants = {
@@ -41,7 +42,7 @@ const Registration = () => {
     }
   }, [navigate]);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const API_BASE_URL = Host;
 
   useEffect(() => {
     const googleToken = new URLSearchParams(window.location.search).get(

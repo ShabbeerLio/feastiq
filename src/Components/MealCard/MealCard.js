@@ -6,6 +6,7 @@ import meal4 from "../../Assets/Meal/dinner.png";
 import { CookingPot } from "lucide-react";
 import "./MealCard.css";
 import { useNavigate } from "react-router-dom";
+import Host from "../../Host";
 
 const mealImages = {
   breakfast: meal1,
@@ -40,7 +41,6 @@ const MealCard = ({ mealPlan, isScrolled, userData }) => {
   };
 
   const [dailyMeal, setDailyMeal] = useState();
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const token = localStorage.getItem("token");
 
   useEffect(() => {

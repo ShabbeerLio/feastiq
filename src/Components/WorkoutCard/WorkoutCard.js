@@ -18,6 +18,7 @@ import poses16 from "../../Assets/Poses/bicycle crunches.png";
 import poses17 from "../../Assets/Poses/stepups.png";
 import "./WorkoutCard.css";
 import { useNavigate } from "react-router-dom";
+import Host from "../../Host";
 
 const imageMap = {
   bench: poses1,
@@ -41,7 +42,6 @@ const imageMap = {
 };
 
 const WorkoutCard = ({ workoutPlan, isScrolled }) => {
-  const Host = process.env.REACT_APP_API_BASE_URL;
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [dailyMeal, setDailyMeal] = useState();
