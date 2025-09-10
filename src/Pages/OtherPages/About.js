@@ -25,45 +25,37 @@ const About = () => {
         </div>
         <div className="Other-pages-box">
           <p>
-            Welcome to our fitness app! We are dedicated to helping you achieve
-            your health and fitness goals through personalized meal and workout
-            plans. Our team of experts has designed a user-friendly platform
-            that provides you with the tools and resources you need to succeed.
+            At Feast IQ, we believe healthy living should be simple, smart, and
+            personalized. Our mission is to make fitness and nutrition easy to
+            follow by combining the power of artificial intelligence with
+            practical guidance you can use every day.
           </p>
           <p>
-            Whether you're looking to lose weight, build muscle, or simply
-            maintain a healthy lifestyle, our app has got you covered. With a
-            wide range of meal options and workout routines tailored to your
-            individual needs, you'll never feel lost or overwhelmed.
+            Feast IQ is more than a fitness app—it’s your AI-powered lifestyle
+            partner. The app creates customized meal plans and workout routines
+            tailored to your daily calorie requirements, body type, and personal
+            goals. From weight loss to muscle gain or overall wellness, Feast IQ
+            adapts to your needs.
           </p>
           <p>
-            Join our community today and take the first step towards a
-            healthier, happier you!
+            Every meal suggestion comes with detailed information, including the
+            exact ingredients, step-by-step preparation methods, and even a
+            direct link to a YouTube video so you can cook with confidence. The
+            same approach is applied to workouts—clear routines, guided steps,
+            and video demonstrations to help you exercise safely and
+            effectively, no matter your fitness level.
           </p>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum natus
-            eos sint corporis laborum animi, quasi modi! Molestiae quod nobis
-            libero saepe corporis aliquam praesentium aut architecto quisquam
-            voluptas, eaque ullam neque sint amet quia necessitatibus? Repellat
-            distinctio corporis enim, odit itaque ipsum voluptas, modi ad minima
-            necessitatibus, dolore in!
+            We combine data-driven insights with real-world practicality,
+            ensuring every recommendation is sustainable, enjoyable, and
+            result-oriented. With progress tracking and instant AI assistance,
+            Feast IQ makes staying on top of your health effortless.
           </p>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum natus
-            eos sint corporis laborum animi, quasi modi! Molestiae quod nobis
-            libero saepe corporis aliquam praesentium aut architecto quisquam
-            voluptas, eaque ullam neque sint amet quia necessitatibus? Repellat
-            distinctio corporis enim, odit itaque ipsum voluptas, modi ad minima
-            necessitatibus, dolore in!
+            Our vision is simple: to make smart eating and effective workouts
+            accessible for everyone.
           </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum natus
-            eos sint corporis laborum animi, quasi modi! Molestiae quod nobis
-            libero saepe corporis aliquam praesentium aut architecto quisquam
-            voluptas, eaque ullam neque sint amet quia necessitatibus? Repellat
-            distinctio corporis enim, odit itaque ipsum voluptas, modi ad minima
-            necessitatibus, dolore in!
-          </p>
+          <p>Your health, your plan, your Feast IQ.</p>
         </div>
       </div>
       <div className="liquid-glass">{/* liquid glass */}</div>
