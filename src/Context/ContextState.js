@@ -4,7 +4,6 @@ import { useState } from "react";
 import Host from "../Host";
 
 const ContextState = (props) => {
-  const Host = Host;
   const feastsData = [];
   const adminData = [];
   const userData = [];

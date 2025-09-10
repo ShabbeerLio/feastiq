@@ -35,7 +35,6 @@ function App() {
     <BrowserRouter>
       <ContextState>
         <div className="app-container">
-    // testing
           {isMobile ? (
             <div className="mobile-view">
               <Navbar />
