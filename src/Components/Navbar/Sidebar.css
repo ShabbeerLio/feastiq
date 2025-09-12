@@ -62,7 +62,7 @@
 .sidebar-items ul li {
   display: flex;
   align-items: center;
-      border-bottom: .1px solid #ffffff74;
+  border-bottom: 0.1px solid #ffffff74;
 }
 .sidebar-items ul li a {
   text-decoration: none;
@@ -198,4 +198,19 @@
 .subscription-alert-image {
   rotate: 180deg;
   animation: flipPause 3s infinite linear; /* 3s = 2s rotate + 1s pause */
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.sidebar-footer a {
+  font-size: 10px;
+  text-decoration: none;
+  color: white;
+  margin: 0;
 }

@@ -5,6 +5,10 @@ import glass from "../../Assets/glassbg.jpeg";
 import { Link } from "react-router-dom";
 
 const TermCondition = () => {
+
+   console.warn = (message) =>
+    message.includes("Buffer size mismatch") ? null : console.warn(message);
+   
   return (
     <div className="Home">
       <div className="Home-main">
@@ -23,7 +27,7 @@ const TermCondition = () => {
         </div>
         <div className="Other-pages-box">
           <strong>Effective Date: 11 Sep 2025</strong>
-          <p>By accessing or using Feast IQ (“the App”), you agree to these Terms & Conditions. If you do not agree, please discontinue use of the App immediately.</p>
+          <p>By accessing or using Feast IQ App (“a product of NASHAIQ INNOVATIONS”), you agree to these Terms & Conditions. If you do not agree, please discontinue use of the App immediately.</p>
 
           <strong>1. Use of the Service</strong>
           <p>Feast IQ offers AI-generated meal suggestions and workout plans tailored to your daily calorie needs, complete with ingredients, preparation steps, and YouTube video guidance. By using the App, you confirm that all information provided (e.g., age, weight, health status) is accurate and up-to-date.</p>
@@ -50,7 +54,7 @@ const TermCondition = () => {
           <p>
             - Submit you request to permanently remove your user information and
             associated data from our platform.
-            <Link style={{ color: "red" }} to="/delete-account">
+            <Link className="account-delete" style={{ color: "red" }} to="/delete-account">
               Delete Account
             </Link>
           </p>

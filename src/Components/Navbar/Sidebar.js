@@ -170,6 +170,10 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
           <div className="sidebar-logout liquid-glass">
             <p onClick={handleLogout}>Log Out</p>
           </div>
+          <div className="sidebar-footer">
+            <Link> &copy; Copyright 2025 NASHAIQ INNOVATIONS | All Rights Reserved </Link>
+            <Link to={"https://digitaldezire.com/"}>Dev.By: <strong>Digital Dezire</strong></Link>
+          </div>
         </div>
        
       </div>
