@@ -135,18 +135,6 @@ const Subscription = () => {
           </div>
         </div>
       </div>
-      <div className="liquid-glass"></div>
-      <svg style={{ display: "none" }}>
-        <filter id="displacementFilter">
-          <feImage href={glass} preserveAspectRatio="none" />
-          <feDisplacementMap
-            in="SourceGraphic"
-            scale="200"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
     </div>
   );
 };

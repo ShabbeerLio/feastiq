@@ -10,15 +10,16 @@ import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Ads from "../../Components/Ads/Ads";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../../Context/FeastContext";
-import glass from "../../Assets/glassbg.jpeg"
+import glass from "../../Assets/glassbg.jpeg";
 import interact from "interactjs";
 import Loading from "../../Components/Loading/Loading";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import expire from "../../Assets/Expire.png"
+import expire from "../../Assets/Expire.png";
 import Host from "../../Host";
 
 const Home = () => {
-  const { feast, getFeast, userDetail, getUserDetails, } = useContext(NoteContext);
+  const { feast, getFeast, userDetail, getUserDetails } =
+    useContext(NoteContext);
   const navigate = useNavigate();
   const cardRef = useRef(null);
   const token = localStorage.getItem("token");
@@ -36,7 +37,6 @@ const Home = () => {
   const diffInTime = endDate.getTime() - todayTime.getTime();
   const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
 
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -44,7 +44,7 @@ const Home = () => {
       const docHeight = document.documentElement.scrollHeight;
 
       // how much user has scrolled in %
-      const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+      const scrolledPercent = ((scrollTop + windowHeight) / docHeight) * 100;
 
       if (scrolledPercent >= 99) {
         setIsScrolled(true);
@@ -64,7 +64,7 @@ const Home = () => {
       getUserDetails();
       getFeast();
       if (diffInDays <= 2) {
-        setShowAlert(true)
+        setShowAlert(true);
       }
       setTimeout(() => {
         setLoadingStatus("disactive");
@@ -116,8 +116,7 @@ const Home = () => {
           position.current.x += event.dx;
           position.current.y += event.dy;
 
-          event.target.style.transform =
-            `translate(${position.current.x}px, ${position.current.y}px)`;
+          event.target.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`;
         },
       },
     });
@@ -126,30 +125,56 @@ const Home = () => {
       if (interactable) interactable.unset(); // safely remove
     };
   }, []);
+  const handleClose = () => {
+    setIsScrolled(false);
+  };
+
+  console.log(userDetail, "userDetail");
 
   useEffect(() => {
     if (feast && feast.length > 0) {
       const createdAt = new Date(feast[0].createdAt);
       const today = new Date();
-      // difference in days
+
+      // difference in days since feast created
       const diffTime = today.getTime() - createdAt.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      // last submission day stored in localStorage
-      const lastSubmittedDay = Number(localStorage.getItem("lastSubmittedDay") || 0);
-      // check if user already submitted this cycle
-      const alreadySubmitted = lastSubmittedDay === diffDays;
-      // open modal on 15, 16, 17 (unless submitted already)
-      if (!alreadySubmitted && (diffDays % 15 === 0 || diffDays % 15 === 1 || diffDays % 15 === 2)) {
+      console.log(diffDays, "diffDays");
+
+      // find current cycle (15-day periods)
+      const cycle = Math.floor(diffDays / 15);
+
+      const weightHistory = userDetail?.weightHistory || [];
+
+      // ✅ Get last submitted date from weightHistory
+      let lastSubmittedCycle = -1;
+      if (weightHistory.length > 0) {
+        // take the last entry (latest date)
+        const lastEntry = weightHistory[weightHistory.length - 1];
+        const lastDate = new Date(lastEntry.date);
+
+        const diffSinceStart = lastDate.getTime() - createdAt.getTime();
+        const diffDaysLast = Math.floor(diffSinceStart / (1000 * 60 * 60 * 24));
+
+        lastSubmittedCycle = Math.floor(diffDaysLast / 15);
+      }
+
+      // already submitted in this cycle?
+      const alreadySubmitted = lastSubmittedCycle === cycle;
+
+      // day index in this cycle (0 = 15th, 1 = 16th, 2 = 17th)
+      const dayInCycle = diffDays % 15;
+
+      if (
+        !alreadySubmitted &&
+        (dayInCycle === 0 || dayInCycle === 1 || dayInCycle === 2)
+      ) {
         setShowModal(true);
       } else {
         setShowModal(false);
       }
     }
-  }, [feast]);
-
-   const handleClose = () => {
-    setIsScrolled(false);
-  };
+  }, [feast, userDetail]);
 
   // when user successfully updates weight
   const handleUpdateWeight = async () => {
@@ -172,10 +197,13 @@ const Home = () => {
         setStatus("Updated successfully");
         setNewWeight("");
 
-        // ✅ save submission day to localStorage
-        const diffTime = new Date().getTime() - new Date(feast[0].createdAt).getTime();
+        // ✅ store current cycle instead of day
+        const diffTime =
+          new Date().getTime() - new Date(feast[0].createdAt).getTime();
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        localStorage.setItem("lastSubmittedDay", diffDays);
+        const cycle = Math.floor(diffDays / 15);
+
+        localStorage.setItem("lastSubmittedCycle", cycle);
 
         setTimeout(() => {
           setShowModal(false);
@@ -193,12 +221,12 @@ const Home = () => {
   };
 
   if (loading) {
-    return <Loading status={loadingStatus} />
+    return <Loading status={loadingStatus} />;
   }
 
   const handleSubscribe = () => {
     navigate("/subscription");
-  }
+  };
 
   return (
     <div className="Home">
@@ -207,10 +235,7 @@ const Home = () => {
         <div className={`home-scroll ${isScrolled ? "scrolled" : ""}`}>
           <div className="home-scroll-box">
             <div className="headerfornavigate">
-              <h5>
-                Today's Meal Plan ({todayMealPlan?.day})
-
-              </h5>
+              <h5>Today's Meal Plan ({todayMealPlan?.day})</h5>
               <h5>{isScrolled && <ChevronDown onClick={handleClose} />}</h5>
             </div>
             <div>
@@ -218,17 +243,26 @@ const Home = () => {
                 <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
               )}
             </div>
-            <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("meal")}>
+            <h6
+              className="seven-day-buttons"
+              onClick={() => handleSevenDaysWorkout("meal")}
+            >
               7 Days Meals <ChevronRight />
             </h6>
 
             <h5>Today's Workout Plan ({todayWorkoutPlan?.day})</h5>
-            <div >
+            <div>
               {todayWorkoutPlan && (
-                <WorkoutCard workoutPlan={todayWorkoutPlan.exercises} isScrolled={isScrolled} />
+                <WorkoutCard
+                  workoutPlan={todayWorkoutPlan.exercises}
+                  isScrolled={isScrolled}
+                />
               )}
             </div>
-            <h6 className="seven-day-buttons" onClick={() => handleSevenDaysWorkout("workout")}>
+            <h6
+              className="seven-day-buttons"
+              onClick={() => handleSevenDaysWorkout("workout")}
+            >
               7 Days Workout <ChevronRight />
             </h6>
             <h6
@@ -250,15 +284,13 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="liquid-glass">
-          {/* liquid glass */}
-        </div>
+        {/* <div className="liquid-glass"></div> */}
         {/* --- Update Weight Modal --- */}
         <div className={`modal-overlay ${showModal}`}>
           <div className="modal-content liquid-glass">
             <h4>Update Your Weight</h4>
             <p>Update your weight to get the perfect results</p>
-            {!status &&
+            {!status && (
               <div>
                 <input
                   type="number"
@@ -267,24 +299,16 @@ const Home = () => {
                   onChange={(e) => setNewWeight(e.target.value)}
                 />
                 <div className="modal-actions">
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="close"
-                  >
+                  <button onClick={() => setShowModal(false)} className="close">
                     Cancel
                   </button>
-                  <button
-                    onClick={handleUpdateWeight}
-                    disabled={loading}
-
-                  >
+                  <button onClick={handleUpdateWeight} disabled={loading}>
                     {loading ? "Processing..." : "Submit"}
                   </button>
-
                 </div>
               </div>
-            }
-            {status === "Processing" &&
+            )}
+            {status === "Processing" && (
               <div>
                 <div className="wallet-status">
                   <DotLottieReact
@@ -296,8 +320,8 @@ const Home = () => {
                   <p className="status-msg">{status}</p>
                 </div>
               </div>
-            }
-            {status === "Updated successfully" &&
+            )}
+            {status === "Updated successfully" && (
               <div>
                 <div className="wallet-status">
                   <DotLottieReact
@@ -309,18 +333,13 @@ const Home = () => {
                   <p className="status-msg">{status}</p>
                 </div>
               </div>
-            }
+            )}
           </div>
         </div>
         <div className={`modal-overlay ${showAlert}`}>
           <div className="modal-content liquid-glass subscription-ending">
-            <div
-              className="subscription-end-alert"
-            >
-              <button
-                onClick={() => setShowAlert(false)}
-                className="close"
-              >
+            <div className="subscription-end-alert">
+              <button onClick={() => setShowAlert(false)} className="close">
                 <X />
               </button>
               <img className="subscription-alert-image" src={expire} alt="" />
@@ -334,17 +353,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <svg style={{ display: "none" }}>
-          <filter id="displacementFilter">
-            <feImage href={glass} preserveAspectRatio="none" />
-            <feDisplacementMap
-              in="SourceGraphic"
-              scale="200"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </svg>
       </div>
     </div>
   );

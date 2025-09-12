@@ -62,7 +62,7 @@
 .sidebar-items ul li {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid white;
+      border-bottom: .1px solid #ffffff74;
 }
 .sidebar-items ul li a {
   text-decoration: none;
@@ -92,7 +92,7 @@
   padding: 10px;
   border-radius: 25px;
   text-align: center;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   position: relative;
   z-index: 9;
 }
@@ -135,7 +135,7 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border: 0.8px solid white;
+  border: 0.1px solid #ffffff74;
   position: relative;
   z-index: 9;
 }
@@ -175,8 +175,9 @@
   width: 8%;
 }
 
-.subscription-ending:before{
-      box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7), inset 0 0 8px 1px rgb(255 0 0 / 70%) !important;
+.subscription-ending:before {
+  box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7),
+    inset 0 0 8px 1px rgb(255 0 0 / 70%) !important;
 }
 
 @keyframes flipPause {
@@ -190,7 +191,7 @@
     transform: rotate(180deg); /* pause 1s at 180 */
   }
   100% {
-    transform: rotate(360deg);   /* return back */
+    transform: rotate(360deg); /* return back */
   }
 }
 

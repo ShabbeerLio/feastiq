@@ -39,15 +39,22 @@
   position: fixed;
 }
 
-.liquid-glass {
+/* .liquid-glass {
   border-radius: 40px;
-  /* transition: opacity 0.26s ease-out; */
   filter: drop-shadow(-8px -10px 46px #0000005f);
   -webkit-backdrop-filter: blur(10px) brightness(1.1) url(#displacementFilter);
   backdrop-filter: brightness(1.1) blur(2px) url(#displacementFilter);
+} */
+.liquid-glass {
+  border-radius: 40px;
+    filter: drop-shadow(-8px -10px 46px #0000005f);
+    border: .1px solid #ffffffa1;
+    background-color: rgb(255 255 255 / 18%);
+    background: hsl(0deg 0% 100% / 13%);
+    backdrop-filter: blur(3px);
 }
 
-.liquid-glass:before {
+/* .liquid-glass:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -58,7 +65,7 @@
     inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
   box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7),
     inset 0 0 8px 1px rgba(255, 255, 255, 0.7);
-}
+} */
 
 .home-text-box {
   display: grid;

@@ -171,17 +171,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
             <p onClick={handleLogout}>Log Out</p>
           </div>
         </div>
-        <svg style={{ display: "none" }}>
-          <filter id="displacementFilter">
-            <feImage href={glass} preserveAspectRatio="none" />
-            <feDisplacementMap
-              in="SourceGraphic"
-              scale="200"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </svg>
+       
       </div>
     </div>
   );

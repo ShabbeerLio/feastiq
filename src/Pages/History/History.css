@@ -21,6 +21,7 @@
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
   overflow: hidden;
+      border: .1px solid #ffffff74;
 }
 /* Header */
 .subscription-header {

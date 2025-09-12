@@ -133,17 +133,7 @@ const Navbar = () => {
         sideRef={sideRef}
         handleCloseSidebar={handleCloseSidebar}
       />
-      <svg style={{ display: "none" }}>
-        <filter id="displacementFilter">
-          <feImage href={glass} preserveAspectRatio="none" />
-          <feDisplacementMap
-            in="SourceGraphic"
-            scale="200"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
+    
     </div>
   );
 };

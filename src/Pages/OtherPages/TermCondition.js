@@ -22,155 +22,31 @@ const TermCondition = () => {
           </div>
         </div>
         <div className="Other-pages-box">
-          <strong>1. Acceptance of Terms</strong>
-          <p>
-            - By using FeastIQ, you agree to these terms, our
-            <Link to="/privacy-policy">Privacy Policy</Link>, and
-            <Link to="/return-refund">Return & Refund Policy</Link>.
-          </p>
+          <strong>Effective Date: 11 Sep 2025</strong>
+          <p>By accessing or using Feast IQ (“the App”), you agree to these Terms & Conditions. If you do not agree, please discontinue use of the App immediately.</p>
 
-          <p>
-            - We reserve the right to update or modify these terms at any time
-            without prior notice.
-          </p>
+          <strong>1. Use of the Service</strong>
+          <p>Feast IQ offers AI-generated meal suggestions and workout plans tailored to your daily calorie needs, complete with ingredients, preparation steps, and YouTube video guidance. By using the App, you confirm that all information provided (e.g., age, weight, health status) is accurate and up-to-date.</p>
 
-          <p>
-            - Continued use of our services after any modifications constitutes
-            your acceptance of the updated terms.
-          </p>
+          <strong>2. No Medical or Professional Advice</strong>
+          <p>The content, recommendations, and suggestions provided by Feast IQ are for informational and educational purposes only. They do not constitute medical, nutritional, or fitness advice. Always consult a qualified healthcare provider before making significant changes to your diet or exercise routine. Feast IQ and its affiliates assume no liability for any outcomes, injuries, or health issues resulting from use of the App. </p>
 
-          <strong>2. Eligibility</strong>
+          <strong>3. Account Registration & Responsibility</strong>
+          <p>To access full features, you may need to create an account. You are responsible for maintaining your account credentials securely and for all activity under your account. </p>
 
-          <p>- You must be at least 18 years old to use our services.</p>
+          <strong>4. Intellectual Property</strong>
+          <p>All content, including text, design, videos, and software, is owned by Feast IQ or its licensors and is protected by intellectual property laws. Modifying, copying, or distributing any part of the App without explicit permission is prohibited. </p>
 
-          <p>
-            - If you are accessing our services on behalf of an organization,
-            you confirm that you have the authority to bind the entity to these
-            terms.
-          </p>
+          <strong>5. Liability Limitations</strong>
+          <p>Feast IQ is provided "as-is," with no warranties of any kind. Our liability for any claim arising from your use of the App is limited to the amount you paid (if any). We disclaim all liability for indirect, incidental, or consequential damages. </p>
 
-          <strong>3. Use of Services</strong>
+          <strong>6. Changes to Terms</strong>
+          <p>We reserve the right to update or modify these Terms at any time. Continued use of the App after changes are posted constitutes your acceptance.</p>
 
-          <p>
-            - Our services, including Meal & fitness based reports and
-            predictions, are for informational and entertainment purposes only.
-            They should not be considered a substitute for professional advice
-            (legal, medical, financial, etc.).
-          </p>
+          <strong>7. Governing Law & Contact</strong>
+          <p>These Terms are governed by the laws of Indian. For questions or concerns, please contact us at feastiq@gmail.com</p>
 
-          <p>
-            - You agree not to misuse our platform, engage in fraudulent
-            activities, or disrupt our services in any way.
-          </p>
-          <p>
-            - Any unauthorized reproduction, distribution, or modification of
-            content from FeastIQ is strictly prohibited.
-          </p>
-
-          <strong>4. Account Registration</strong>
-          <p>
-            - To access certain features, you may need to register an account.
-          </p>
-
-          <p>
-            - You are responsible for maintaining the confidentiality of your
-            account credentials.
-          </p>
-
-          <p>
-            - Any activity under your account will be your responsibility.
-            Notify us immediately if you suspect unauthorized use.
-          </p>
-
-          <strong>5. Payments & Subscriptions</strong>
-          <p>
-            - Any payments made for our services are non-refundable, except as
-            outlined in our{" "}
-            <Link to="/return-refund">Return & Refund Policy</Link>.
-          </p>
-
-          <p>
-            - We use third-party payment gateways, and we are not responsible
-            for any transaction failures or security breaches that occur outside
-            our platform.
-          </p>
-
-          <p>
-            - Prices for services may change at our discretion. Continued use
-            after price changes signifies acceptance.
-          </p>
-
-          <strong>6. Intellectual Property Rights</strong>
-          <p>
-            - All content, trademarks, logos, and materials on our platform are
-            the property of FeastIQ.
-          </p>
-
-          <p>
-            - Users may not copy, reproduce, sell, or exploit any content from
-            our platform without explicit permission.
-          </p>
-
-          <strong>7. Limitation of Liability</strong>
-          <p>
-            - We do not guarantee the accuracy or reliability of Meal & Fitness
-            predictions or reports.
-          </p>
-
-          <p>
-            - FeastIQ shall not be liable for any direct, indirect, incidental,
-            or consequential damages arising from the use of our services.
-          </p>
-
-          <p>- Your reliance on our services is solely at your own risk.</p>
-
-          <strong>8. Privacy Policy</strong>
-          <p>
-            - Your use of our services is also governed by our
-            <Link to="/privacy-policy"> Privacy Policy</Link>.
-          </p>
-
-          <p>
-            - We implement reasonable security measures to protect user data but
-            do not guarantee absolute security.
-          </p>
-
-          <strong>9. Termination of Services</strong>
-          <p>
-            - We reserve the right to suspend or terminate your access to our
-            services at our discretion, especially in cases of policy violations
-            or misuse.
-          </p>
-
-          <p>
-            - Upon termination, any outstanding obligations or liabilities
-            remain enforceable.
-          </p>
-
-          <strong>10. Governing Law & Dispute Resolution</strong>
-          <p>- These terms shall be governed by the laws of India.</p>
-
-          <p>
-            - Any disputes shall be resolved through arbitration or legal
-            proceedings.
-          </p>
-
-          <p>- Your reliance on our services is solely at your own risk.</p>
-
-          <strong>11. Contact Us</strong>
-          <p>- These terms shall be governed by the laws of India.</p>
-
-          <p>
-            For any questions regarding these terms, please contact us at:
-            feastiq@gmail.com
-          </p>
-
-          <p>
-            By using our services, you acknowledge that you have read,
-            understood, and agreed to these
-            <Link to="/term-and-conditions"> Terms & Conditions.</Link>
-          </p>
-          <strong>12. Account deletion </strong>
+          <strong>8. Account deletion </strong>
           <p>
             - Submit you request to permanently remove your user information and
             associated data from our platform.
@@ -180,18 +56,6 @@ const TermCondition = () => {
           </p>
         </div>
       </div>
-      <div className="liquid-glass">{/* liquid glass */}</div>
-      <svg style={{ display: "none" }}>
-        <filter id="displacementFilter">
-          <feImage href={glass} preserveAspectRatio="none" />
-          <feDisplacementMap
-            in="SourceGraphic"
-            scale="200"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
     </div>
   );
 };

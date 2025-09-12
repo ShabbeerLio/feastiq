@@ -74,6 +74,7 @@
   color: white;
   margin-bottom: 1rem;
   overflow: hidden;
+      border: .1px solid #ffffff74;
 }
 .meal-plan-card p:last-child {
   margin-bottom: 0;
