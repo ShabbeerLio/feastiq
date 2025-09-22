@@ -199,7 +199,9 @@ const MealDetail = () => {
         setShowModal(true);
         setLoading(true);
         setStatus("Processing")
-        if (userDetail?.subscription?.status !== "Active") {
+        if ((userDetail?.subscription?.status === "Expired" ||
+            userDetail?.subscription?.status === "Cancelled" ||
+            userDetail?.subscription?.plan === "Free")) {
             setStatus("")
         } else {
             try {
@@ -457,7 +459,9 @@ const MealDetail = () => {
             {/* Suggestion meals */}
             <div className={`modal-overlay ${showModal}`}>
                 <div className="modal-content liquid-glass">
-                    {userDetail?.subscription?.status !== "Active" ?
+                    {(userDetail?.subscription?.status === "Expired" ||
+                        userDetail?.subscription?.status === "Cancelled" ||
+                        userDetail?.subscription?.plan === "Free") ?
                         <>
                             <h4>Alternative Meals <X onClick={() => closeModal()} /></h4>
                             <div className="wallet-status">

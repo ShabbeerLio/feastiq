@@ -145,7 +145,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
               </div>
               {(userData?.subscription?.status === "Expired" ||
                 userData?.subscription?.status === "Cancelled" ||
-                userData?.subscription?.status === "Free") && (
+                userData?.subscription?.plan === "Free") && (
                 <div
                   className="sidebar-career subscription liquid-glass"
                   onClick={handleSubscribe}
