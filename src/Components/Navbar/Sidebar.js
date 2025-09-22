@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
 import expire from "../../Assets/Expire.png";
 import profile from "../../Assets/profile.png";
-import glass from "../../Assets/glassbg.jpeg"
+import glass from "../../Assets/glassbg.jpeg";
 import {
   ArrowRightLeft,
   BanknoteArrowUp,
@@ -17,11 +17,11 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
-import tag from "../../Assets/tag.png"
+import tag from "../../Assets/tag.png";
 import NoteContext from "../../Context/FeastContext";
 
 const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
-  const { userDetail, getUserDetails, } = useContext(NoteContext);
+  const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,12 +47,14 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
   const handleSubscribe = () => {
     navigate("/subscription");
     handleCloseSidebar();
-  }
+  };
 
   const endDate = new Date(userData?.subscription?.endDate);
   const today = new Date();
   const diffInTime = endDate.getTime() - today.getTime();
   const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+  // console.log(diffInDays, "diffInDays");
+
 
   return (
     <div className={`Sidebar ${sideactive} liquid-glass`} ref={sideRef}>
@@ -128,32 +130,46 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
           {userData && (
             <div>
               <div className="sidebar-career liquid-glass">
-                <h5>Hii {userData?.name}!
-                  {userData?.subscription?.status === "Active" && userData?.subscription?.plan !== "Free" &&
-                    <img src={tag} alt="" />
-                  }
+                <h5>
+                  Hii {userData?.name}!
+                  {userData?.subscription?.status === "Active" &&
+                    userData?.subscription?.plan !== "Free" &&
+                    userData?.subscription?.plan !== "Expired" && (
+                      <img src={tag} alt="" />
+                    )}
                 </h5>
                 <Link onClick={handleProfile} to={"/profile"}>
                   View Profile
                 </Link>
                 <img src={profile} alt="" />
               </div>
-              {userData?.subscription?.status === "Expired" || "Cancelled" && userData?.subscription?.plan === "Free" &&
-                <div className="sidebar-career subscription liquid-glass" onClick={handleSubscribe}>
+              {(userData?.subscription?.status === "Expired" ||
+                userData?.subscription?.status === "Cancelled" ||
+                userData?.subscription?.status === "Free") && (
+                <div
+                  className="sidebar-career subscription liquid-glass"
+                  onClick={handleSubscribe}
+                >
                   <div className="subscription-side">
                     <img src={tag} alt="" />
                     <p>Get Your Subscription Plan Now! </p>
                   </div>
-                  <p><ChevronRight /></p>
+                  <p>
+                    <ChevronRight />
+                  </p>
                 </div>
-              }
-              {diffInDays <= 2 &&
+              )}
+              {diffInDays <= 2 && diffInDays >= 0 && (
                 <div
                   className="sidebar-career subscription liquid-glass subscription-ending"
                   onClick={handleSubscribe}
                 >
                   <div className="subscription-side">
-                    <img className="subscription-alert-image" src={expire} alt="" />
+                    <img
+                      className="subscription-alert-image"
+                      src={expire}
+                      alt=""
+                    />
                     <div className="sub-endbox">
                       <p>Your Plan is expiring in {diffInDays} days</p>
                       <p>Get Your Subscription Plan Now!</p>
@@ -163,7 +179,7 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
                     <ChevronRight />
                   </p>
                 </div>
-              }
+              )}
             </div>
           )}
 
@@ -171,11 +187,15 @@ const Sidebar = ({ sideactive, sideRef, handleCloseSidebar }) => {
             <p onClick={handleLogout}>Log Out</p>
           </div>
           <div className="sidebar-footer">
-            <Link> &copy; Copyright 2025 NASHAIQ INNOVATIONS | All Rights Reserved </Link>
-            <Link to={"https://digitaldezire.com/"}>Dev.By: <strong>Digital Dezire</strong></Link>
+            <Link>
+              {" "}
+              &copy; Copyright 2025 NASHAIQ INNOVATIONS | All Rights Reserved{" "}
+            </Link>
+            <Link to={"https://digitaldezire.com/"}>
+              Dev.By: <strong>Digital Dezire</strong>
+            </Link>
           </div>
         </div>
-       
       </div>
     </div>
   );

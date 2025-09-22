@@ -105,8 +105,8 @@ const CalorieHistory = () => {
 
   const userDataa = feast?.map((i) => {
     try {
-      const cleaned = i?.mealFitness?.replace(/```json|```/g, "").trim();
-      return JSON.parse(cleaned);
+      const cleaned = i?.mealFitness;
+      return cleaned;
     } catch (err) {
       console.error("Error parsing mealFitness", err);
       return null;

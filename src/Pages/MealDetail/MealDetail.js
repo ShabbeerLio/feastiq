@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Calories from "../../Components/Calories/Calories";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./MealDetail.css";
@@ -10,7 +10,9 @@ import {
     ChevronRight,
     CookingPot,
     MoveRight,
+    ReplaceAll,
     ShoppingBasket,
+    X,
 } from "lucide-react";
 import { FaYoutube } from "react-icons/fa";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -19,6 +21,9 @@ import Ads from "../../Components/Ads/Ads";
 import { motion, AnimatePresence } from "framer-motion";
 import glass from "../../Assets/glassbg.jpeg"
 import Host from "../../Host";
+import NoteContext from "../../Context/FeastContext";
+import tag from "../../Assets/tag.png";
+
 
 const overviewVariants = {
     initial: { x: "-100%", opacity: 0 },
@@ -33,6 +38,7 @@ const recipeVariants = {
 };
 
 const MealDetail = () => {
+    const { userDetail, getUserDetails } = useContext(NoteContext);
     const API_BASE_URL = Host
     const navigate = useNavigate();
     const location = useLocation();
@@ -41,8 +47,12 @@ const MealDetail = () => {
     const [mealplate, setMealplate] = useState(true);
     const [showRecipe, setShowRecipe] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const mealdetailId = location.state?.mealId ?? false
+    const mealdetailDay = location.state?.mealDay ?? false
 
     useEffect(() => {
+        getUserDetails();
         // If coming from navigate with state
         if (location.state?.mealInfo) {
             setMealInfo(location.state.mealInfo);
@@ -58,26 +68,26 @@ const MealDetail = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-          const scrollTop = window.scrollY;
-          const windowHeight = window.innerHeight;
-          const docHeight = document.documentElement.scrollHeight;
-    
-          // how much user has scrolled in %
-          const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
-    
-          if (scrolledPercent >= 99) {
-            setIsScrolled(true);
-          } else {
-            setIsScrolled(false);
-          }
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+
+            // how much user has scrolled in %
+            const scrolledPercent = (scrollTop + windowHeight) / docHeight * 100;
+
+            if (scrolledPercent >= 99) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
         };
 
         setTimeout(() => setIsScrolled(false), 500);
         setTimeout(() => setMealplate(false), 1000);
-    
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-      }, []);
+    }, []);
 
     const handleClose = () => setIsScrolled(false);
 
@@ -172,6 +182,96 @@ const MealDetail = () => {
         }
     }, [mealtypesData]);
 
+    // swap
+    const [currentMeal, setCurrentMeal] = useState(null);
+    const [suggestions, setSuggestions] = useState([]);
+    const [updating, setUpdating] = useState(false);
+    const [status, setStatus] = useState("")
+
+    // console.log(mealInfo?.type, "mealInfo")
+    // console.log(mealdetailId, "mealdetailId")
+    // console.log(mealdetailDay, "mealdetailDay")
+    let mealType = mealInfo?.type
+    const mealTypeLower = mealType?.toLowerCase();
+
+    // Step 1: Fetch alternatives
+    const fetchSuggestions = async () => {
+        setShowModal(true);
+        setLoading(true);
+        setStatus("Processing")
+        if (userDetail?.subscription?.status !== "Active") {
+            setStatus("")
+        } else {
+            try {
+                const res = await fetch(`${Host}/detail/editMeal`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        detailId: mealdetailId[0],
+                        day: mealdetailDay,
+                        mealType: mealTypeLower
+                    }),
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || "Failed to fetch suggestions");
+                setStatus("")
+                setCurrentMeal(data.currentMeal);
+                setSuggestions(data.suggestions || []);
+            } catch (err) {
+                console.error(err);
+                alert("Error fetching meal suggestions: " + err.message);
+                setShowModal(false);
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
+    // Step 2: Apply chosen meal
+    const applyMeal = async (meal) => {
+        if (!window.confirm(`Replace current ${mealTypeLower} with "${meal.meal}"?`)) return;
+
+        setUpdating(true);
+        try {
+            const res = await fetch(`${Host}/detail/applyMealEdit`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    detailId: mealdetailId[0],
+                    day: mealdetailDay,
+                    mealType: mealTypeLower,
+                    newMeal: meal
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to update meal");
+
+            alert("Meal updated successfully!");
+            setCurrentMeal(data.updatedMeal);
+            setShowModal(false);
+            setSuggestions([]);
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert("Error updating meal: " + err.message);
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const closeModal = () => {
+        setShowModal(false)
+        setSuggestions([])
+    }
+
+    const handleSubscribe = () => {
+        navigate("/subscription");
+        closeModal()
+    };
+
+
     return (
         <div className="Home">
             <div className="Home-main">
@@ -219,6 +319,7 @@ const MealDetail = () => {
                                                     ? mealInfo?.meal.join(", ")
                                                     : mealInfo?.meal}
                                             </p>
+                                            <span onClick={fetchSuggestions} className="liquid-glass"><ReplaceAll />Swap</span>
                                         </div>
                                         <h6 className="liquid-glass" onClick={() => setShowRecipe(true)}>
                                             Ingredients and Steps <ChevronRight />
@@ -351,6 +452,68 @@ const MealDetail = () => {
                             </motion.div>
                         )}
                     </AnimatePresence>
+                </div>
+            </div>
+            {/* Suggestion meals */}
+            <div className={`modal-overlay ${showModal}`}>
+                <div className="modal-content liquid-glass">
+                    {userDetail?.subscription?.status !== "Active" ?
+                        <>
+                            <h4>Alternative Meals <X onClick={() => closeModal()} /></h4>
+                            <div className="wallet-status">
+                                <DotLottieReact
+                                    className="wallet-success"
+                                    src="https://lottie.host/b36b5394-5e67-4126-9cfc-a2eb90c26fbf/Aj5iGANvBx.lottie"
+                                    loop
+                                    autoplay
+                                />
+                            </div>
+                            <h5 style={{ fontSize: "12px", textAlign: "center" }}>Unlock full access to meals, workouts and premium features—subscribe now and continue your journey without limits!</h5>
+                            <div
+                                className="sidebar-career subscription liquid-glass"
+                                onClick={handleSubscribe}
+                            >
+                                <div className="subscription-side">
+                                    <img src={tag} alt="" />
+                                    <p>Get Your Subscription Plan Now! </p>
+                                </div>
+                                <p>
+                                    <ChevronRight />
+                                </p>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <h4>Alternative Meals <X onClick={() => closeModal()} /></h4>
+                            <p>Select Your meal to swap current Meal</p>
+                            {suggestions.map((meal, idx) => (
+                                <div
+                                    key={idx}
+                                    className="meal-card suggestion home-text-card"
+                                    onClick={() => applyMeal(meal)}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    <h4>{meal.meal} ({meal.time})</h4>
+                                    <p>
+                                        {meal.calories} kcal | P: {meal.protein}g | C: {meal.carbs}g | F:{" "}
+                                        {meal.fats}g
+                                    </p>
+                                    <strong>Click to Apply</strong>
+                                </div>
+                            ))}
+                        </>}
+
+                    {status === "Processing" &&
+                        <div className="wallet-status">
+                            <DotLottieReact
+                                className="wallet-success"
+                                src="https://lottie.host/5066ed2e-4dbb-4c34-ac26-2bfada68301f/QJPWTrsYv7.lottie"
+                                loop
+                                autoplay
+                            />
+                            <p className="status-msg">Processing</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

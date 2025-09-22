@@ -92,7 +92,7 @@
 .sub-plan-top-right h5 {
   font-weight: 700;
   margin: 0;
-  color: black;
+  color: black !important;
   font-size: 22px;
 }
 .sub-plan-top-right h5 del {

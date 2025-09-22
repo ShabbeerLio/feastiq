@@ -194,6 +194,7 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
+  text-align: center;
 }
 .subscription-end-alert img {
   width: 30%;

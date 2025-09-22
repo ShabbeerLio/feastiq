@@ -75,11 +75,14 @@ const Home = () => {
     }
   }, [navigate]);
 
+  // console.log(feast, "feast");
+  const mealId = feast?.map((i) => i._id)
+
   // Parse API response
   const userDataa = feast?.map((i) => {
     try {
-      const cleaned = i?.mealFitness?.replace(/```json|```/g, "").trim();
-      return JSON.parse(cleaned);
+      const cleaned = i?.mealFitness;
+      return cleaned;
     } catch (err) {
       console.error("Error parsing mealFitness", err);
       return null;
@@ -88,10 +91,7 @@ const Home = () => {
 
   // safely get API object
   const userData = userDataa && userDataa[0];
-  localStorage.setItem(
-    "motivationalTip",
-    JSON.stringify(userData?.motivationalTip)
-  );
+  localStorage.setItem("motivationalTip", userData?.motivationalTip);
 
   // console.log(userData, "userData from API");
 
@@ -129,7 +129,7 @@ const Home = () => {
     setIsScrolled(false);
   };
 
-  console.log(userDetail, "userDetail");
+  // console.log(userDetail, "userDetail");
 
   useEffect(() => {
     if (feast && feast.length > 0) {
@@ -139,7 +139,7 @@ const Home = () => {
       // difference in days since feast created
       const diffTime = today.getTime() - createdAt.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      console.log(diffDays, "diffDays");
+      // console.log(diffDays, "diffDays");
 
       // find current cycle (15-day periods)
       const cycle = Math.floor(diffDays / 15);
@@ -240,7 +240,7 @@ const Home = () => {
             </div>
             <div>
               {todayMealPlan && (
-                <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} />
+                <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} mealId={mealId}/>
               )}
             </div>
             <h6
@@ -344,7 +344,12 @@ const Home = () => {
               </button>
               <img className="subscription-alert-image" src={expire} alt="" />
               <div className="sub-endbox">
-                <p>Your Plan is expiring in {diffInDays} days</p>
+                {diffInDays <= 2 && diffInDays >= 0 ? (
+                  <p>Your Plan is expiring in {diffInDays} days</p>
+                ) : (
+                  <p>Your Plan has Expired</p>
+                )}
+
                 <p>Get Your Subscription Plan Now!</p>
               </div>
               <h6 className="seven-day-buttons" onClick={handleSubscribe}>
