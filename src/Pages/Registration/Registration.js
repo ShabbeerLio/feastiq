@@ -67,7 +67,7 @@ const Registration = () => {
           localStorage.setItem("token", googleToken);
           console.log(googleToken, "googleToken");
           setLoadingStage(null);
-
+          console.log(json, "json");
           if (
             (json && !json.age) ||
             !json.gender ||
@@ -86,7 +86,7 @@ const Registration = () => {
             setStep(4); // jump directly to "age"
           } else {
             setLoadingStage(null);
-            navigate("/");
+            // navigate("/");
           }
         } catch (error) {
           console.log("error", error);
@@ -94,7 +94,7 @@ const Registration = () => {
       };
       fetchUser();
     } else if (localStorage.getItem("token")) {
-      navigate("/");
+      // navigate("/");
       console.log("else is working");
     }
   }, [navigate]);
