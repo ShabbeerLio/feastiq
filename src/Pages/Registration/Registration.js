@@ -67,7 +67,7 @@ const Registration = () => {
             setStep(4); // jump directly to "age"
           } else {
             setLoadingStage(null);
-            navigate("/");
+            // navigate("/");
           }
         } catch (error) {
           console.log("error", error);
@@ -75,14 +75,14 @@ const Registration = () => {
       };
       fetchUser();
     } else if (localStorage.getItem("token")) {
-      navigate("/");
+      // navigate("/");
       console.log("else is working");
     }
   }, [navigate, userDetail]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
-      navigate("/login");
+      // navigate("/login");
     } else {
       getUserDetails();
     }
