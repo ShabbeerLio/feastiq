@@ -59,31 +59,19 @@ const Registration = () => {
   const API_BASE_URL = Host;
 
   useEffect(() => {
-    const handleGoogleOrLocalLogin = async () => {
-      const googleToken = new URLSearchParams(window.location.search).get(
-        "token"
-      );
-      const localToken = localStorage.getItem("token");
+    const googleToken = new URLSearchParams(window.location.search).get(
+      "token"
+    );
+    if (googleToken) {
+      localStorage.setItem("token", googleToken);
+      setLoadingStage("processing");
 
-      // 🟢 1️⃣ Case: Google login callback
-      if (googleToken) {
-        // Immediately save the token
-        localStorage.setItem("token", googleToken);
-        setLoadingStage("processing");
-
+      const fetchUser = async () => {
         try {
-          // ✅ Fetch user details from backend
-          const res = await fetch(`${API_BASE_URL}/auth/getuser`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": googleToken,
-            },
-          });
-          const json = await res.json();
+          await getUserDetails();
+          const json = await userDetail;
           setLoadingStage(null);
 
-          // ✅ If user profile incomplete → go to form
           if (
             json &&
             (!json.age ||
@@ -100,27 +88,20 @@ const Registration = () => {
             setMode("google");
             setStep(4);
           } else {
-            navigate("/");
+            console.log("else");
+            // navigate("/");
           }
-        } catch (err) {
-          console.error("Google login fetch error:", err);
+        } catch (error) {
+          console.error("Google fetch user error:", error);
           setLoadingStage(null);
-          setErrorMessage("Error loading user data");
         }
-        return;
-      }
+      };
 
-      // 🟢 2️⃣ Case: Local login (already logged in)
-      if (localToken) {
-        navigate("/");
-        return;
-      }
-
-      // 🟢 3️⃣ Case: No token anywhere → stay on login/signup
-      // Do NOT navigate("/login") here; you're already on it.
-    };
-
-    handleGoogleOrLocalLogin();
+      fetchUser();
+    } else if (localStorage.getItem("token")) {
+      // navigate("/");
+      console.log(localStorage.getItem("token"), "token");
+    }
   }, [navigate]);
 
   const handleChange = (e) => {
