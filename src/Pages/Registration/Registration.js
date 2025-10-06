@@ -59,41 +59,44 @@ const Registration = () => {
   const API_BASE_URL = Host;
 
   const googleToken = new URLSearchParams(window.location.search).get("token");
-
-  useEffect(() => {
+  useEffect(async () => {
     if (googleToken) {
+      setLoadingStage("processing");
+      getUserDetails();
       console.log(googleToken, "googleToken");
       localStorage.setItem("token", googleToken);
-      setLoadingStage("processing");
-      getUserDetails(); // fetch and update context
+      try {
+        const json = await userDetail;
+        setLoadingStage(null);
+
+        if (
+          json &&
+          (!json.age ||
+            !json.gender ||
+            !json.weight ||
+            !json.height ||
+            !json.goal)
+        ) {
+          setFormData((prev) => ({
+            ...prev,
+            name: json.name || "",
+            email: json.email || "",
+          }));
+          setMode("google");
+          setStep(4);
+        } else {
+          console.log("else");
+          // navigate("/");
+        }
+      } catch (error) {
+        console.error("Google fetch user error:", error);
+        setLoadingStage(null);
+      }
+    } else if (localStorage.getItem("token")) {
+      // navigate("/");
+      console.log(localStorage.getItem("token"), "token");
     }
-  }, [googleToken]);
-
-  useEffect(() => {
-    if (!googleToken) return; // only handle if google login just happened
-    if (!userDetail || Object.keys(userDetail).length === 0) return;
-
-    setLoadingStage(null);
-    console.log("Fetched user:", userDetail);
-
-    if (
-      !userDetail.age ||
-      !userDetail.gender ||
-      !userDetail.weight ||
-      !userDetail.height ||
-      !userDetail.goal
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        name: userDetail.name || "",
-        email: userDetail.email || "",
-      }));
-      setMode("google");
-      setStep(4);
-    } else {
-      navigate("/");
-    }
-  }, [userDetail, googleToken]);
+  }, [userDetail]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
