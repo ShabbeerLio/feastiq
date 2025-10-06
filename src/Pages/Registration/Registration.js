@@ -58,11 +58,10 @@ const Registration = () => {
 
   const API_BASE_URL = Host;
 
+  const googleToken = new URLSearchParams(window.location.search).get("token");
   useEffect(() => {
-    const googleToken = new URLSearchParams(window.location.search).get(
-      "token"
-    );
     if (googleToken) {
+      console.log(googleToken, "googleToken");
       localStorage.setItem("token", googleToken);
       setLoadingStage("processing");
 
