@@ -43,6 +43,7 @@ const Registration = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -55,55 +56,56 @@ const Registration = () => {
     foodpreferences: "",
   });
 
-  const googleToken = new URLSearchParams(window.location.search).get("token");
-
-  useEffect(() => {
-    if (googleToken) {
-      const fetchUser = async () => {
-        try {
-          let json = userDetail; // remove await if it's not a promise
-          if (!json || Object.keys(json).length === 0) {
-            // fetch user details from API if not in context
-            const res = await fetch(`${Host}/auth/getuser`, {
-              method: "GET",
-              headers: { "auth-token": googleToken },
-            });
-            json = await res.json();
-          }
-
-          localStorage.setItem("token", googleToken);
-
-          if (
-            (json && !json.age) ||
-            !json.gender ||
-            !json.weight ||
-            !json.height ||
-            !json.goal
-          ) {
-            setFormData((prev) => ({
-              ...prev,
-              name: json.name || "",
-              email: json.email || "",
-            }));
-            setMode("google");
-            setStep(4);
-          }
-        } catch (error) {
-          console.log("error", error);
-        } finally {
-          setLoadingStage(null);
-        }
-      };
-
-      fetchUser();
-    }
-  }, [googleToken, userDetail]);
+  const API_BASE_URL = Host;
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     } else {
       getUserDetails();
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    const googleToken = new URLSearchParams(window.location.search).get(
+      "token"
+    );
+    if (googleToken) {
+      setLoadingStage("processing");
+      const fetchUser = async () => {
+        try {
+          const json = await userDetail;
+          setLoadingStage(null);
+          localStorage.setItem("token", googleToken);
+
+          if (
+            json &&
+            (!json.age ||
+              !json.gender ||
+              !json.weight ||
+              !json.height ||
+              !json.goal)
+          ) {
+            // Prefill form with Google user details
+            setFormData((prev) => ({
+              ...prev,
+              name: json.name || "",
+              email: json.email || "",
+            }));
+
+            setMode("google");
+            setStep(4); // jump directly to "age"
+          } else {
+            setLoadingStage(null);
+            navigate("/");
+          }
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+      fetchUser();
+    } else if (localStorage.getItem("token")) {
+      navigate("/");
     }
   }, [navigate]);
 
@@ -134,7 +136,7 @@ const Registration = () => {
 
     setLoadingStage("processing");
     try {
-      const res = await fetch(`${Host}/auth/login`, {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -171,7 +173,7 @@ const Registration = () => {
     e.preventDefault();
     setLoadingStage("processing");
     try {
-      const res = await fetch(`${Host}/auth/createuser`, {
+      const res = await fetch(`${API_BASE_URL}/auth/createuser`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -181,7 +183,7 @@ const Registration = () => {
       if (data.success) {
         localStorage.setItem("token", data.authToken);
         try {
-          const response = await fetch(`${Host}/detail/addfeast`, {
+          const response = await fetch(`${API_BASE_URL}/detail/addfeast`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -212,7 +214,7 @@ const Registration = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = `${Host}/auth/google`;
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
 
   const handleGoogleSubmit = async (e) => {
@@ -220,7 +222,7 @@ const Registration = () => {
     setLoadingStage("processing");
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${Host}/auth/edituser`, {
+      const res = await fetch(`${API_BASE_URL}/auth/edituser`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +235,7 @@ const Registration = () => {
 
       if (data.success) {
         // then add feast details
-        const response = await fetch(`${Host}/detail/addfeast`, {
+        const response = await fetch(`${API_BASE_URL}/detail/addfeast`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -709,7 +711,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${Host}/auth/send-otp`,
+                            `${API_BASE_URL}/auth/send-otp`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
@@ -749,7 +751,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${Host}/auth/verify-reset-otp`,
+                            `${API_BASE_URL}/auth/verify-reset-otp`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
@@ -789,7 +791,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${Host}/auth/reset-password`,
+                            `${API_BASE_URL}/auth/reset-password`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
