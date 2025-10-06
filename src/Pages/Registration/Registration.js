@@ -34,8 +34,29 @@ const Registration = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
   const API_BASE_URL = Host;
+  const [step, setStep] = useState(0); // step 0 = choose mode
+  const [mode, setMode] = useState(null); // "signup" | "login" | "google"
+  const [loadingStage, setLoadingStage] = useState(null);
+  const [direction, setDirection] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
+  // Add state
+  const [forgotStep, setForgotStep] = useState(0);
+  const [resetEmail, setResetEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    age: "",
+    gender: "",
+    weight: "",
+    height: "",
+    goal: "",
+    foodpreferences: "",
+  });
   const googleToken = new URLSearchParams(window.location.search).get("token");
-  
+
   useEffect(() => {
     if (googleToken) {
       console.log(googleToken);
@@ -65,7 +86,7 @@ const Registration = () => {
             setStep(4); // jump directly to "age"
           } else {
             setLoadingStage(null);
-            // navigate("/");
+            navigate("/");
           }
         } catch (error) {
           console.log("error", error);
@@ -73,41 +94,18 @@ const Registration = () => {
       };
       fetchUser();
     } else if (localStorage.getItem("token")) {
-      // navigate("/");
+      navigate("/");
       console.log("else is working");
     }
   }, [navigate]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
-      // navigate("/login");
+      navigate("/login");
     } else {
       getUserDetails();
     }
   }, [navigate]);
-
-  const [step, setStep] = useState(0); // step 0 = choose mode
-  const [mode, setMode] = useState(null); // "signup" | "login" | "google"
-  const [loadingStage, setLoadingStage] = useState(null);
-  const [direction, setDirection] = useState(1);
-  const [errorMessage, setErrorMessage] = useState("");
-  // Add state
-  const [forgotStep, setForgotStep] = useState(0);
-  const [resetEmail, setResetEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    age: "",
-    gender: "",
-    weight: "",
-    height: "",
-    goal: "",
-    foodpreferences: "",
-  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
