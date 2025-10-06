@@ -43,11 +43,7 @@ const Registration = () => {
   }, [navigate]);
 
   const API_BASE_URL = Host;
-
-  console.log(new URLSearchParams(window.location.search).get(
-      "token"
-    ),"google Token")
-
+  
   useEffect(() => {
     const googleToken = new URLSearchParams(window.location.search).get(
       "token"
