@@ -43,50 +43,47 @@ const Registration = () => {
   }, [navigate]);
 
   const API_BASE_URL = Host;
-  
-  useEffect(() => {
-    const googleToken = new URLSearchParams(window.location.search).get(
-      "token"
-    );
-    if (googleToken) {
-      console.log(googleToken)
-      setLoadingStage("processing");
-      const fetchUser = async () => {
-        try {
-          const json = await userDetail;
+
+  const googleToken = new URLSearchParams(window.location.search).get("token");
+  if (googleToken) {
+    console.log(googleToken);
+    setLoadingStage("processing");
+    const fetchUser = async () => {
+      try {
+        const json = await userDetail;
+        setLoadingStage(null);
+        localStorage.setItem("token", googleToken);
+        console.log(googleToken, "googleToken");
+
+        if (
+          (json && !json.age) ||
+          !json.gender ||
+          !json.weight ||
+          !json.height ||
+          !json.goal
+        ) {
+          // ✅ Prefill form with Google user details
+          setFormData((prev) => ({
+            ...prev,
+            name: json.name || "",
+            email: json.email || "",
+          }));
+
+          setMode("google");
+          setStep(4); // jump directly to "age"
+        } else {
           setLoadingStage(null);
-          localStorage.setItem("token", googleToken);
-          console.log(googleToken,"googleToken")
-
-          if (
-            (json && !json.age) ||
-            !json.gender ||
-            !json.weight ||
-            !json.height ||
-            !json.goal
-          ) {
-            // ✅ Prefill form with Google user details
-            setFormData((prev) => ({
-              ...prev,
-              name: json.name || "",
-              email: json.email || "",
-            }));
-
-            setMode("google");
-            setStep(4); // jump directly to "age"
-          } else {
-            setLoadingStage(null);
-            navigate("/");
-          }
-        } catch (error) {
-          console.log("error", error);
+          navigate("/");
         }
-      };
-      fetchUser();
-    } else if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, [navigate]);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    fetchUser();
+  } else if (localStorage.getItem("token")) {
+    navigate("/");
+    console.log("else is working");
+  }
 
   const [step, setStep] = useState(0); // step 0 = choose mode
   const [mode, setMode] = useState(null); // "signup" | "login" | "google"
@@ -549,7 +546,7 @@ const Registration = () => {
                             {/* 👇 Add forgot password link only when rendering password field */}
                             {field.name === "password" && (
                               <p
-                              className="forgot-password-txt"
+                                className="forgot-password-txt"
                                 onClick={() => {
                                   setForgotStep(1); // start forgot password flow
                                   setMode("forgot");
