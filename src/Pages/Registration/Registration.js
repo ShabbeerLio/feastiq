@@ -61,10 +61,10 @@ const Registration = () => {
   const googleToken = new URLSearchParams(window.location.search).get("token");
   useEffect(async () => {
     if (googleToken) {
+      localStorage.setItem("token", googleToken);
       setLoadingStage("processing");
       getUserDetails();
       console.log(googleToken, "googleToken");
-      localStorage.setItem("token", googleToken);
       try {
         const json = await userDetail;
         setLoadingStage(null);
