@@ -35,50 +35,46 @@ const Registration = () => {
   const navigate = useNavigate();
   const API_BASE_URL = Host;
 
-  useEffect(() => {
-    const googleToken = new URLSearchParams(window.location.search).get(
-      "token"
-    );
-    if (googleToken) {
-      console.log(googleToken);
-      const fetchUser = async () => {
-        setLoadingStage("processing");
-        try {
-          const json = await userDetail;
-          localStorage.setItem("token", googleToken);
-          console.log(googleToken, "googleToken");
+  const googleToken = new URLSearchParams(window.location.search).get("token");
+  if (googleToken) {
+    console.log(googleToken);
+    const fetchUser = async () => {
+      setLoadingStage("processing");
+      try {
+        const json = await userDetail;
+        localStorage.setItem("token", googleToken);
+        console.log(googleToken, "googleToken");
+        setLoadingStage(null);
+
+        if (
+          (json && !json.age) ||
+          !json.gender ||
+          !json.weight ||
+          !json.height ||
+          !json.goal
+        ) {
+          // ✅ Prefill form with Google user details
+          setFormData((prev) => ({
+            ...prev,
+            name: json.name || "",
+            email: json.email || "",
+          }));
+
+          setMode("google");
+          setStep(4); // jump directly to "age"
+        } else {
           setLoadingStage(null);
-
-          if (
-            (json && !json.age) ||
-            !json.gender ||
-            !json.weight ||
-            !json.height ||
-            !json.goal
-          ) {
-            // ✅ Prefill form with Google user details
-            setFormData((prev) => ({
-              ...prev,
-              name: json.name || "",
-              email: json.email || "",
-            }));
-
-            setMode("google");
-            setStep(4); // jump directly to "age"
-          } else {
-            setLoadingStage(null);
-            // navigate("/");
-          }
-        } catch (error) {
-          console.log("error", error);
+          // navigate("/");
         }
-      };
-      fetchUser();
-    } else if (localStorage.getItem("token")) {
-      // navigate("/");
-      console.log("else is working");
-    }
-  }, [navigate, userDetail]);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    fetchUser();
+  } else if (localStorage.getItem("token")) {
+    // navigate("/");
+    console.log("else is working");
+  }
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
