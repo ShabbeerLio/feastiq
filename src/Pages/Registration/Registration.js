@@ -44,17 +44,23 @@ const Registration = () => {
 
   const API_BASE_URL = Host;
 
+  console.log(new URLSearchParams(window.location.search).get(
+      "token"
+    ),"google Token")
+
   useEffect(() => {
     const googleToken = new URLSearchParams(window.location.search).get(
       "token"
     );
     if (googleToken) {
+      console.log(googleToken)
       setLoadingStage("processing");
       const fetchUser = async () => {
         try {
           const json = await userDetail;
           setLoadingStage(null);
           localStorage.setItem("token", googleToken);
+          console.log(googleToken,"googleToken")
 
           if (
             (json && !json.age) ||
