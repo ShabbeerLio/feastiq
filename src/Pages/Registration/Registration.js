@@ -58,8 +58,10 @@ const Registration = () => {
 
   const API_BASE_URL = Host;
 
-  const googleToken = new URLSearchParams(window.location.search).get("token");
   useEffect(async () => {
+    const googleToken = new URLSearchParams(window.location.search).get(
+      "token"
+    );
     if (googleToken) {
       localStorage.setItem("token", googleToken);
       setLoadingStage("processing");
@@ -96,7 +98,7 @@ const Registration = () => {
       // navigate("/");
       console.log(localStorage.getItem("token"), "token");
     }
-  }, [userDetail]);
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
