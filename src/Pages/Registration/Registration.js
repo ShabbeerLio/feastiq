@@ -39,7 +39,7 @@ const Registration = () => {
   if (googleToken) {
     console.log(googleToken);
     const fetchUser = async () => {
-      setLoadingStage("processing");
+      // setLoadingStage("processing");
       try {
         const json = await userDetail;
         localStorage.setItem("token", googleToken);
