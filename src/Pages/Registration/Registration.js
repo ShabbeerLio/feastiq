@@ -33,7 +33,6 @@ const slideVariants = {
 const Registration = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
-  const API_BASE_URL = Host;
   const [step, setStep] = useState(0); // step 0 = choose mode
   const [mode, setMode] = useState(null); // "signup" | "login" | "google"
   const [loadingStage, setLoadingStage] = useState(null);
@@ -55,19 +54,25 @@ const Registration = () => {
     goal: "",
     foodpreferences: "",
   });
+
   const googleToken = new URLSearchParams(window.location.search).get("token");
 
   useEffect(() => {
     if (googleToken) {
-      console.log(googleToken);
       const fetchUser = async () => {
-        // setLoadingStage("processing");
         try {
-          const json = await userDetail;
+          let json = userDetail; // remove await if it's not a promise
+          if (!json || Object.keys(json).length === 0) {
+            // fetch user details from API if not in context
+            const res = await fetch(`${Host}/auth/getuser`, {
+              method: "GET",
+              headers: { "auth-token": googleToken },
+            });
+            json = await res.json();
+          }
+
           localStorage.setItem("token", googleToken);
-          console.log(googleToken, "googleToken");
-          setLoadingStage(null);
-          console.log(json, "json");
+
           if (
             (json && !json.age) ||
             !json.gender ||
@@ -75,29 +80,24 @@ const Registration = () => {
             !json.height ||
             !json.goal
           ) {
-            // ✅ Prefill form with Google user details
             setFormData((prev) => ({
               ...prev,
               name: json.name || "",
               email: json.email || "",
             }));
-
             setMode("google");
-            setStep(4); // jump directly to "age"
-          } else {
-            setLoadingStage(null);
-            // navigate("/");
+            setStep(4);
           }
         } catch (error) {
           console.log("error", error);
+        } finally {
+          setLoadingStage(null);
         }
       };
+
       fetchUser();
-    } else if (localStorage.getItem("token")) {
-      // navigate("/");
-      console.log("else is working");
     }
-  }, [navigate]);
+  }, [googleToken, userDetail]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -134,7 +134,7 @@ const Registration = () => {
 
     setLoadingStage("processing");
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      const res = await fetch(`${Host}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -171,7 +171,7 @@ const Registration = () => {
     e.preventDefault();
     setLoadingStage("processing");
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/createuser`, {
+      const res = await fetch(`${Host}/auth/createuser`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -181,7 +181,7 @@ const Registration = () => {
       if (data.success) {
         localStorage.setItem("token", data.authToken);
         try {
-          const response = await fetch(`${API_BASE_URL}/detail/addfeast`, {
+          const response = await fetch(`${Host}/detail/addfeast`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -212,7 +212,7 @@ const Registration = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
+    window.location.href = `${Host}/auth/google`;
   };
 
   const handleGoogleSubmit = async (e) => {
@@ -220,7 +220,7 @@ const Registration = () => {
     setLoadingStage("processing");
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/auth/edituser`, {
+      const res = await fetch(`${Host}/auth/edituser`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +233,7 @@ const Registration = () => {
 
       if (data.success) {
         // then add feast details
-        const response = await fetch(`${API_BASE_URL}/detail/addfeast`, {
+        const response = await fetch(`${Host}/detail/addfeast`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -709,7 +709,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${API_BASE_URL}/auth/send-otp`,
+                            `${Host}/auth/send-otp`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
@@ -749,7 +749,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${API_BASE_URL}/auth/verify-reset-otp`,
+                            `${Host}/auth/verify-reset-otp`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
@@ -789,7 +789,7 @@ const Registration = () => {
                         setLoadingStage("processing");
                         try {
                           const res = await fetch(
-                            `${API_BASE_URL}/auth/reset-password`,
+                            `${Host}/auth/reset-password`,
                             {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
