@@ -88,7 +88,7 @@ const Registration = () => {
             setStep(4);
           } else {
             console.log("else");
-            // navigate("/");
+            navigate("/");
           }
         } catch (error) {
           console.error("Google fetch user error:", error);
@@ -98,10 +98,10 @@ const Registration = () => {
 
       fetchUser();
     } else if (localStorage.getItem("token")) {
-      // navigate("/");
+      navigate("/");
       console.log(localStorage.getItem("token"), "token");
     }
-  }, [navigate]);
+  }, [userDetail]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
