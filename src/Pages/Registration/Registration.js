@@ -33,6 +33,52 @@ const slideVariants = {
 const Registration = () => {
   const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
+  const API_BASE_URL = Host;
+
+  useEffect(() => {
+    const googleToken = new URLSearchParams(window.location.search).get(
+      "token"
+    );
+    if (googleToken) {
+      console.log(googleToken);
+      const fetchUser = async () => {
+        setLoadingStage("processing");
+        try {
+          const json = await userDetail;
+          localStorage.setItem("token", googleToken);
+          console.log(googleToken, "googleToken");
+          setLoadingStage(null);
+
+          if (
+            (json && !json.age) ||
+            !json.gender ||
+            !json.weight ||
+            !json.height ||
+            !json.goal
+          ) {
+            // ✅ Prefill form with Google user details
+            setFormData((prev) => ({
+              ...prev,
+              name: json.name || "",
+              email: json.email || "",
+            }));
+
+            setMode("google");
+            setStep(4); // jump directly to "age"
+          } else {
+            setLoadingStage(null);
+            navigate("/");
+          }
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+      fetchUser();
+    } else if (localStorage.getItem("token")) {
+      navigate("/");
+      console.log("else is working");
+    }
+  }, [navigate, userDetail]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -41,49 +87,6 @@ const Registration = () => {
       getUserDetails();
     }
   }, [navigate]);
-
-  const API_BASE_URL = Host;
-
-  const googleToken = new URLSearchParams(window.location.search).get("token");
-  if (googleToken) {
-    console.log(googleToken);
-    setLoadingStage("processing");
-    const fetchUser = async () => {
-      try {
-        const json = await userDetail;
-        setLoadingStage(null);
-        localStorage.setItem("token", googleToken);
-        console.log(googleToken, "googleToken");
-
-        if (
-          (json && !json.age) ||
-          !json.gender ||
-          !json.weight ||
-          !json.height ||
-          !json.goal
-        ) {
-          // ✅ Prefill form with Google user details
-          setFormData((prev) => ({
-            ...prev,
-            name: json.name || "",
-            email: json.email || "",
-          }));
-
-          setMode("google");
-          setStep(4); // jump directly to "age"
-        } else {
-          setLoadingStage(null);
-          navigate("/");
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    fetchUser();
-  } else if (localStorage.getItem("token")) {
-    navigate("/");
-    console.log("else is working");
-  }
 
   const [step, setStep] = useState(0); // step 0 = choose mode
   const [mode, setMode] = useState(null); // "signup" | "login" | "google"
