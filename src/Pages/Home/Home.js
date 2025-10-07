@@ -31,6 +31,16 @@ const Home = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [newWeight, setNewWeight] = useState("");
   const [status, setStatus] = useState("");
+  const [newData, setNewData] = useState(false);
+  const [loadingStage, setLoadingStage] = useState(null);
+  const [formData, setFormData] = useState({
+    age: "",
+    gender: "",
+    weight: "",
+    height: "",
+    goal: "",
+    foodpreferences: "",
+  });
 
   const endDate = new Date(userDetail?.subscription?.endDate);
   const todayTime = new Date();
@@ -76,7 +86,7 @@ const Home = () => {
   }, [navigate]);
 
   // console.log(feast, "feast");
-  const mealId = feast?.map((i) => i._id)
+  const mealId = feast?.map((i) => i._id);
 
   // Parse API response
   const userDataa = feast?.map((i) => {
@@ -220,12 +230,103 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(userDetail, "userDetail");
+
+    if (
+      userDetail &&
+      (
+        !userDetail.age ||
+        !userDetail.gender ||
+        !userDetail.weight ||
+        !userDetail.height ||
+        !userDetail.goal ||
+        !userDetail.foodpreferences
+      )
+    ) {
+      setNewData(true);
+      console.log("⚠️ this is working - missing some fields");
+    } else if (userDetail) {
+      setNewData(false);
+      setFormData({
+        age: userDetail.age || "",
+        gender: userDetail.gender || "",
+        weight: userDetail.weight || "",
+        height: userDetail.height || "",
+        goal: userDetail.goal || "",
+        foodpreferences: userDetail.foodpreferences || "",
+      });
+      console.log("✅ else is working - all fields present");
+    }
+  }, [userDetail]);
+
   if (loading) {
     return <Loading status={loadingStatus} />;
   }
 
   const handleSubscribe = () => {
     navigate("/subscription");
+  };
+
+  const handleGoogleSubmit = async (e) => {
+    e.preventDefault();
+    setLoadingStage("processing");
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${Host}/auth/edituser`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify({
+          age: formData.age,
+          gender: formData.gender,
+          weight: formData.weight,
+          height: formData.height,
+          goal: formData.goal,
+          foodpreferences: formData.foodpreferences,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // then add feast details
+        const response = await fetch(`${Host}/detail/addfeast`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+          body: JSON.stringify({
+            age: formData.age,
+            gender: formData.gender,
+            weight: formData.weight,
+            height: formData.height,
+            goal: formData.goal,
+            foodpreferences: formData.foodpreferences,
+          }),
+        });
+
+        const json = await response.json();
+        if (json) {
+          setLoadingStage("Updated successfully");
+          setTimeout(() => {
+            navigate("/");
+            setLoadingStage('')
+            setNewData(false)
+            getUserDetails()
+          }, 1500);
+        }
+      } else {
+        setLoadingStage(null);
+        // setErrorMessage(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      setLoadingStage(null);
+      // setErrorMessage("Server Error");
+    }
   };
 
   return (
@@ -240,7 +341,11 @@ const Home = () => {
             </div>
             <div>
               {todayMealPlan && (
-                <MealCard mealPlan={[todayMealPlan]} isScrolled={isScrolled} mealId={mealId}/>
+                <MealCard
+                  mealPlan={[todayMealPlan]}
+                  isScrolled={isScrolled}
+                  mealId={mealId}
+                />
               )}
             </div>
             <h6
@@ -356,6 +461,116 @@ const Home = () => {
                 Subscribe Now! <ChevronRight />
               </h6>
             </div>
+          </div>
+        </div>
+        <div className={`modal-overlay ${newData}`}>
+          <div className="modal-content liquid-glass">
+            <h4>Profile</h4>
+            <p>
+              Complete your registration process to get your meal and workout
+              details
+            </p>
+            {!loadingStage && (
+              <div>
+
+                <input
+                  type="number"
+                  placeholder="Enter your Age"
+                  value={formData.age}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, age: e.target.value }))
+                  }
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Enter your Height in cm"
+                  value={formData.height}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, height: e.target.value }))
+                  }
+                  required
+                />
+
+                <input
+                  type="number"
+                  placeholder="Enter your Weight"
+                  value={formData.weight}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, weight: e.target.value }))
+                  }
+                  required
+                />
+
+                <select
+                  value={formData.gender}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, gender: e.target.value }))
+                  }
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+
+                <select
+                  value={formData.goal}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, goal: e.target.value }))
+                  }
+                  required
+                >
+                  <option value="">Select Goal</option>
+                  <option value="Gain Weight">Gain Weight</option>
+                  <option value="Loss Weight">Loss Weight</option>
+                  <option value="Maintain Weight">Maintain Weight</option>
+                </select>
+
+                <textarea
+                  placeholder="Your Preferences"
+                  value={formData.foodpreferences}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      foodpreferences: e.target.value,
+                    }))
+                  }
+                />
+                <div className="modal-actions">
+                  <button onClick={handleGoogleSubmit}>
+                    Generate
+                  </button>
+                </div>
+              </div>
+            )}
+            {loadingStage === "Processing" && (
+              <div>
+                <div className="wallet-status">
+                  <DotLottieReact
+                    className="wallet-success"
+                    src="https://lottie.host/5066ed2e-4dbb-4c34-ac26-2bfada68301f/QJPWTrsYv7.lottie"
+                    loop
+                    autoplay
+                  />
+                  <p className="status-msg">{status}</p>
+                </div>
+              </div>
+            )}
+            {loadingStage === "Updated successfully" && (
+              <div>
+                <div className="wallet-status">
+                  <DotLottieReact
+                    className="wallet-success"
+                    src="https://lottie.host/e63d43ae-3f25-49b2-a2e4-721b5e4ed7dd/NjKNhinvXI.lottie"
+                    loop
+                    autoplay
+                  />
+                  <p className="status-msg">{status}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -31,7 +31,6 @@ const slideVariants = {
 };
 
 const Registration = () => {
-  const { userDetail, getUserDetails } = useContext(NoteContext);
   const navigate = useNavigate();
   const [step, setStep] = useState(0); // step 0 = choose mode
   const [mode, setMode] = useState(null); // "signup" | "login" | "google"
@@ -58,44 +57,44 @@ const Registration = () => {
 
   const API_BASE_URL = Host;
 
-  useEffect(async () => {
+  useEffect(() => {
     const googleToken = new URLSearchParams(window.location.search).get(
       "token"
     );
     if (googleToken) {
       localStorage.setItem("token", googleToken);
-      setLoadingStage("processing");
-      getUserDetails();
-      console.log(googleToken, "googleToken");
-      try {
-        const json = await userDetail;
-        setLoadingStage(null);
+      // setLoadingStage("processing");
+      // getUserDetails();
+      // console.log(googleToken, "googleToken");
+      // try {
+      //   const json = await userDetail;
+      //   setLoadingStage(null);
 
-        if (
-          json &&
-          (!json.age ||
-            !json.gender ||
-            !json.weight ||
-            !json.height ||
-            !json.goal)
-        ) {
-          setFormData((prev) => ({
-            ...prev,
-            name: json.name || "",
-            email: json.email || "",
-          }));
-          setMode("google");
-          setStep(4);
-        } else {
-          console.log("else");
-          // navigate("/");
-        }
-      } catch (error) {
-        console.error("Google fetch user error:", error);
-        setLoadingStage(null);
-      }
+      //   if (
+      //     json &&
+      //     (!json.age ||
+      //       !json.gender ||
+      //       !json.weight ||
+      //       !json.height ||
+      //       !json.goal)
+      //   ) {
+      //     setFormData((prev) => ({
+      //       ...prev,
+      //       name: json.name || "",
+      //       email: json.email || "",
+      //     }));
+      //     setMode("google");
+      //     setStep(4);
+      //   } else {
+      //     console.log("else");
+      //   }
+      // } catch (error) {
+      //   console.error("Google fetch user error:", error);
+      //   setLoadingStage(null);
+      // }
+      navigate("/");
     } else if (localStorage.getItem("token")) {
-      // navigate("/");
+      navigate("/");
       console.log(localStorage.getItem("token"), "token");
     }
   }, [navigate]);
